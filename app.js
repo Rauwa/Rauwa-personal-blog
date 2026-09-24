@@ -154,24 +154,12 @@ function loadState() {
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
-      // Bersihkan teks robotik/instruksi otomatis jika tersisa di cache
-      if (parsed.profile) {
-        if (!parsed.profile.bio || parsed.profile.bio.includes("Anda dapat mengubah") || parsed.profile.bio.includes("Tuliskan deskripsi")) {
-          parsed.profile.bio = DEFAULT_STATE.profile.bio;
-        }
-        if (!parsed.profile.headline || parsed.profile.headline.includes("Spesialisasi / Gelar")) {
-          parsed.profile.headline = DEFAULT_STATE.profile.headline;
-        }
-        if (!parsed.profile.name || parsed.profile.name === "Nama Lengkap Anda" || parsed.profile.name === "Nama Anda") {
-          parsed.profile.name = DEFAULT_STATE.profile.name;
-        }
-        if (!parsed.profile.experiences || parsed.profile.experiences.length === 0 || parsed.profile.experiences[0].role.includes("Peran Utama / Posisi")) {
-          parsed.profile.experiences = DEFAULT_STATE.profile.experiences;
-        }
-        if (!parsed.profile.skills || parsed.profile.skills.length === 0) {
-          parsed.profile.skills = DEFAULT_STATE.profile.skills;
-        }
-      }
+      if (!parsed.profile) parsed.profile = {};
+      if (!Array.isArray(parsed.profile.experiences)) parsed.profile.experiences = [];
+      if (!Array.isArray(parsed.profile.skills)) parsed.profile.skills = [];
+      if (!Array.isArray(parsed.articles)) parsed.articles = [];
+      if (!Array.isArray(parsed.courses)) parsed.courses = [];
+      if (!parsed.adminAuth) parsed.adminAuth = DEFAULT_STATE.adminAuth;
       return parsed;
     } catch (e) {
       console.error("Gagal memuat data dari LocalStorage, menggunakan default.", e);
@@ -354,14 +342,14 @@ function navigate(viewName, param = null) {
 // View 1: Home Rendering
 // -------------------------------------------------------------
 function renderHome() {
-  const p = state.profile;
-  document.getElementById("navAuthorName").innerText = p.name;
-  document.getElementById("heroName").innerText = p.name;
-  document.getElementById("heroHeadline").innerText = p.headline;
-  document.getElementById("heroBio").innerText = p.bio;
-  document.getElementById("footerAuthorCopyright").innerText = `© 2026 ${p.name}.`;
+  const p = state.profile || {};
+  document.getElementById("navAuthorName").innerText = p.name || "Penulis & Praktisi";
+  document.getElementById("heroName").innerText = p.name || "Penulis & Praktisi";
+  document.getElementById("heroHeadline").innerText = p.headline || "";
+  document.getElementById("heroBio").innerText = p.bio || "";
+  document.getElementById("footerAuthorCopyright").innerText = `© 2026 ${p.name || 'Penulis & Praktisi'}.`;
 
-  const initials = p.name.split(" ").map(w => w[0]).join("").substring(0, 2).toUpperCase() || "P";
+  const initials = (p.name || "P").split(" ").map(w => w[0]).join("").substring(0, 2).toUpperCase() || "P";
   document.getElementById("navAvatarInitials").innerText = initials;
   document.getElementById("heroAvatarFallback").innerText = initials;
 
@@ -787,33 +775,43 @@ function toggleSidebarMobile() {
 // View 6: About / Rekam Jejak (LinkedIn Resume)
 // -------------------------------------------------------------
 function renderAboutPage() {
-  const p = state.profile;
+  const p = state.profile || {};
   const expContainer = document.getElementById("aboutExperienceList");
   expContainer.innerHTML = "";
 
-  (p.experiences || []).forEach(exp => {
-    const item = document.createElement("div");
-    item.className = "relative group";
-    item.innerHTML = `
-      <div class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-brand-600 ring-4 ring-white dark:ring-surface-dark"></div>
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-        <h3 class="font-bold text-base text-neutral-900 dark:text-white">${exp.role}</h3>
-        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 self-start sm:self-auto">${exp.period}</span>
-      </div>
-      <p class="text-xs font-semibold text-brand-600 dark:text-brand-400 mb-2">${exp.organization}</p>
-      <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">${exp.description}</p>
-    `;
-    expContainer.appendChild(item);
-  });
+  const exps = p.experiences || [];
+  if (exps.length === 0) {
+    expContainer.innerHTML = "<p class='text-xs text-neutral-400 italic py-2'>Belum ada riwayat pengalaman.</p>";
+  } else {
+    exps.forEach(exp => {
+      const item = document.createElement("div");
+      item.className = "relative group";
+      item.innerHTML = `
+        <div class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-brand-600 ring-4 ring-white dark:ring-surface-dark"></div>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+          <h3 class="font-bold text-base text-neutral-900 dark:text-white">${exp.role}</h3>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 self-start sm:self-auto">${exp.period}</span>
+        </div>
+        <p class="text-xs font-semibold text-brand-600 dark:text-brand-400 mb-2">${exp.organization}</p>
+        <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">${exp.description}</p>
+      `;
+      expContainer.appendChild(item);
+    });
+  }
 
   const skillsContainer = document.getElementById("aboutSkillsList");
   skillsContainer.innerHTML = "";
-  (p.skills || []).forEach(sk => {
-    const tag = document.createElement("span");
-    tag.className = "px-3 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-surface-cardDark border border-neutral-200 dark:border-surface-borderDark text-neutral-700 dark:text-neutral-300 shadow-sm";
-    tag.innerText = sk;
-    skillsContainer.appendChild(tag);
-  });
+  const skills = p.skills || [];
+  if (skills.length === 0) {
+    skillsContainer.innerHTML = "<p class='text-xs text-neutral-400 italic py-1'>Belum ada keahlian yang ditambahkan.</p>";
+  } else {
+    skills.forEach(sk => {
+      const tag = document.createElement("span");
+      tag.className = "px-3 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-surface-cardDark border border-neutral-200 dark:border-surface-borderDark text-neutral-700 dark:text-neutral-300 shadow-sm";
+      tag.innerText = sk;
+      skillsContainer.appendChild(tag);
+    });
+  }
   lucide.createIcons();
 }
 
