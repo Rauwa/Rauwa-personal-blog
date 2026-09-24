@@ -5,6 +5,7 @@
 
 // Initial Seed Data (Professional & Human Copywriting)
 const DEFAULT_STATE = {
+  updatedAt: 1000,
   profile: {
     name: "Penulis & Praktisi",
     headline: "Pengkaji Kebijakan Publik • Pengajar Komunitas",
@@ -199,18 +200,24 @@ async function syncFromCloud() {
 
     if (res.ok) {
       const rows = await res.json();
-      if (rows && rows.length > 0) {
+      if (rows && rows.length > 0 && rows[0].data) {
         const cloudData = rows[0].data;
-        // Jika data di cloud sudah ada dan valid, pakai data cloud
-        if (cloudData && cloudData.profile && cloudData.articles && cloudData.articles.length > 0) {
+        const cloudTime = cloudData.updatedAt || 0;
+        const localTime = state.updatedAt || 0;
+
+        // Hanya timpa data lokal JIKA data di cloud BENAR-BENAR LEBIH BARU!
+        if (cloudTime > localTime && cloudData.profile) {
           state = cloudData;
           localStorage.setItem("personal_hub_state", JSON.stringify(state));
           renderAllViews();
-          updateCloudStatusBadge("online", "Cloud Terhubung");
+          updateCloudStatusBadge("online", "Cloud Tersinkron");
+          return;
+        } else if (localTime > cloudTime) {
+          // Data di perangkat ini lebih baru, simpan ke cloud agar cloud ter-update
+          await syncToCloud();
+          updateCloudStatusBadge("online", "Cloud Terkini");
           return;
         } else {
-          // Pertama kali: inisialisasi cloud dengan data saat ini
-          await syncToCloud();
           updateCloudStatusBadge("online", "Cloud Terhubung");
           return;
         }
@@ -226,13 +233,14 @@ async function syncFromCloud() {
 async function syncToCloud() {
   try {
     updateCloudStatusBadge("syncing", "Menyimpan ke cloud...");
+    if (!state.updatedAt) state.updatedAt = Date.now();
     const payload = {
       id: 1,
       data: state,
       updated_at: new Date().toISOString()
     };
 
-    const res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content?id=eq.1`, {
+    let res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content?id=eq.1`, {
       method: "PATCH",
       headers: {
         "apikey": SUPABASE_CONFIG.key,
@@ -244,8 +252,8 @@ async function syncToCloud() {
     });
 
     if (!res.ok) {
-      // Jika row 1 belum dibuat di tabel, buat baris baru
-      await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content`, {
+      // Jika baris 1 belum ada di database, lakukan insert
+      res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content`, {
         method: "POST",
         headers: {
           "apikey": SUPABASE_CONFIG.key,
@@ -257,10 +265,15 @@ async function syncToCloud() {
       });
     }
 
-    updateCloudStatusBadge("online", "Tersimpan di Cloud");
+    if (res.ok) {
+      updateCloudStatusBadge("online", "Tersimpan di Cloud");
+    } else {
+      console.error("Respon Supabase:", res.status);
+      updateCloudStatusBadge("offline", "Gagal Simpan Cloud");
+    }
   } catch (err) {
     console.error("Gagal sinkronisasi ke cloud:", err);
-    updateCloudStatusBadge("offline", "Gagal sync cloud");
+    updateCloudStatusBadge("offline", "Koneksi Cloud Putus");
   }
 }
 
@@ -280,6 +293,7 @@ function updateCloudStatusBadge(status, text) {
 }
 
 function saveState() {
+  state.updatedAt = Date.now();
   localStorage.setItem("personal_hub_state", JSON.stringify(state));
   renderAllViews();
   syncToCloud();
