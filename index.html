@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Hub — Karya Tulis, Kelas Terbuka & Portofolio</title>
+  <meta name="description" content="Platform pribadi karya tulis, kelas terbuka gratis bersesi, dan rekam jejak pengabdian.">
+
+  <!-- Typography & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Newsreader"', 'Georgia', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0066cc',
+              600: '#0052a3',
+              700: '#003d7a',
+              900: '#002244',
+            },
+            surface: {
+              light: '#fbfbfb',
+              dark: '#0e1117',
+              cardDark: '#161b22',
+              borderDark: '#2b313a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Bespoke Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#faf9f6] text-neutral-800 dark:bg-surface-dark dark:text-neutral-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+  <!-- Medium-style Reading Progress Bar -->
+  <div id="readingProgressBar" class="reading-progress-bar"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-[#0e1117]/90 backdrop-blur-md border-b border-neutral-200/80 dark:border-surface-borderDark transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand / Author Name -->
+      <a href="#home" onclick="navigate('home')" class="group flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-600 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm group-hover:scale-105 transition-transform" id="navAvatarInitials">
+          P
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-base tracking-tight text-neutral-900 dark:text-white group-hover:text-brand-600 transition-colors" id="navAuthorName">
+            Penulis & Praktisi
+          </span>
+          <span class="text-[11px] text-neutral-500 dark:text-neutral-400 font-medium -mt-0.5 tracking-wide uppercase" id="navAuthorRole">
+            Karya Tulis & Kelas Terbuka
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+        <button onclick="navigate('home')" id="nav-btn-home" class="nav-link active">
+          Beranda
+        </button>
+        <button onclick="navigate('articles')" id="nav-btn-articles" class="nav-link">
+          Karya Tulis
+        </button>
+        <button onclick="navigate('courses')" id="nav-btn-courses" class="nav-link flex items-center gap-1.5">
+          <span>Kelas Terbuka</span>
+          <span class="px-1.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+            Gratis
+          </span>
+        </button>
+        <button onclick="navigate('about')" id="nav-btn-about" class="nav-link">
+          Rekam Jejak
+        </button>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Dark Mode Toggle -->
+        <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" title="Toggle Tema Gelap/Terang" aria-label="Toggle Theme">
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+        </button>
+
+        <!-- Admin Dashboard Access Button -->
+        <button onclick="openAdmin()" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-opacity shadow-sm">
+          <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+          <span>Kelola / Admin</span>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-neutral-200 dark:border-surface-borderDark bg-white dark:bg-[#0e1117] px-4 py-3 space-y-1">
+      <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Beranda</button>
+      <button onclick="navigate('articles'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Karya Tulis</button>
+      <button onclick="navigate('courses'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Kelas Terbuka (Gratis)</button>
+      <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Rekam Jejak</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: HOME (LinkedIn Hero + Highlights)  -->
+    <!-- ========================================== -->
+    <section id="view-home" class="page-view animate-fade-in">
+      
+      <!-- LinkedIn-style Profile Hero Banner -->
+      <div class="border-b border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-12">
+          
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <!-- Avatar -->
+            <div class="relative">
+              <div id="heroAvatar" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-sky-400 p-0.5 shadow-md flex items-center justify-center overflow-hidden">
+                <div class="w-full h-full bg-white dark:bg-surface-dark rounded-[14px] flex items-center justify-center text-3xl font-extrabold text-brand-600 dark:text-brand-100" id="heroAvatarFallback">
+                  P
+                </div>
+              </div>
+              <span class="absolute bottom-0 right-0 bg-emerald-500 border-2 border-white dark:border-surface-cardDark w-4 h-4 rounded-full" title="Tersedia untuk kolaborasi publik"></span>
+            </div>
+
+            <!-- Profile Details (LinkedIn Style) -->
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white" id="heroName">
+                  Penulis & Praktisi
+                </h1>
+                <span class="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                  <i data-lucide="badge-check" class="w-3.5 h-3.5"></i>
+                  Terverifikasi
+                </span>
+              </div>
+
+              <p class="text-base sm:text-lg font-medium text-neutral-700 dark:text-neutral-200 mb-2" id="heroHeadline">
+                Pengkaji Kebijakan Publik & Praktisi Komunitas
+              </p>
+
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mb-4" id="heroBio">
+                Mendedikasikan ruang digital ini untuk membagikan pemikiran kritis, esai reflektif, serta rangkaian materi kelas terbuka tanpa biaya guna memperluas akses literasi bagi masyarakat luas.
+              </p>
+
+              <!-- Social Action Links (LinkedIn, Contact, etc.) -->
+              <div class="flex flex-wrap items-center gap-3">
+                <a id="btnLinkedIn" href="#" target="_blank" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#0077b5] text-white hover:bg-[#006097] transition-colors shadow-sm">
+                  <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
+                  <span>Profil LinkedIn</span>
+                </a>
+                <button onclick="navigate('courses')" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-sm">
+                  <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                  <span>Jelajahi Kelas Gratis</span>
+                </button>
+                <a id="btnEmail" href="mailto:kontak@domain.com" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                  <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                  <span>Kontak Langsung</span>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Public Service Mission Pledge Card -->
+          <div class="mt-8 p-4 rounded-xl border border-brand-100 dark:border-brand-900/50 bg-gradient-to-r from-brand-50/60 to-transparent dark:from-brand-950/30 flex items-start gap-3.5">
+            <div class="p-2 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-300">
+              <i data-lucide="globe" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold uppercase tracking-wider text-brand-700 dark:text-brand-300">Prinsip Akses Pengetahuan Terbuka</h4>
+              <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5 leading-relaxed">
+                Seluruh materi kelas online, video panduan, dan karya tulis di platform ini disediakan secara cuma-cuma (100% Gratis) sebagai bentuk dedikasi dan literasi untuk masyarakat luas.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Main Highlights Feed -->
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-16">
+        
+        <!-- SECTION 1: KELAS TERBUKA TERBARU (edX Style Cards) -->
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-white flex items-center gap-2">
+                <i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-600"></i>
+                <span>Kelas Terbuka Terkini</span>
+              </h2>
+              <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">Modul pembelajaran terstruktur dengan video dan materi teks.</p>
+            </div>
+            <button onclick="navigate('courses')" class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+              <span>Lihat Semua Kelas</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <div id="homeCoursesGrid" class="grid sm:grid-cols-2 gap-6">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- SECTION 2: KARYA TULIS TERKINI (Medium Style Articles) -->
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-white flex items-center gap-2">
+                <i data-lucide="book-open" class="w-5 h-5 text-brand-600"></i>
+                <span>Karya Tulis & Opini Terkini</span>
+              </h2>
+              <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">Refleksi, gagasan, dan catatan mendalam.</p>
+            </div>
+            <button onclick="navigate('articles')" class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+              <span>Semua Tulisan</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <div id="homeArticlesFeed" class="space-y-6">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: ARTICLES (Medium Feed Style)       -->
+    <!-- ========================================== -->
+    <section id="view-articles" class="page-view hidden animate-fade-in">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+        
+        <!-- Header -->
+        <div class="border-b border-neutral-200 dark:border-surface-borderDark pb-8 mb-8">
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Arsip Publikasi</span>
+          <h1 class="text-3xl sm:text-4xl font-serif font-normal tracking-tight text-neutral-900 dark:text-white mt-1">
+            Karya Tulis, Opini & Catatan
+          </h1>
+          <p class="text-neutral-600 dark:text-neutral-400 text-sm mt-2 max-w-xl">
+            Kumpulan artikel esai, panduan terarah, serta pemikiran seputar pelayanan dan masyarakat.
+          </p>
+
+          <!-- Search & Filter Bar -->
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+              <i data-lucide="search" class="w-4 h-4 text-neutral-400 absolute left-3 top-3"></i>
+              <input type="text" id="articleSearchInput" oninput="filterArticles()" placeholder="Cari judul tulisan atau topik..." class="w-full pl-9 pr-4 py-2 text-xs rounded-lg border border-neutral-300 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+            </div>
+            <div id="articleCategoriesList" class="flex flex-wrap gap-1.5 items-center">
+              <!-- Dynamically populated category tags -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Articles Feed List -->
+        <div id="articlesList" class="divide-y divide-neutral-200/80 dark:divide-surface-borderDark">
+          <!-- Dynamically populated -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: ARTICLE DETAIL (Medium Reader Mode)-->
+    <!-- ========================================== -->
+    <section id="view-article-detail" class="page-view hidden animate-fade-in">
+      <article class="max-w-2xl mx-auto px-4 sm:px-6 py-12">
+        
+        <!-- Back Navigation -->
+        <button onclick="navigate('articles')" class="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 hover:text-neutral-900 dark:hover:text-white mb-8 transition-colors">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Kembali ke Daftar Tulisan</span>
+        </button>
+
+        <!-- Article Header -->
+        <header class="mb-8">
+          <div class="flex items-center gap-2 mb-3">
+            <span id="detailArticleCategory" class="px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider rounded-md bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+              Kategori
+            </span>
+            <span class="text-neutral-300 dark:text-neutral-700">•</span>
+            <span id="detailArticleReadTime" class="text-xs text-neutral-500 dark:text-neutral-400">
+              5 min read
+            </span>
+          </div>
+
+          <h1 id="detailArticleTitle" class="text-3xl sm:text-4xl lg:text-5xl font-serif font-normal text-neutral-900 dark:text-white leading-[1.15] tracking-tight mb-4">
+            Judul Artikel
+          </h1>
+
+          <p id="detailArticleSubtitle" class="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 font-serif italic mb-6 leading-relaxed">
+            Subjudul atau intisari tulisan yang memikat pembaca.
+          </p>
+
+          <!-- Author Micro-card (Medium Style) -->
+          <div class="flex items-center justify-between border-y border-neutral-200/80 dark:border-surface-borderDark py-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-sm" id="detailAuthorInitials">
+                A
+              </div>
+              <div>
+                <p class="text-xs font-bold text-neutral-900 dark:text-white" id="detailAuthorName">Penulis</p>
+                <p class="text-[11px] text-neutral-500 dark:text-neutral-400" id="detailArticleDate">24 September 2026</p>
+              </div>
+            </div>
+
+            <!-- Clap / Like & Share -->
+            <div class="flex items-center gap-3">
+              <button onclick="clapArticle()" id="btnClap" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+                <i data-lucide="heart" class="w-4 h-4 text-rose-500"></i>
+                <span id="detailArticleClaps">0</span>
+              </button>
+              <button onclick="shareArticle()" class="p-1.5 rounded-full text-neutral-500 hover:text-neutral-900 dark:hover:text-white">
+                <i data-lucide="share-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Article Body with Medium-grade Typography -->
+        <div id="detailArticleContent" class="article-body font-serif text-[18px] sm:text-[20px] text-neutral-800 dark:text-neutral-200 leading-[1.8] space-y-6">
+          <!-- Dynamically populated HTML paragraphs, blockquotes, subheadings -->
+        </div>
+
+        <!-- Author Signature Footer Card -->
+        <footer class="mt-14 pt-8 border-t border-neutral-200 dark:border-surface-borderDark">
+          <div class="p-6 rounded-2xl bg-neutral-50 dark:bg-surface-cardDark border border-neutral-200/80 dark:border-surface-borderDark flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-lg flex-shrink-0" id="footerAuthorAvatar">
+              P
+            </div>
+            <div class="flex-1">
+              <h4 class="text-sm font-bold text-neutral-900 dark:text-white" id="footerAuthorName">Ditulis oleh Penulis</h4>
+              <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1" id="footerAuthorBio">
+                Catatan refleksi, pemikiran kritis, dan inisiatif edukasi terbuka untuk pengabdian publik.
+              </p>
+            </div>
+            <a id="footerLinkedInLink" href="#" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#0077b5] text-white hover:bg-[#006097] flex items-center gap-1.5 flex-shrink-0">
+              <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
+              <span>Hubungkan</span>
+            </a>
+          </div>
+        </footer>
+
+      </article>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: COURSES (edX Catalog Style)        -->
+    <!-- ========================================== -->
+    <section id="view-courses" class="page-view hidden animate-fade-in">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        
+        <!-- Header -->
+        <div class="border-b border-neutral-200 dark:border-surface-borderDark pb-8 mb-10">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-semibold mb-3">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            <span>Platform Pembelajaran Terbuka & Cuma-Cuma</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">
+            Katalog Kelas Terbuka
+          </h1>
+          <p class="text-neutral-600 dark:text-neutral-400 text-sm mt-2 max-w-2xl leading-relaxed">
+            Program pembelajaran bersesi lengkap dengan tayangan video panduan, teks referensi, dan studi kasus praktis yang dapat diakses siapa pun tanpa pendaftaran berbayar.
+          </p>
+        </div>
+
+        <!-- Courses Grid -->
+        <div id="coursesCatalogGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically populated -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 5: CLASSROOM / PLAYER (edX Experience)-->
+    <!-- ========================================== -->
+    <section id="view-classroom" class="page-view hidden animate-fade-in">
+      
+      <!-- Classroom Sub-header -->
+      <div class="bg-neutral-900 text-white px-4 sm:px-6 py-3 border-b border-neutral-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button onclick="navigate('courses')" class="p-1 rounded-md text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors" title="Kembali ke Katalog">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <div>
+            <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-400">Kelas Terbuka</span>
+            <h2 id="classroomCourseTitle" class="text-sm font-semibold truncate max-w-xs sm:max-w-md">Nama Kelas</h2>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 text-xs text-neutral-400">
+          <span id="classroomProgressText">Sesi 1 dari 3</span>
+          <button onclick="toggleSidebarMobile()" class="lg:hidden px-2 py-1 rounded bg-neutral-800 text-neutral-200">
+            Daftar Sesi
+          </button>
+        </div>
+      </div>
+
+      <!-- edX Two-column Stage -->
+      <div class="max-w-7xl mx-auto flex flex-col lg:flex-row min-h-[calc(100vh-120px)]">
+        
+        <!-- Left Sidebar: Sessions Curriculum -->
+        <aside id="classroomSidebar" class="w-full lg:w-80 border-b lg:border-b-0 lg:border-r border-neutral-200 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark p-4 overflow-y-auto">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Silabus & Daftar Sesi</h3>
+            <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold" id="classroomCompletionStatus">0% Selesai</span>
+          </div>
+
+          <div id="classroomSessionsList" class="space-y-1.5">
+            <!-- Dynamically populated sessions -->
+          </div>
+        </aside>
+
+        <!-- Right Main Stage: Video Player + Notes -->
+        <div class="flex-1 p-4 sm:p-8 overflow-y-auto bg-neutral-50/50 dark:bg-surface-dark">
+          <div class="max-w-3xl mx-auto space-y-6">
+            
+            <!-- Video Container (16:9 ratio) -->
+            <div class="video-container shadow-lg rounded-xl overflow-hidden border border-neutral-300 dark:border-surface-borderDark bg-black">
+              <iframe id="classroomVideoPlayer" src="" title="Video Pemutar Sesi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+            </div>
+
+            <!-- Session Meta -->
+            <div class="border-b border-neutral-200 dark:border-surface-borderDark pb-4">
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <span id="classroomCurrentSessionBadge" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Sesi 1</span>
+                  <h3 id="classroomCurrentSessionTitle" class="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white mt-0.5">Judul Sesi Ini</h3>
+                </div>
+
+                <button onclick="toggleSessionCompleted()" id="btnMarkComplete" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-neutral-300 dark:border-surface-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-neutral-400" id="markCompleteIcon"></i>
+                  <span id="markCompleteText">Tandai Selesai</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Notes & Supporting Content -->
+            <div class="space-y-4">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-4 h-4 text-brand-600"></i>
+                <span>Catatan & Ringkasan Materi</span>
+              </h4>
+
+              <div id="classroomSessionNotes" class="prose dark:prose-invert max-w-none text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed space-y-3">
+                <!-- Dynamically populated rich notes -->
+              </div>
+            </div>
+
+            <!-- Session Navigation Footer -->
+            <div class="pt-6 border-t border-neutral-200 dark:border-surface-borderDark flex items-center justify-between">
+              <button onclick="navClassroomSession('prev')" id="btnPrevSession" class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold border border-neutral-300 dark:border-surface-borderDark text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:pointer-events-none">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                <span>Sesi Sebelumnya</span>
+              </button>
+
+              <button onclick="navClassroomSession('next')" id="btnNextSession" class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-30 disabled:pointer-events-none">
+                <span>Sesi Selanjutnya</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 6: ABOUT / REKAM JEJAK (LinkedIn Res) -->
+    <!-- ========================================== -->
+    <section id="view-about" class="page-view hidden animate-fade-in">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+        
+        <!-- Header -->
+        <div class="border-b border-neutral-200 dark:border-surface-borderDark pb-8">
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Profil & Integritas</span>
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white mt-1">
+            Rekam Jejak & Pengabdian
+          </h1>
+          <p class="text-neutral-600 dark:text-neutral-400 text-sm mt-2 max-w-2xl leading-relaxed">
+            Perjalanan karier, latar belakang keahlian, dan komitmen dalam menghadirkan dampak nyata bagi publik.
+          </p>
+        </div>
+
+        <!-- Experience Timeline -->
+        <div>
+          <h2 class="text-lg font-bold text-neutral-900 dark:text-white mb-6 flex items-center gap-2">
+            <i data-lucide="briefcase" class="w-5 h-5 text-brand-600"></i>
+            <span>Pengalaman & Peran Profesional</span>
+          </h2>
+          <div id="aboutExperienceList" class="space-y-6 border-l-2 border-neutral-200 dark:border-surface-borderDark ml-3 pl-6">
+            <!-- Dynamically populated from state -->
+          </div>
+        </div>
+
+        <!-- Skills & Competencies -->
+        <div>
+          <h2 class="text-lg font-bold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
+            <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
+            <span>Keahlian & Bidang Fokus</span>
+          </h2>
+          <div id="aboutSkillsList" class="flex flex-wrap gap-2">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL / VIEW: ADMIN DASHBOARD              -->
+  <!-- ========================================== -->
+  <div id="adminModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-surface-cardDark border border-neutral-200 dark:border-surface-borderDark rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- Admin Topbar -->
+      <div class="px-6 py-4 border-b border-neutral-200 dark:border-surface-borderDark flex items-center justify-between bg-neutral-50 dark:bg-[#12161c]">
+        <div class="flex items-center gap-2.5">
+          <div class="p-1.5 rounded-lg bg-neutral-900 text-white dark:bg-white dark:text-neutral-900">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-neutral-900 dark:text-white">Admin Hub — Pengelola Konten</h3>
+            <span class="text-[11px] text-neutral-500 dark:text-neutral-400">Ubah profil, karya tulis, dan kelas terbuka secara instan</span>
+          </div>
+        </div>
+        <button onclick="closeAdmin()" class="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Admin Login Gate (If not authenticated) -->
+      <div id="adminLoginGate" class="p-8 max-w-md mx-auto my-auto text-center">
+        <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-300 mx-auto flex items-center justify-center mb-4">
+          <i data-lucide="lock" class="w-6 h-6"></i>
+        </div>
+        <h4 class="text-lg font-bold text-neutral-900 dark:text-white mb-1">Masuk ke Ruang Pengelola</h4>
+        <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-6">
+          Masukkan kata sandi admin Anda untuk mengedit seluruh isi website ini.
+        </p>
+
+        <form onsubmit="handleAdminLogin(event)" class="space-y-3 text-left">
+          <div>
+            <label class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">Username Admin</label>
+            <input type="text" id="adminUserInput" value="admin" class="w-full px-3 py-2 text-xs rounded-lg border border-neutral-300 dark:border-surface-borderDark bg-white dark:bg-surface-dark text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">Password</label>
+            <input type="password" id="adminPassInput" placeholder="Kata sandi" class="w-full px-3 py-2 text-xs rounded-lg border border-neutral-300 dark:border-surface-borderDark bg-white dark:bg-surface-dark text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500" required>
+          </div>
+          <p id="adminLoginError" class="text-xs text-rose-500 hidden">Password salah! Silakan coba lagi.</p>
+          <button type="submit" class="w-full py-2.5 rounded-lg text-xs font-bold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-opacity">
+            Masuk ke Dashboard
+          </button>
+        </form>
+
+        <div class="mt-4 p-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-[11px] text-neutral-500">
+          Kunci akses bawaan: <code class="font-mono font-bold text-neutral-800 dark:text-neutral-200">admin123</code>
+        </div>
+      </div>
+
+      <!-- Admin Workspace Dashboard (When authenticated) -->
+      <div id="adminWorkspace" class="hidden flex-1 flex flex-col overflow-hidden">
+        
+        <!-- Admin Navigation Tabs -->
+        <div class="flex border-b border-neutral-200 dark:border-surface-borderDark bg-neutral-50 dark:bg-[#12161c] px-6 gap-2 text-xs font-semibold overflow-x-auto">
+          <button onclick="switchAdminTab('tab-profile')" id="btn-tab-profile" class="admin-tab active py-3 px-3 border-b-2 whitespace-nowrap">
+            1. Profil
+          </button>
+          <button onclick="switchAdminTab('tab-experiences')" id="btn-tab-experiences" class="admin-tab py-3 px-3 border-b-2 whitespace-nowrap">
+            2. Rekam Jejak & Keahlian
+          </button>
+          <button onclick="switchAdminTab('tab-articles')" id="btn-tab-articles" class="admin-tab py-3 px-3 border-b-2 whitespace-nowrap">
+            3. Karya Tulis
+          </button>
+          <button onclick="switchAdminTab('tab-courses')" id="btn-tab-courses" class="admin-tab py-3 px-3 border-b-2 whitespace-nowrap">
+            4. Kelas Terbuka
+          </button>
+          <button onclick="switchAdminTab('tab-backup')" id="btn-tab-backup" class="admin-tab py-3 px-3 border-b-2 whitespace-nowrap">
+            5. Cadangan & Akses
+          </button>
+        </div>
+
+        <!-- Tab Body Container -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+          <!-- TAB 1: PROFIL & IDENTITAS -->
+          <div id="tab-profile" class="admin-content-pane space-y-4">
+            <h4 class="text-sm font-bold text-neutral-900 dark:text-white">Identitas Publik Anda (Sisi LinkedIn)</h4>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">Nama Tampilan</label>
+                <input type="text" id="inputProfileName" class="admin-input">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">Gelar / Headline Singkat</label>
+                <input type="text" id="inputProfileHeadline" class="admin-input">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">Bio & Misi Anda</label>
+              <textarea id="inputProfileBio" rows="3" class="admin-input"></textarea>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">Tautan LinkedIn Anda</label>
+                <input type="text" id="inputProfileLinkedIn" placeholder="https://linkedin.com/in/username" class="admin-input">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">Alamat Email Kontak</label>
+                <input type="email" id="inputProfileEmail" placeholder="nama@email.com" class="admin-input">
+              </div>
+            </div>
+
+            <button onclick="saveProfileChanges()" class="px-4 py-2 rounded-lg text-xs font-bold bg-brand-600 text-white hover:bg-brand-700">
+              Simpan Perubahan Profil
+            </button>
+          </div>
+
+          <!-- TAB 2: REKAM JEJAK & KEAHLIAN (LINKEDIN TIMELINE & SKILLS) -->
+          <div id="tab-experiences" class="admin-content-pane hidden space-y-6">
+            <div>
+              <h4 class="text-sm font-bold text-neutral-900 dark:text-white">Kustomisasi Rekam Jejak & Pengabdian</h4>
+              <p class="text-xs text-neutral-500">Atur riwayat peran, pengabdian masyarakat, karier, dan daftar keahlian utama Anda.</p>
+            </div>
+
+            <!-- Daftar Pengalaman -->
+            <div class="border border-neutral-200 dark:border-surface-borderDark rounded-xl p-4 bg-neutral-50/50 dark:bg-[#12161c] space-y-4">
+              <div class="flex items-center justify-between">
+                <h5 class="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 flex items-center gap-1.5">
+                  <i data-lucide="briefcase" class="w-4 h-4 text-brand-600"></i>
+                  <span>Pengalaman & Peran Profesional</span>
+                </h5>
+                <button type="button" onclick="addNewExperienceRow()" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-brand-600 text-white hover:bg-brand-700 flex items-center gap-1">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>+ Tambah Pengalaman</span>
+                </button>
+              </div>
+
+              <div id="adminExperiencesList" class="space-y-3">
+                <!-- Dynamically populated experience cards -->
+              </div>
+            </div>
+
+            <!-- Daftar Keahlian (Skills) -->
+            <div class="border border-neutral-200 dark:border-surface-borderDark rounded-xl p-4 bg-neutral-50/50 dark:bg-[#12161c] space-y-3">
+              <h5 class="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 flex items-center gap-1.5">
+                <i data-lucide="check-square" class="w-4 h-4 text-emerald-600"></i>
+                <span>Keahlian & Bidang Fokus</span>
+              </h5>
+              <p class="text-xs text-neutral-500">Daftar keahlian dipisahkan dengan tanda koma.</p>
+              <textarea id="inputAdminSkills" rows="3" class="admin-input" placeholder="Manajemen Publik, Analisis Kebijakan, Literasi Digital, Riset Terapan"></textarea>
+            </div>
+
+            <div>
+              <button onclick="saveExperiencesAndSkills()" class="px-4 py-2 rounded-lg text-xs font-bold bg-brand-600 text-white hover:bg-brand-700 flex items-center gap-1.5">
+                <i data-lucide="save" class="w-4 h-4"></i>
+                <span>Simpan Perubahan Rekam Jejak & Keahlian</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 3: MANAJEMEN KARYA TULIS -->
+          <div id="tab-articles" class="admin-content-pane hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="text-sm font-bold text-neutral-900 dark:text-white">Kelola Karya Tulis (Sisi Medium)</h4>
+                <p class="text-xs text-neutral-500">Buat artikel esai baru atau edit tulisan yang sudah ada.</p>
+              </div>
+              <button onclick="openNewArticleForm()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 flex items-center gap-1">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Tulis Artikel Baru</span>
+              </button>
+            </div>
+
+            <!-- Form Buat / Edit Artikel -->
+            <div id="articleEditorContainer" class="p-4 rounded-xl border border-neutral-200 dark:border-surface-borderDark bg-neutral-50/50 dark:bg-[#12161c] hidden space-y-4">
+              <h5 class="text-xs font-bold uppercase tracking-wider text-brand-600" id="articleEditorTitle">Tulis Artikel Baru</h5>
+              <input type="hidden" id="editArticleId">
+
+              <div class="grid sm:grid-cols-3 gap-3">
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold mb-1">Judul Artikel</label>
+                  <input type="text" id="articleTitleInput" placeholder="Judul tulisan" class="admin-input">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold mb-1">Kategori / Topik</label>
+                  <input type="text" id="articleCategoryInput" placeholder="Opini Publik, Kebijakan, atau Catatan" class="admin-input">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold mb-1">Subjudul / Ringkasan Singkat</label>
+                <input type="text" id="articleSubtitleInput" placeholder="Gagasan pokok atau intisari pengantar artikel" class="admin-input">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold mb-1">Naskah Lengkap Artikel</label>
+                <textarea id="articleContentInput" rows="8" placeholder="Tuliskan naskah artikel Anda secara terstruktur..." class="admin-input font-serif text-sm"></textarea>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button onclick="saveArticleFromEditor()" class="px-4 py-2 rounded-lg text-xs font-bold bg-brand-600 text-white hover:bg-brand-700">
+                  Simpan & Terbitkan Tulisan
+                </button>
+                <button onclick="closeArticleEditor()" class="px-3 py-2 rounded-lg text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800">
+                  Batal
+                </button>
+              </div>
+            </div>
+
+            <!-- List of Existing Articles -->
+            <div id="adminArticlesTable" class="space-y-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- TAB 4: MANAJEMEN KELAS TERBUKA -->
+          <div id="tab-courses" class="admin-content-pane hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="text-sm font-bold text-neutral-900 dark:text-white">Kelola Kelas Terbuka (Sisi edX)</h4>
+                <p class="text-xs text-neutral-500">Tambahkan kelas baru, atur daftar video modul, dan catatan materi.</p>
+              </div>
+              <button onclick="openNewCourseForm()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 flex items-center gap-1">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Buat Kelas Baru</span>
+              </button>
+            </div>
+
+            <!-- Course Editor Form -->
+            <div id="courseEditorContainer" class="p-4 rounded-xl border border-neutral-200 dark:border-surface-borderDark bg-neutral-50/50 dark:bg-[#12161c] hidden space-y-4">
+              <h5 class="text-xs font-bold uppercase tracking-wider text-emerald-600" id="courseEditorHeader">Buat Kelas Baru</h5>
+              <input type="hidden" id="editCourseId">
+
+              <div class="grid sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold mb-1">Judul Kelas</label>
+                  <input type="text" id="courseTitleInput" placeholder="Judul program pembelajaran" class="admin-input">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold mb-1">Kategori / Tingkat</label>
+                  <input type="text" id="courseCategoryInput" placeholder="Tingkat Pemula • 3 Sesi" class="admin-input">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold mb-1">Deskripsi Singkat Kelas</label>
+                <textarea id="courseDescInput" rows="2" placeholder="Uraian tujuan pembelajaran, pokok bahasan, dan sasaran kompetensi." class="admin-input"></textarea>
+              </div>
+
+              <!-- Sesi Builder -->
+              <div class="border-t border-neutral-200 dark:border-surface-borderDark pt-4">
+                <div class="flex items-center justify-between mb-3">
+                  <h6 class="text-xs font-bold uppercase tracking-wider text-neutral-700 dark:text-neutral-300">Daftar Sesi Video & Materi</h6>
+                  <button type="button" onclick="addNewSessionRow()" class="text-xs font-semibold text-brand-600 hover:underline flex items-center gap-1">
+                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                    <span>+ Tambah Sesi</span>
+                  </button>
+                </div>
+                <div id="sessionsEditorList" class="space-y-3">
+                  <!-- Session rows generated dynamically -->
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 pt-2">
+                <button onclick="saveCourseFromEditor()" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700">
+                  Simpan & Publikasikan Kelas
+                </button>
+                <button onclick="closeCourseEditor()" class="px-3 py-2 rounded-lg text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800">
+                  Batal
+                </button>
+              </div>
+            </div>
+
+            <!-- List of Existing Courses -->
+            <div id="adminCoursesTable" class="space-y-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- TAB 5: PENGATURAN & CADANGAN -->
+          <div id="tab-backup" class="admin-content-pane hidden space-y-6">
+            <div>
+              <h4 class="text-sm font-bold text-neutral-900 dark:text-white">Keamanan Akun Admin</h4>
+              <p class="text-xs text-neutral-500 mb-3">Ubah kata sandi admin Anda agar selalu aman.</p>
+              <div class="max-w-xs space-y-2">
+                <input type="password" id="newAdminPasswordInput" placeholder="Kata sandi baru" class="admin-input">
+                <button onclick="updateAdminPassword()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900">
+                  Perbarui Password
+                </button>
+              </div>
+            </div>
+
+            <div class="border-t border-neutral-200 dark:border-surface-borderDark pt-6">
+              <h4 class="text-sm font-bold text-neutral-900 dark:text-white">Ekspor & Cadangan Data (Backup)</h4>
+              <p class="text-xs text-neutral-500 mb-4 leading-relaxed">
+                Anda dapat mengunduh seluruh tulisan, kelas, dan data profil Anda sebagai satu file cadangan (<code class="font-mono">backup.json</code>). Anda juga dapat mengimpor file ini kapan saja.
+              </p>
+              <div class="flex flex-wrap gap-3">
+                <button onclick="exportDataBackup()" class="px-4 py-2 rounded-lg text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 text-neutral-800 dark:text-neutral-200 flex items-center gap-2">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                  <span>Unduh File Cadangan (Export JSON)</span>
+                </button>
+                <label class="px-4 py-2 rounded-lg text-xs font-semibold bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 text-neutral-800 dark:text-neutral-200 flex items-center gap-2 cursor-pointer">
+                  <i data-lucide="upload" class="w-4 h-4"></i>
+                  <span>Pulihkan Data (Import JSON)</span>
+                  <input type="file" id="importFileInput" onchange="importDataBackup(event)" accept=".json" class="hidden">
+                </label>
+              </div>
+            </div>
+
+            <div class="border-t border-neutral-200 dark:border-surface-borderDark pt-6">
+              <button onclick="handleAdminLogout()" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 flex items-center gap-1.5">
+                <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                <span>Keluar dari Sesi Admin (Logout)</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark py-10 mt-16 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-neutral-800 dark:text-neutral-200" id="footerAuthorCopyright">© 2026 Penulis & Praktisi.</span>
+        <span>Mendedikasikan pengetahuan untuk publik.</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button onclick="navigate('home')" class="hover:underline">Beranda</button>
+        <button onclick="navigate('articles')" class="hover:underline">Karya Tulis</button>
+        <button onclick="navigate('courses')" class="hover:underline">Kelas Terbuka</button>
+        <button onclick="navigate('about')" class="hover:underline">Tentang</button>
+        <button onclick="openAdmin()" class="font-semibold text-neutral-700 dark:text-neutral-300 hover:underline">Kelola / Admin</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
