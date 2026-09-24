@@ -179,9 +179,110 @@ function loadState() {
   return DEFAULT_STATE;
 }
 
+// -------------------------------------------------------------
+// Supabase Cloud Configuration & Realtime Sync Engine
+// -------------------------------------------------------------
+const SUPABASE_CONFIG = {
+  url: "https://ccsrakdoumhvfoqgupve.supabase.co",
+  key: "sb_publishable_YMYksbZJv0zj1ogYLO-_AQ_GFuRp6d4"
+};
+
+async function syncFromCloud() {
+  try {
+    updateCloudStatusBadge("syncing", "Menyinkronkan...");
+    const res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content?id=eq.1&select=*`, {
+      headers: {
+        "apikey": SUPABASE_CONFIG.key,
+        "Authorization": `Bearer ${SUPABASE_CONFIG.key}`
+      }
+    });
+
+    if (res.ok) {
+      const rows = await res.json();
+      if (rows && rows.length > 0) {
+        const cloudData = rows[0].data;
+        // Jika data di cloud sudah ada dan valid, pakai data cloud
+        if (cloudData && cloudData.profile && cloudData.articles && cloudData.articles.length > 0) {
+          state = cloudData;
+          localStorage.setItem("personal_hub_state", JSON.stringify(state));
+          renderAllViews();
+          updateCloudStatusBadge("online", "Cloud Terhubung");
+          return;
+        } else {
+          // Pertama kali: inisialisasi cloud dengan data saat ini
+          await syncToCloud();
+          updateCloudStatusBadge("online", "Cloud Terhubung");
+          return;
+        }
+      }
+    }
+    updateCloudStatusBadge("online", "Cloud Terhubung");
+  } catch (err) {
+    console.warn("Koneksi cloud offline/fallback ke cache lokal:", err);
+    updateCloudStatusBadge("offline", "Cache Lokal");
+  }
+}
+
+async function syncToCloud() {
+  try {
+    updateCloudStatusBadge("syncing", "Menyimpan ke cloud...");
+    const payload = {
+      id: 1,
+      data: state,
+      updated_at: new Date().toISOString()
+    };
+
+    const res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content?id=eq.1`, {
+      method: "PATCH",
+      headers: {
+        "apikey": SUPABASE_CONFIG.key,
+        "Authorization": `Bearer ${SUPABASE_CONFIG.key}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      // Jika row 1 belum dibuat di tabel, buat baris baru
+      await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content`, {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_CONFIG.key,
+          "Authorization": `Bearer ${SUPABASE_CONFIG.key}`,
+          "Content-Type": "application/json",
+          "Prefer": "resolution=merge-duplicates"
+        },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    updateCloudStatusBadge("online", "Tersimpan di Cloud");
+  } catch (err) {
+    console.error("Gagal sinkronisasi ke cloud:", err);
+    updateCloudStatusBadge("offline", "Gagal sync cloud");
+  }
+}
+
+function updateCloudStatusBadge(status, text) {
+  const badge = document.getElementById("cloudStatusBadge");
+  if (!badge) return;
+  if (status === "online") {
+    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>${text}</span>`;
+    badge.className = "inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800";
+  } else if (status === "syncing") {
+    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-spin"></span><span>${text}</span>`;
+    badge.className = "inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800";
+  } else {
+    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-neutral-400"></span><span>${text}</span>`;
+    badge.className = "inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700";
+  }
+}
+
 function saveState() {
   localStorage.setItem("personal_hub_state", JSON.stringify(state));
   renderAllViews();
+  syncToCloud();
 }
 
 function loadCompletedSessions() {
@@ -1214,4 +1315,5 @@ window.addEventListener("DOMContentLoaded", () => {
   initTheme();
   renderAllViews();
   lucide.createIcons();
+  syncFromCloud();
 });

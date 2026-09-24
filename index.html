@@ -550,8 +550,14 @@
             <i data-lucide="shield-check" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="text-sm font-bold text-neutral-900 dark:text-white">Admin Hub — Pengelola Konten</h3>
-            <span class="text-[11px] text-neutral-500 dark:text-neutral-400">Ubah profil, karya tulis, dan kelas terbuka secara instan</span>
+            <div class="flex items-center gap-2">
+              <h3 class="text-sm font-bold text-neutral-900 dark:text-white">Admin Hub — Pengelola Konten</h3>
+              <span id="cloudStatusBadge" class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Cloud Terhubung</span>
+              </span>
+            </div>
+            <span class="text-[11px] text-neutral-500 dark:text-neutral-400">Sinkronisasi otomatis ke seluruh dunia via Supabase</span>
           </div>
         </div>
         <button onclick="closeAdmin()" class="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800">
