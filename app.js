@@ -38,9 +38,13 @@ const DEFAULT_STATE = {
       readTime: "5 min read",
       date: "24 September 2026",
       claps: 42,
+      thumbnail: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop",
+      thumbnailCaption: "Foto: Ilustrasi Transformasi Digital Pelayanan Sipil",
       content: `Pelayanan publik sejatinya bukan sekadar urusan prosedur administrasi atau tanda tangan di atas kertas bermaterai. Di balik setiap loket dan sistem digital yang kita rancang, ada denyut kehidupan warga yang mendambakan kepastian, kejelasan, dan perlakuan yang bermartabat.
 
 Ketika kita berbicara tentang transformasi di era keterbukaan, tantangan terbesarnya bukan pada ketersediaan teknologi canggih, melainkan pada kemauan untuk mengubah pola pikir: dari mentalitas 'dilayani' menjadi kerendahan hati untuk 'melayani dengan sepenuh hati'.
+
+![Diskusi Kewargaan dan Inovasi Pelayanan Sipil](https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop)
 
 ## Tiga Pilar Transparansi yang Berdampak
 
@@ -62,9 +66,13 @@ Semoga catatan kecil ini menjadi pengingat bagi kita semua bahwa karya terbaik a
       readTime: "4 min read",
       date: "20 September 2026",
       claps: 68,
+      thumbnail: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
+      thumbnailCaption: "Foto: Kolaborasi Pembelajaran Terbuka Komunitas",
       content: `Di era di mana informasi kerap dikomersialisasikan di balik dinding berbayar (paywall), akses terhadap ilmu pengetahuan yang berkualitas menjadi barang mewah bagi sebagian besar saudara-saudara kita.
 
 Padahal, gagasan yang disimpan sendiri hanya akan menjadi kepuasan pribadi. Namun ketika gagasan itu dibagikan secara bebas dan terstruktur, ia memiliki kekuatan untuk menginspirasi perubahan nyata.
+
+![Lokakarya Terbuka dan Kelas Literasi Masyarakat](https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop)
 
 ## Mengubah Platform Pribadi Menjadi Ruang Bersama
 
@@ -297,6 +305,180 @@ function saveCompletedSessions() {
 }
 
 // -------------------------------------------------------------
+// Image Compression & Media Handlers for Medium-Style Content
+// -------------------------------------------------------------
+function compressImageFile(file, maxWidth = 1200, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type.startsWith("image/")) {
+      reject(new Error("File yang dipilih bukan format gambar yang valid."));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", quality);
+        resolve(dataUrl);
+      };
+      img.onerror = () => reject(new Error("Gagal memuat file gambar."));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error("Gagal membaca file."));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleThumbnailFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    const compressedDataUrl = await compressImageFile(file, 1200, 0.82);
+    document.getElementById("articleThumbnailUrlInput").value = compressedDataUrl;
+    updateThumbnailPreviewFromInput(compressedDataUrl);
+  } catch (err) {
+    alert("Gagal memproses gambar: " + err.message);
+  }
+}
+
+function updateThumbnailPreviewFromInput(url) {
+  const container = document.getElementById("articleThumbnailPreviewContainer");
+  const img = document.getElementById("articleThumbnailPreviewImg");
+  if (url && url.trim()) {
+    img.src = url.trim();
+    container.classList.remove("hidden");
+  } else {
+    container.classList.add("hidden");
+    img.src = "";
+  }
+}
+
+function clearArticleThumbnail() {
+  const fileInput = document.getElementById("articleThumbnailFileInput");
+  if (fileInput) fileInput.value = "";
+  document.getElementById("articleThumbnailUrlInput").value = "";
+  const container = document.getElementById("articleThumbnailPreviewContainer");
+  const img = document.getElementById("articleThumbnailPreviewImg");
+  if (container) container.classList.add("hidden");
+  if (img) img.src = "";
+}
+
+// Inline Image Modal Handlers
+function openInsertImageModal() {
+  document.getElementById("inlineImageFileInput").value = "";
+  document.getElementById("inlineImageUrlInput").value = "";
+  document.getElementById("inlineImageCaptionInput").value = "";
+  document.getElementById("inlineImagePreviewContainer").classList.add("hidden");
+  document.getElementById("inlineImagePreviewImg").src = "";
+  document.getElementById("insertInlineImageModal").classList.remove("hidden");
+}
+
+function closeInsertImageModal() {
+  document.getElementById("insertInlineImageModal").classList.add("hidden");
+}
+
+async function handleInlineImageFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    const compressedDataUrl = await compressImageFile(file, 1200, 0.82);
+    document.getElementById("inlineImageUrlInput").value = compressedDataUrl;
+    updateInlineImagePreviewFromInput(compressedDataUrl);
+  } catch (err) {
+    alert("Gagal memproses gambar: " + err.message);
+  }
+}
+
+function updateInlineImagePreviewFromInput(url) {
+  const container = document.getElementById("inlineImagePreviewContainer");
+  const img = document.getElementById("inlineImagePreviewImg");
+  if (url && url.trim()) {
+    img.src = url.trim();
+    container.classList.remove("hidden");
+  } else {
+    container.classList.add("hidden");
+    img.src = "";
+  }
+}
+
+function applyInsertInlineImage() {
+  const url = document.getElementById("inlineImageUrlInput").value.trim();
+  const caption = document.getElementById("inlineImageCaptionInput").value.trim();
+
+  if (!url) {
+    alert("Pilih file gambar atau tempel URL gambar terlebih dahulu.");
+    return;
+  }
+
+  const markdownTag = `\n\n![${caption}](${url})\n\n`;
+  insertTextAtCursor("articleContentInput", markdownTag);
+  closeInsertImageModal();
+}
+
+// Formatting Toolbar Helper
+function insertFormatTag(type) {
+  const textarea = document.getElementById("articleContentInput");
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selectedText = textarea.value.substring(start, end);
+  let replacement = "";
+
+  switch (type) {
+    case "bold":
+      replacement = `**${selectedText || 'Teks Tebal'}**`;
+      break;
+    case "italic":
+      replacement = `*${selectedText || 'Teks Miring'}*`;
+      break;
+    case "h2":
+      replacement = `\n\n## ${selectedText || 'Subjudul H2'}\n\n`;
+      break;
+    case "h3":
+      replacement = `\n\n### ${selectedText || 'Subjudul H3'}\n\n`;
+      break;
+    case "quote":
+      replacement = `\n\n> "${selectedText || 'Kutipan inspiratif atau kutipan penting'}"\n\n`;
+      break;
+    case "link":
+      const linkUrl = prompt("Masukkan URL Tautan (misal: https://...):", "https://");
+      if (linkUrl) {
+        replacement = `[${selectedText || 'Teks Tautan'}](${linkUrl})`;
+      } else {
+        return;
+      }
+      break;
+  }
+
+  textarea.setRangeText(replacement, start, end, "select");
+  textarea.focus();
+}
+
+function insertTextAtCursor(elementId, text) {
+  const textarea = document.getElementById(elementId);
+  if (!textarea) return;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  textarea.setRangeText(text, start, end, "end");
+  textarea.focus();
+}
+
+// -------------------------------------------------------------
 // Navigation & View Routing
 // -------------------------------------------------------------
 function navigate(viewName, param = null) {
@@ -399,33 +581,34 @@ function renderHome() {
     coursesContainer.appendChild(card);
   });
 
-  // Featured Articles (Home Feed)
+  // Featured Articles (Home Feed with Medium-style Thumbnail)
   const articlesContainer = document.getElementById("homeArticlesFeed");
   articlesContainer.innerHTML = "";
   state.articles.slice(0, 3).forEach(art => {
     const item = document.createElement("article");
-    item.className = "py-4 border-b border-neutral-100 dark:border-surface-borderDark/60 flex flex-col sm:flex-row items-start justify-between gap-4 cursor-pointer group";
+    item.className = "py-5 border-b border-neutral-100 dark:border-surface-borderDark/60 flex items-start justify-between gap-4 sm:gap-6 cursor-pointer group";
     item.onclick = () => navigate("article-detail", art.id);
     item.innerHTML = `
-      <div class="flex-1">
-        <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-1.5">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-2">
           <span class="font-semibold text-brand-600 dark:text-brand-400">${art.category}</span>
           <span>•</span>
           <span>${art.readTime}</span>
           <span>•</span>
           <span>${art.date}</span>
         </div>
-        <h3 class="font-serif text-lg sm:text-xl font-medium text-neutral-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-snug mb-1">
+        <h3 class="font-serif text-lg sm:text-xl font-medium text-neutral-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-snug mb-1.5 line-clamp-2">
           ${art.title}
         </h3>
-        <p class="text-xs text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed">
+        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed font-serif">
           ${art.subtitle}
         </p>
       </div>
-      <div class="flex items-center gap-1 text-xs text-neutral-400 group-hover:text-brand-600 transition-colors self-end sm:self-center">
-        <span>Baca esai</span>
-        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-      </div>
+      ${art.thumbnail ? `
+        <div class="w-20 h-20 sm:w-28 sm:h-24 rounded-xl overflow-hidden flex-shrink-0 border border-neutral-200/80 dark:border-surface-borderDark bg-neutral-100 dark:bg-neutral-800">
+          <img src="${art.thumbnail}" alt="${art.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        </div>
+      ` : ''}
     `;
     articlesContainer.appendChild(item);
   });
@@ -450,10 +633,10 @@ function renderArticlesList(filtered = null) {
 
   list.forEach(art => {
     const item = document.createElement("article");
-    item.className = "py-8 flex flex-col justify-between gap-3 cursor-pointer group";
+    item.className = "py-8 border-b border-neutral-100 dark:border-surface-borderDark/60 flex items-start justify-between gap-4 sm:gap-8 cursor-pointer group";
     item.onclick = () => navigate("article-detail", art.id);
     item.innerHTML = `
-      <div>
+      <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-2">
           <span class="font-semibold px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">${art.category}</span>
           <span>•</span>
@@ -461,22 +644,27 @@ function renderArticlesList(filtered = null) {
           <span>•</span>
           <span>${art.date}</span>
         </div>
-        <h2 class="font-serif text-2xl font-normal text-neutral-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-tight mb-2">
+        <h2 class="font-serif text-xl sm:text-2xl font-normal text-neutral-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-tight mb-2">
           ${art.title}
         </h2>
-        <p class="text-sm font-serif text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-3">
+        <p class="text-sm font-serif text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-3 mb-4">
           ${art.subtitle}
         </p>
-      </div>
-      <div class="flex items-center justify-between text-xs text-neutral-400 pt-2">
-        <div class="flex items-center gap-1.5">
-          <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500"></i>
-          <span>${art.claps || 0} apresiasi</span>
+        <div class="flex items-center justify-between text-xs text-neutral-400 pt-1">
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500"></i>
+            <span>${art.claps || 0} apresiasi</span>
+          </div>
+          <span class="font-sans font-medium text-brand-600 dark:text-brand-400 group-hover:underline flex items-center gap-1">
+            Baca selengkapnya <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </span>
         </div>
-        <span class="font-sans font-medium text-brand-600 dark:text-brand-400 group-hover:underline flex items-center gap-1">
-          Baca selengkapnya <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-        </span>
       </div>
+      ${art.thumbnail ? `
+        <div class="w-24 h-24 sm:w-36 sm:h-28 rounded-2xl overflow-hidden flex-shrink-0 border border-neutral-200/80 dark:border-surface-borderDark bg-neutral-100 dark:bg-neutral-800">
+          <img src="${art.thumbnail}" alt="${art.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        </div>
+      ` : ''}
     `;
     container.appendChild(item);
   });
@@ -544,34 +732,76 @@ function renderArticleDetail(articleId) {
     footerLn.classList.add("hidden");
   }
 
-  // Format Content (Markdown-like simple converter)
+  // Cover Image Handling
+  const coverContainer = document.getElementById("detailArticleCoverContainer");
+  const coverImg = document.getElementById("detailArticleCoverImg");
+  const coverCaption = document.getElementById("detailArticleCoverCaption");
+
+  if (art.thumbnail) {
+    coverImg.src = art.thumbnail;
+    coverContainer.classList.remove("hidden");
+    if (art.thumbnailCaption) {
+      coverCaption.innerText = art.thumbnailCaption;
+      coverCaption.classList.remove("hidden");
+    } else {
+      coverCaption.classList.add("hidden");
+    }
+  } else {
+    coverContainer.classList.add("hidden");
+    coverImg.src = "";
+    coverCaption.classList.add("hidden");
+  }
+
+  // Format Content (Medium-grade Markdown & Image Renderer)
   const bodyContainer = document.getElementById("detailArticleContent");
   bodyContainer.innerHTML = formatMarkdownContent(art.content);
 }
 
 function formatMarkdownContent(raw) {
   if (!raw) return "";
-  const paragraphs = raw.split("\n\n");
+  const paragraphs = raw.split(/\n\n+/);
   return paragraphs.map(p => {
     p = p.trim();
+    if (!p) return "";
+
+    // Image block regex: ![alt](url)
+    const imgMatch = p.match(/^!\[(.*?)\]\((.*?)\)$/);
+    if (imgMatch) {
+      const alt = imgMatch[1];
+      const url = imgMatch[2];
+      return `<figure class="my-8 text-center"><img src="${url}" alt="${alt}" class="w-full max-h-[520px] object-cover rounded-2xl shadow-sm border border-neutral-200/60 dark:border-surface-borderDark">${alt ? `<figcaption class="text-center font-sans text-xs text-neutral-500 dark:text-neutral-400 italic mt-2.5">${alt}</figcaption>` : ''}</figure>`;
+    }
+
     if (p.startsWith("## ")) {
-      return `<h2>${p.replace("## ", "")}</h2>`;
+      return `<h2 class="text-2xl sm:text-3xl font-serif font-bold text-neutral-900 dark:text-white mt-10 mb-4 tracking-tight">${p.replace("## ", "")}</h2>`;
     } else if (p.startsWith("### ")) {
-      return `<h3>${p.replace("### ", "")}</h3>`;
+      return `<h3 class="text-xl sm:text-2xl font-serif font-semibold text-neutral-900 dark:text-white mt-8 mb-3 tracking-tight">${p.replace("### ", "")}</h3>`;
     } else if (p.startsWith("> ")) {
-      return `<blockquote>${p.replace("> ", "").replace(/"/g, "")}</blockquote>`;
+      const quoteText = p.replace(/^>\s*/, "").replace(/^"/, "").replace(/"$/, "");
+      return `<blockquote class="my-8 pl-6 border-l-4 border-brand-600 dark:border-brand-500 font-serif italic text-xl sm:text-2xl text-neutral-700 dark:text-neutral-300 leading-relaxed">${quoteText}</blockquote>`;
     } else if (p.startsWith("* ") || p.startsWith("- ")) {
-      const items = p.split("\n").map(li => `<li>${li.replace(/^[\*\-]\s*/, "")}</li>`).join("");
-      return `<ul>${items}</ul>`;
+      const items = p.split("\n").map(li => {
+        let text = li.replace(/^[\*\-]\s*/, "");
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+        return `<li class="ml-4">${text}</li>`;
+      }).join("");
+      return `<ul class="list-disc pl-6 space-y-2 my-6 font-serif">${items}</ul>`;
     } else if (/^\d+\.\s/.test(p)) {
-      const items = p.split("\n").map(li => `<li>${li.replace(/^\d+\.\s*/, "")}</li>`).join("");
-      return `<ol class="list-decimal pl-6 space-y-1 my-4">${items}</ol>`;
+      const items = p.split("\n").map(li => {
+        let text = li.replace(/^\d+\.\s*/, "");
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+        return `<li class="ml-4">${text}</li>`;
+      }).join("");
+      return `<ol class="list-decimal pl-6 space-y-2 my-6 font-serif">${items}</ol>`;
     } else {
-      // Bold & Italic support
       let formatted = p
+        .replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, url) => {
+          return `<figure class="my-8 text-center"><img src="${url}" alt="${alt}" class="w-full max-h-[520px] object-cover rounded-2xl shadow-sm border border-neutral-200/60 dark:border-surface-borderDark">${alt ? `<figcaption class="text-center font-sans text-xs text-neutral-500 dark:text-neutral-400 italic mt-2.5">${alt}</figcaption>` : ''}</figure>`;
+        })
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-brand-600 dark:text-brand-400 underline font-medium hover:opacity-80">$1</a>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>');
-      return `<p>${formatted}</p>`;
+      return `<p class="mb-6 leading-[1.85]">${formatted}</p>`;
     }
   }).join("");
 }
@@ -996,7 +1226,7 @@ function saveExperiencesAndSkills() {
   alert("Rekam jejak dan keahlian berhasil disimpan!");
 }
 
-// Admin Tab 2: Articles CRUD
+// Admin Tab 3: Articles CRUD
 function renderAdminArticlesTable() {
   const container = document.getElementById("adminArticlesTable");
   container.innerHTML = "";
@@ -1005,9 +1235,12 @@ function renderAdminArticlesTable() {
     const row = document.createElement("div");
     row.className = "p-3 rounded-lg border border-neutral-200 dark:border-surface-borderDark flex items-center justify-between gap-3 bg-white dark:bg-surface-cardDark";
     row.innerHTML = `
-      <div class="flex-1 truncate">
-        <h5 class="text-xs font-bold text-neutral-900 dark:text-white truncate">${art.title}</h5>
-        <span class="text-[10px] text-neutral-400">${art.category} • ${art.date}</span>
+      <div class="flex items-center gap-3 flex-1 truncate">
+        ${art.thumbnail ? `<img src="${art.thumbnail}" alt="" class="w-10 h-10 rounded-lg object-cover flex-shrink-0 border border-neutral-200 dark:border-surface-borderDark">` : ''}
+        <div class="flex-1 truncate">
+          <h5 class="text-xs font-bold text-neutral-900 dark:text-white truncate">${art.title}</h5>
+          <span class="text-[10px] text-neutral-400">${art.category} • ${art.date}</span>
+        </div>
       </div>
       <div class="flex items-center gap-1.5 flex-shrink-0">
         <button onclick="editArticle('${art.id}')" class="px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-800 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200">
@@ -1030,6 +1263,7 @@ function openNewArticleForm() {
   document.getElementById("articleCategoryInput").value = "";
   document.getElementById("articleSubtitleInput").value = "";
   document.getElementById("articleContentInput").value = "";
+  clearArticleThumbnail();
 }
 
 function closeArticleEditor() {
@@ -1046,6 +1280,12 @@ function editArticle(id) {
   document.getElementById("articleCategoryInput").value = art.category;
   document.getElementById("articleSubtitleInput").value = art.subtitle;
   document.getElementById("articleContentInput").value = art.content;
+  if (art.thumbnail) {
+    document.getElementById("articleThumbnailUrlInput").value = art.thumbnail;
+    updateThumbnailPreviewFromInput(art.thumbnail);
+  } else {
+    clearArticleThumbnail();
+  }
 }
 
 function saveArticleFromEditor() {
@@ -1054,6 +1294,7 @@ function saveArticleFromEditor() {
   const category = document.getElementById("articleCategoryInput").value.trim() || "Opini";
   const subtitle = document.getElementById("articleSubtitleInput").value.trim();
   const content = document.getElementById("articleContentInput").value.trim();
+  const thumbnail = document.getElementById("articleThumbnailUrlInput").value.trim();
 
   if (!title || !content) {
     alert("Judul dan isi artikel tidak boleh kosong!");
@@ -1068,6 +1309,7 @@ function saveArticleFromEditor() {
       art.category = category;
       art.subtitle = subtitle;
       art.content = content;
+      art.thumbnail = thumbnail || null;
     }
   } else {
     // Create new
@@ -1077,6 +1319,7 @@ function saveArticleFromEditor() {
       category,
       subtitle,
       content,
+      thumbnail: thumbnail || null,
       date: new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }),
       readTime: `${Math.max(1, Math.round(content.split(" ").length / 180))} min read`,
       claps: 0
@@ -1098,7 +1341,7 @@ function deleteArticle(id) {
   }
 }
 
-// Admin Tab 3: Courses CRUD
+// Admin Tab 4: Courses CRUD
 function renderAdminCoursesTable() {
   const container = document.getElementById("adminCoursesTable");
   container.innerHTML = "";
@@ -1244,7 +1487,7 @@ function deleteCourse(id) {
   }
 }
 
-// Admin Tab 4: Security & Backup
+// Admin Tab 5: Security & Backup
 function updateAdminPassword() {
   const newPass = document.getElementById("newAdminPasswordInput").value.trim();
   if (newPass.length < 5) {

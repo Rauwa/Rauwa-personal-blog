@@ -343,6 +343,12 @@
           </div>
         </header>
 
+        <!-- Medium-Style Cover / Featured Image -->
+        <div id="detailArticleCoverContainer" class="hidden mb-10">
+          <img id="detailArticleCoverImg" src="" alt="Gambar Sampul Artikel" class="w-full max-h-[480px] object-cover rounded-2xl shadow-sm border border-neutral-200/60 dark:border-surface-borderDark">
+          <p id="detailArticleCoverCaption" class="text-center font-sans text-xs text-neutral-500 dark:text-neutral-400 italic mt-2.5 hidden"></p>
+        </div>
+
         <!-- Article Body with Medium-grade Typography -->
         <div id="detailArticleContent" class="article-body font-serif text-[18px] sm:text-[20px] text-neutral-800 dark:text-neutral-200 leading-[1.8] space-y-6">
           <!-- Dynamically populated HTML paragraphs, blockquotes, subheadings -->
@@ -732,12 +738,63 @@
                 <input type="text" id="articleSubtitleInput" placeholder="Gagasan pokok atau intisari pengantar artikel" class="admin-input">
               </div>
 
-              <div>
-                <label class="block text-xs font-semibold mb-1">Naskah Lengkap Artikel</label>
-                <textarea id="articleContentInput" rows="8" placeholder="Tuliskan naskah artikel Anda secara terstruktur..." class="admin-input font-serif text-sm"></textarea>
+              <!-- Medium-Style Thumbnail / Cover Image Uploader -->
+              <div class="p-3.5 rounded-xl border border-neutral-200 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark space-y-3">
+                <div class="flex items-center justify-between">
+                  <label class="block text-xs font-bold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
+                    <i data-lucide="image" class="w-4 h-4 text-brand-600"></i>
+                    <span>Gambar Sampul Artikel (Medium Thumbnail / Cover)</span>
+                  </label>
+                  <span class="text-[11px] text-neutral-400">Tampil di beranda & bagian atas artikel</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <label class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-300 border border-brand-200 dark:border-brand-800 hover:bg-brand-100 cursor-pointer text-center flex items-center justify-center gap-1.5 flex-shrink-0">
+                    <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                    <span>Upload File Gambar</span>
+                    <input type="file" id="articleThumbnailFileInput" onchange="handleThumbnailFileUpload(event)" accept="image/*" class="hidden">
+                  </label>
+
+                  <span class="text-xs text-neutral-400 text-center sm:text-left font-medium">atau</span>
+
+                  <input type="text" id="articleThumbnailUrlInput" oninput="updateThumbnailPreviewFromInput(this.value)" placeholder="Tempel URL gambar (https://...)" class="admin-input text-xs flex-1">
+                </div>
+
+                <!-- Preview Thumbnail Box -->
+                <div id="articleThumbnailPreviewContainer" class="hidden relative rounded-xl overflow-hidden max-h-48 border border-neutral-200 dark:border-surface-borderDark bg-neutral-900 group">
+                  <img id="articleThumbnailPreviewImg" src="" alt="Preview Sampul" class="w-full h-48 object-cover">
+                  <button type="button" onclick="clearArticleThumbnail()" class="absolute top-2 right-2 px-2.5 py-1 rounded-lg bg-black/70 hover:bg-rose-600 text-white text-[11px] font-semibold backdrop-blur-sm transition-colors flex items-center gap-1">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    <span>Hapus Sampul</span>
+                  </button>
+                </div>
               </div>
 
-              <div class="flex items-center gap-2">
+              <!-- Naskah Content Editor with Medium-style Formatting Toolbar -->
+              <div class="space-y-1.5">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-200 dark:border-surface-borderDark pb-2">
+                  <label class="block text-xs font-semibold">Naskah Lengkap Artikel</label>
+                  
+                  <!-- Formatting & Image Insertion Toolbar -->
+                  <div class="flex flex-wrap items-center gap-1">
+                    <button type="button" onclick="openInsertImageModal()" class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 text-xs font-bold flex items-center gap-1 transition-colors">
+                      <i data-lucide="image-plus" class="w-3.5 h-3.5"></i>
+                      <span>+ Sisipkan Gambar ke Naskah</span>
+                    </button>
+                    <span class="text-neutral-300 dark:text-neutral-700">|</span>
+                    <button type="button" onclick="insertFormatTag('bold')" class="px-2 py-1 rounded hover:bg-neutral-200 dark:hover:bg-neutral-800 text-xs font-bold" title="Teks Tebal">B</button>
+                    <button type="button" onclick="insertFormatTag('italic')" class="px-2 py-1 rounded hover:bg-neutral-200 dark:hover:bg-neutral-800 text-xs italic font-serif" title="Teks Miring">I</button>
+                    <button type="button" onclick="insertFormatTag('h2')" class="px-2 py-1 rounded hover:bg-neutral-200 dark:hover:bg-neutral-800 text-xs font-bold" title="Subjudul H2">H2</button>
+                    <button type="button" onclick="insertFormatTag('h3')" class="px-2 py-1 rounded hover:bg-neutral-200 dark:hover:bg-neutral-800 text-xs font-bold" title="Subjudul H3">H3</button>
+                    <button type="button" onclick="insertFormatTag('quote')" class="px-2 py-1 rounded hover:bg-neutral-200 dark:hover:bg-neutral-800 text-xs" title="Kutipan (Quote)">“ ”</button>
+                    <button type="button" onclick="insertFormatTag('link')" class="px-2 py-1 rounded hover:bg-neutral-200 dark:hover:bg-neutral-800 text-xs" title="Tautan Link">🔗</button>
+                  </div>
+                </div>
+
+                <textarea id="articleContentInput" rows="10" placeholder="Tuliskan naskah artikel Anda... Anda dapat menyisipkan gambar di bagian mana pun menggunakan tombol '+ Sisipkan Gambar ke Naskah' di atas." class="admin-input font-serif text-sm leading-relaxed"></textarea>
+              </div>
+
+              <div class="flex items-center gap-2 pt-2">
                 <button onclick="saveArticleFromEditor()" class="px-4 py-2 rounded-lg text-xs font-bold bg-brand-600 text-white hover:bg-brand-700">
                   Simpan & Terbitkan Tulisan
                 </button>
@@ -860,6 +917,50 @@
 
       </div>
 
+    </div>
+  </div>
+
+  <!-- MODAL: SISIPKAN GAMBAR KE NASKAH ARTIKEL (MEDIUM STYLE) -->
+  <div id="insertInlineImageModal" class="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-surface-cardDark border border-neutral-200 dark:border-surface-borderDark rounded-2xl w-full max-w-md shadow-2xl p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-neutral-200 dark:border-surface-borderDark pb-3">
+        <h4 class="text-sm font-bold text-neutral-900 dark:text-white flex items-center gap-2">
+          <i data-lucide="image-plus" class="w-4 h-4 text-emerald-600"></i>
+          <span>Sisipkan Gambar ke Naskah Artikel</span>
+        </h4>
+        <button onclick="closeInsertImageModal()" class="p-1 rounded-lg text-neutral-400 hover:text-neutral-900 dark:hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold mb-1">Pilih File Gambar (dari Laptop / HP)</label>
+          <input type="file" id="inlineImageFileInput" onchange="handleInlineImageFileUpload(event)" accept="image/*" class="admin-input text-xs">
+        </div>
+
+        <div class="text-center text-[11px] text-neutral-400 font-medium">atau</div>
+
+        <div>
+          <label class="block text-xs font-semibold mb-1">Tempel URL Gambar Web</label>
+          <input type="text" id="inlineImageUrlInput" oninput="updateInlineImagePreviewFromInput(this.value)" placeholder="https://..." class="admin-input text-xs">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold mb-1">Keterangan / Caption Gambar (Opsional)</label>
+          <input type="text" id="inlineImageCaptionInput" placeholder="Contoh: Suasana lokakarya di Jakarta" class="admin-input text-xs">
+        </div>
+
+        <!-- Preview Box -->
+        <div id="inlineImagePreviewContainer" class="hidden rounded-xl overflow-hidden border border-neutral-200 dark:border-surface-borderDark bg-neutral-900 max-h-40">
+          <img id="inlineImagePreviewImg" src="" alt="Preview Sisipan" class="w-full h-40 object-cover">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-neutral-200 dark:border-surface-borderDark">
+        <button onclick="closeInsertImageModal()" class="px-3 py-1.5 rounded-lg text-xs font-medium text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800">Batal</button>
+        <button onclick="applyInsertInlineImage()" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700">Sisipkan ke Naskah</button>
+      </div>
     </div>
   </div>
 
