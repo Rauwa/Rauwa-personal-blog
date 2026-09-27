@@ -59,17 +59,17 @@
   <header class="sticky top-0 z-40 bg-white/90 dark:bg-[#0e1117]/90 backdrop-blur-md border-b border-neutral-200/80 dark:border-surface-borderDark transition-colors">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       
-      <!-- Brand / Author Name -->
+      <!-- Brand / Site Title -->
       <a href="#home" onclick="navigate('home')" class="group flex items-center gap-3">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-600 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm group-hover:scale-105 transition-transform" id="navAvatarInitials">
-          P
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
         </div>
         <div class="flex flex-col">
-          <span class="font-bold text-base tracking-tight text-neutral-900 dark:text-white group-hover:text-brand-600 transition-colors" id="navAuthorName">
-            Penulis & Praktisi
-          </span>
-          <span class="text-[11px] text-neutral-500 dark:text-neutral-400 font-medium -mt-0.5 tracking-wide uppercase" id="navAuthorRole">
+          <span class="font-bold text-base tracking-tight text-neutral-900 dark:text-white group-hover:text-brand-600 transition-colors">
             Karya Tulis & Kelas Terbuka
+          </span>
+          <span class="text-[10px] text-neutral-500 dark:text-neutral-400 font-medium tracking-wider uppercase">
+            Platform Literasi Digital
           </span>
         </div>
       </a>
@@ -89,7 +89,7 @@
           </span>
         </button>
         <button onclick="navigate('about')" id="nav-btn-about" class="nav-link">
-          Rekam Jejak
+          Tentang Saya
         </button>
       </nav>
 
@@ -120,7 +120,7 @@
       <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Beranda</button>
       <button onclick="navigate('articles'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Karya Tulis</button>
       <button onclick="navigate('courses'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Kelas Terbuka (Gratis)</button>
-      <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Rekam Jejak</button>
+      <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800">Tentang Saya</button>
     </div>
   </header>
 
@@ -128,67 +128,47 @@
   <main class="flex-grow">
 
     <!-- ========================================== -->
-    <!-- VIEW 1: HOME (LinkedIn Hero + Highlights)  -->
+    <!-- VIEW 1: HOME (Platform Banner & Feeds)     -->
     <!-- ========================================== -->
     <section id="view-home" class="page-view animate-fade-in">
       
-      <!-- LinkedIn-style Profile Hero Banner -->
+      <!-- Clean Platform Banner / Hero -->
       <div class="border-b border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-10">
           
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <!-- Avatar -->
-            <div class="relative">
-              <div id="heroAvatar" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-sky-400 p-0.5 shadow-md flex items-center justify-center overflow-hidden">
-                <div class="w-full h-full bg-white dark:bg-surface-dark rounded-[14px] flex items-center justify-center text-3xl font-extrabold text-brand-600 dark:text-brand-100" id="heroAvatarFallback">
-                  P
-                </div>
-              </div>
-              <span class="absolute bottom-0 right-0 bg-emerald-500 border-2 border-white dark:border-surface-cardDark w-4 h-4 rounded-full" title="Tersedia untuk kolaborasi publik"></span>
+          <div class="space-y-4 text-center sm:text-left">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 dark:bg-brand-950/60 dark:text-brand-300 border border-brand-200 dark:border-brand-800 text-xs font-semibold">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-600"></i>
+              <span>Platform Literasi & Kelas Terbuka Gratis</span>
             </div>
 
-            <!-- Profile Details (LinkedIn Style) -->
-            <div class="flex-1">
-              <div class="flex flex-wrap items-center gap-2 mb-1">
-                <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white" id="heroName">
-                  Penulis & Praktisi
-                </h1>
-                <span class="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-                  <i data-lucide="badge-check" class="w-3.5 h-3.5"></i>
-                  Terverifikasi
-                </span>
-              </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white leading-tight">
+              Karya Tulis & Pembelajaran Terbuka
+            </h1>
 
-              <p class="text-base sm:text-lg font-medium text-neutral-700 dark:text-neutral-200 mb-2" id="heroHeadline">
-                Pengkaji Kebijakan Publik & Praktisi Komunitas
-              </p>
+            <p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed">
+              Ruang mandiri tempat membagikan pemikiran kritis, esai reflektif, serta rangkaian materi kelas terbuka 100% gratis tanpa biaya guna memperluas akses pengetahuan bagi masyarakat luas.
+            </p>
 
-              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mb-4" id="heroBio">
-                Mendedikasikan ruang digital ini untuk membagikan pemikiran kritis, esai reflektif, serta rangkaian materi kelas terbuka tanpa biaya guna memperluas akses literasi bagi masyarakat luas.
-              </p>
-
-              <!-- Social Action Links (LinkedIn, Contact, etc.) -->
-              <div class="flex flex-wrap items-center gap-3">
-                <a id="btnLinkedIn" href="#" target="_blank" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#0077b5] text-white hover:bg-[#006097] transition-colors shadow-sm">
-                  <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
-                  <span>Profil LinkedIn</span>
-                </a>
-                <button onclick="navigate('courses')" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-sm">
-                  <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
-                  <span>Jelajahi Kelas Gratis</span>
-                </button>
-                <a id="btnEmail" href="mailto:kontak@domain.com" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
-                  <i data-lucide="mail" class="w-3.5 h-3.5"></i>
-                  <span>Kontak Langsung</span>
-                </a>
-              </div>
-
+            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2">
+              <button onclick="navigate('courses')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors shadow-sm">
+                <i data-lucide="play-circle" class="w-4 h-4"></i>
+                <span>Jelajahi Kelas Gratis</span>
+              </button>
+              <button onclick="navigate('articles')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-opacity shadow-sm">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Baca Karya Tulis</span>
+              </button>
+              <button onclick="navigate('about')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                <i data-lucide="user" class="w-4 h-4"></i>
+                <span>Tentang Saya</span>
+              </button>
             </div>
           </div>
 
           <!-- Public Service Mission Pledge Card -->
           <div class="mt-8 p-4 rounded-xl border border-brand-100 dark:border-brand-900/50 bg-gradient-to-r from-brand-50/60 to-transparent dark:from-brand-950/30 flex items-start gap-3.5">
-            <div class="p-2 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-300">
+            <div class="p-2 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-300 flex-shrink-0">
               <i data-lucide="globe" class="w-5 h-5"></i>
             </div>
             <div>
@@ -500,27 +480,64 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- VIEW 6: ABOUT / REKAM JEJAK (LinkedIn Res) -->
+    <!-- VIEW 6: TENTANG SAYA & REKAM JEJAK         -->
     <!-- ========================================== -->
     <section id="view-about" class="page-view hidden animate-fade-in">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-10">
         
-        <!-- Header -->
-        <div class="border-b border-neutral-200 dark:border-surface-borderDark pb-8">
-          <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Profil & Integritas</span>
-          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white mt-1">
-            Rekam Jejak & Pengabdian
-          </h1>
-          <p class="text-neutral-600 dark:text-neutral-400 text-sm mt-2 max-w-2xl leading-relaxed">
-            Perjalanan karier, latar belakang keahlian, dan komitmen dalam menghadirkan dampak nyata bagi publik.
-          </p>
+        <!-- Profile Header Card (Moved from Beranda) -->
+        <div class="p-6 sm:p-8 rounded-2xl border border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark shadow-sm">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <!-- Avatar -->
+            <div class="relative flex-shrink-0">
+              <div id="aboutAvatar" class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-sky-400 p-0.5 shadow-md flex items-center justify-center overflow-hidden">
+                <div class="w-full h-full bg-white dark:bg-surface-dark rounded-[14px] flex items-center justify-center text-3xl font-extrabold text-brand-600 dark:text-brand-100" id="aboutAvatarFallback">
+                  P
+                </div>
+              </div>
+              <span class="absolute bottom-0 right-0 bg-emerald-500 border-2 border-white dark:border-surface-cardDark w-4 h-4 rounded-full" title="Tersedia untuk kolaborasi"></span>
+            </div>
+
+            <!-- Profile Details -->
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-white" id="aboutName">
+                  Penulis & Praktisi
+                </h1>
+                <span class="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                  <i data-lucide="badge-check" class="w-3.5 h-3.5"></i>
+                  Terverifikasi
+                </span>
+              </div>
+
+              <p class="text-base sm:text-lg font-medium text-neutral-700 dark:text-neutral-200 mb-2" id="aboutHeadline">
+                Pengkaji Kebijakan Publik & Praktisi Komunitas
+              </p>
+
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl mb-4" id="aboutBio">
+                Mendedikasikan ruang digital ini untuk membagikan pemikiran kritis, esai reflektif, serta rangkaian materi kelas terbuka tanpa biaya guna memperluas akses literasi bagi masyarakat luas.
+              </p>
+
+              <!-- Social Links -->
+              <div class="flex flex-wrap items-center gap-3">
+                <a id="aboutBtnLinkedIn" href="#" target="_blank" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#0077b5] text-white hover:bg-[#006097] transition-colors shadow-sm">
+                  <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
+                  <span>Profil LinkedIn</span>
+                </a>
+                <a id="aboutBtnEmail" href="mailto:kontak@domain.com" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                  <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                  <span>Kontak Langsung</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Experience Timeline -->
+        <!-- Experience Timeline (Rekam Jejak) -->
         <div>
-          <h2 class="text-lg font-bold text-neutral-900 dark:text-white mb-6 flex items-center gap-2">
+          <h2 class="text-xl font-bold text-neutral-900 dark:text-white mb-6 flex items-center gap-2">
             <i data-lucide="briefcase" class="w-5 h-5 text-brand-600"></i>
-            <span>Pengalaman & Peran Profesional</span>
+            <span>Rekam Jejak & Pengalaman</span>
           </h2>
           <div id="aboutExperienceList" class="space-y-6 border-l-2 border-neutral-200 dark:border-surface-borderDark ml-3 pl-6">
             <!-- Dynamically populated from state -->
@@ -529,7 +546,7 @@
 
         <!-- Skills & Competencies -->
         <div>
-          <h2 class="text-lg font-bold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
+          <h2 class="text-xl font-bold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
             <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
             <span>Keahlian & Bidang Fokus</span>
           </h2>

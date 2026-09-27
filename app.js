@@ -525,32 +525,8 @@ function navigate(viewName, param = null) {
 // -------------------------------------------------------------
 function renderHome() {
   const p = state.profile || {};
-  document.getElementById("navAuthorName").innerText = p.name || "Penulis & Praktisi";
-  document.getElementById("heroName").innerText = p.name || "Penulis & Praktisi";
-  document.getElementById("heroHeadline").innerText = p.headline || "";
-  document.getElementById("heroBio").innerText = p.bio || "";
-  document.getElementById("footerAuthorCopyright").innerText = `© 2026 ${p.name || 'Penulis & Praktisi'}.`;
-
-  const initials = (p.name || "P").split(" ").map(w => w[0]).join("").substring(0, 2).toUpperCase() || "P";
-  document.getElementById("navAvatarInitials").innerText = initials;
-  document.getElementById("heroAvatarFallback").innerText = initials;
-
-  // Social Links
-  const lnBtn = document.getElementById("btnLinkedIn");
-  if (p.linkedin) {
-    lnBtn.href = p.linkedin;
-    lnBtn.classList.remove("hidden");
-  } else {
-    lnBtn.classList.add("hidden");
-  }
-
-  const emBtn = document.getElementById("btnEmail");
-  if (p.email) {
-    emBtn.href = `mailto:${p.email}`;
-    emBtn.classList.remove("hidden");
-  } else {
-    emBtn.classList.add("hidden");
-  }
+  const copyrightEl = document.getElementById("footerAuthorCopyright");
+  if (copyrightEl) copyrightEl.innerText = `© 2026 ${p.name || 'Penulis & Praktisi'}.`;
 
   // Featured Courses (Home Grid)
   const coursesContainer = document.getElementById("homeCoursesGrid");
@@ -1002,31 +978,68 @@ function toggleSidebarMobile() {
 }
 
 // -------------------------------------------------------------
-// View 6: About / Rekam Jejak (LinkedIn Resume)
+// View 6: About / Tentang Saya & Rekam Jejak
 // -------------------------------------------------------------
 function renderAboutPage() {
   const p = state.profile || {};
-  const expContainer = document.getElementById("aboutExperienceList");
-  expContainer.innerHTML = "";
 
-  const exps = p.experiences || [];
-  if (exps.length === 0) {
-    expContainer.innerHTML = "<p class='text-xs text-neutral-400 italic py-2'>Belum ada riwayat pengalaman.</p>";
-  } else {
-    exps.forEach(exp => {
-      const item = document.createElement("div");
-      item.className = "relative group";
-      item.innerHTML = `
-        <div class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-brand-600 ring-4 ring-white dark:ring-surface-dark"></div>
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-          <h3 class="font-bold text-base text-neutral-900 dark:text-white">${exp.role}</h3>
-          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 self-start sm:self-auto">${exp.period}</span>
-        </div>
-        <p class="text-xs font-semibold text-brand-600 dark:text-brand-400 mb-2">${exp.organization}</p>
-        <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">${exp.description}</p>
-      `;
-      expContainer.appendChild(item);
-    });
+  // Populate About Me Profile Header
+  const nameEl = document.getElementById("aboutName");
+  if (nameEl) nameEl.innerText = p.name || "Penulis & Praktisi";
+
+  const headlineEl = document.getElementById("aboutHeadline");
+  if (headlineEl) headlineEl.innerText = p.headline || "";
+
+  const bioEl = document.getElementById("aboutBio");
+  if (bioEl) bioEl.innerText = p.bio || "";
+
+  const initials = (p.name || "P").split(" ").map(w => w[0]).join("").substring(0, 2).toUpperCase() || "P";
+  const avatarFallback = document.getElementById("aboutAvatarFallback");
+  if (avatarFallback) avatarFallback.innerText = initials;
+
+  const lnBtn = document.getElementById("aboutBtnLinkedIn");
+  if (lnBtn) {
+    if (p.linkedin) {
+      lnBtn.href = p.linkedin;
+      lnBtn.classList.remove("hidden");
+    } else {
+      lnBtn.classList.add("hidden");
+    }
+  }
+
+  const emBtn = document.getElementById("aboutBtnEmail");
+  if (emBtn) {
+    if (p.email) {
+      emBtn.href = `mailto:${p.email}`;
+      emBtn.classList.remove("hidden");
+    } else {
+      emBtn.classList.add("hidden");
+    }
+  }
+
+  // Populate Experience Timeline (Rekam Jejak)
+  const expContainer = document.getElementById("aboutExperienceList");
+  if (expContainer) {
+    expContainer.innerHTML = "";
+    const exps = p.experiences || [];
+    if (exps.length === 0) {
+      expContainer.innerHTML = "<p class='text-xs text-neutral-400 italic py-2'>Belum ada riwayat pengalaman.</p>";
+    } else {
+      exps.forEach(exp => {
+        const item = document.createElement("div");
+        item.className = "relative group";
+        item.innerHTML = `
+          <div class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-brand-600 ring-4 ring-white dark:ring-surface-dark"></div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+            <h3 class="font-bold text-base text-neutral-900 dark:text-white">${exp.role}</h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 self-start sm:self-auto">${exp.period}</span>
+          </div>
+          <p class="text-xs font-semibold text-brand-600 dark:text-brand-400 mb-2">${exp.organization}</p>
+          <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">${exp.description}</p>
+        `;
+        expContainer.appendChild(item);
+      });
+    }
   }
 
   const skillsContainer = document.getElementById("aboutSkillsList");
