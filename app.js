@@ -734,13 +734,27 @@ function renderAdminTab(tab) {
   const container = document.getElementById('adminContentContainer');
   if (!container) return;
 
+  ['articles', 'courses', 'profile', 'supabase'].forEach(t => {
+    const btn = document.getElementById(`admin-tab-${t}`);
+    if (btn) {
+      if (t === tab) {
+        btn.className = 'btn-awwwards-primary text-xs py-1.5 px-3';
+      } else {
+        btn.className = 'btn-awwwards-secondary text-xs py-1.5 px-3';
+      }
+    }
+  });
+
   if (tab === 'articles') {
     const articles = getArticles();
     container.innerHTML = `
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Karya Tulis (${articles.length})</h3>
-          <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru</button>
+          <div class="flex gap-2">
+            <button onclick="resetToDefaultData()" class="btn-awwwards-secondary text-xs py-1.5 px-3">🔄 Pulihkan Data Default</button>
+            <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru</button>
+          </div>
         </div>
         <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
           ${articles.map(a => `
@@ -1378,7 +1392,7 @@ const funcsToBind = {
   saveSupabaseConfig, copySupabaseSQL, showAddArticleForm, editArticle,
   applyMediumFormat, saveNewArticle, deleteArticle, addCertificateFromAdmin,
   deleteCertificate, addExperienceFromAdmin, deleteExperience, saveProfileFromAdmin,
-  showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase
+  showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase, resetToDefaultData
 };
 
 for (const [key, val] of Object.entries(funcsToBind)) {
@@ -1400,4 +1414,15 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initApp);
 } else {
   initApp();
+}
+
+function resetToDefaultData() {
+  if (confirm('Apakah Anda yakin ingin mengembalikan semua data ke artikel, kelas, dan profil default?')) {
+    localStorage.removeItem('site_articles');
+    localStorage.removeItem('site_courses');
+    localStorage.removeItem('site_profile');
+    renderAllViews();
+    renderAdminTab('articles');
+    alert('✅ Data berhasil dipulihkan ke default!');
+  }
 }
