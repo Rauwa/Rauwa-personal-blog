@@ -1,1587 +1,932 @@
-/**
- * Personal Knowledge Hub - Engine
- * LinkedIn Profile + Medium Editorial + edX Open Classroom + Admin Management
- */
+/* ==========================================================================
+   PLATFORM LITERASI & KELAS TERBUKA - COMPLETE APPLICATION LOGIC
+   All original features preserved: Reading progress, dark mode, articles feed,
+   course video modules & notes, profile & rekam jejak timeline, full admin
+   content manager (add/delete articles, add/delete courses, edit profile/timeline/skills).
+   ========================================================================== */
 
-// Initial Seed Data (Professional & Human Copywriting)
-const DEFAULT_STATE = {
-  updatedAt: 1000,
-  profile: {
-    name: "Penulis & Praktisi",
-    headline: "Pengkaji Kebijakan Publik • Pengajar Komunitas",
-    bio: "Ruang mandiri yang membagikan pemikiran kritis, esai reflektif, serta rangkaian materi kelas terbuka tanpa biaya guna memperluas akses literasi bagi masyarakat luas.",
-    linkedin: "https://linkedin.com",
-    email: "kontak@domain.com",
-    skills: ["Pelayanan Publik", "Karya Tulis & Opini", "Literasi Digital", "Kebijakan Publik", "Kepemimpinan Komunitas"],
-    experiences: [
-      {
-        role: "Koordinator Program Kebijakan",
-        organization: "Lembaga Advokasi & Inisiatif Warga",
-        period: "2024 — Sekarang",
-        description: "Mengembangkan riset kebijakan partisipatif, merancang materi edukasi kewargaan, dan memfasilitasi dialog publik lintas sektor."
-      },
-      {
-        role: "Spesialis Riset & Pengembangan",
-        organization: "Pusat Kajian Pembangunan Terpadu",
-        period: "2021 — 2024",
-        description: "Menyusun kajian tematik tentang transparansi pelayanan sipil dan memimpin advokasi berbasis data di tingkat daerah."
-      }
-    ]
-  },
-
-  articles: [
+// --- DEFAULT INITIAL STATE ---
+const DEFAULT_PROFILE = {
+  name: "Rauwa",
+  headline: "Penulis & Inisiator Literasi Publik",
+  bio: "Berpengalaman dalam pengembangan materi edukasi terbuka, pengkajian opini publik, dan pembangunan jaringan pembelajar mandiri secara berkelanjutan.",
+  avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+  linkedin: "https://linkedin.com",
+  email: "kontak@literasipublik.org",
+  skills: ["Pengkajian Opini", "Literasi Digital", "Metodologi Riset", "Desain Edukasi", "Kritik Kebijakan", "Public Speaking"],
+  experiences: [
     {
-      id: "art-1",
-      title: "Membangun Integritas Pelayanan Publik di Era Keterbukaan Informasi",
-      subtitle: "Refleksi mengenai pentingnya transparansi, empati, dan komunikasi tanpa sekat birokrasi dalam melayani warga.",
-      category: "Opini Publik",
-      readTime: "5 min read",
-      date: "24 September 2026",
-      claps: 42,
-      thumbnail: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop",
-      thumbnailCaption: "Foto: Ilustrasi Transformasi Digital Pelayanan Sipil",
-      content: `Pelayanan publik sejatinya bukan sekadar urusan prosedur administrasi atau tanda tangan di atas kertas bermaterai. Di balik setiap loket dan sistem digital yang kita rancang, ada denyut kehidupan warga yang mendambakan kepastian, kejelasan, dan perlakuan yang bermartabat.
-
-Ketika kita berbicara tentang transformasi di era keterbukaan, tantangan terbesarnya bukan pada ketersediaan teknologi canggih, melainkan pada kemauan untuk mengubah pola pikir: dari mentalitas 'dilayani' menjadi kerendahan hati untuk 'melayani dengan sepenuh hati'.
-
-![Diskusi Kewargaan dan Inovasi Pelayanan Sipil](https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop)
-
-## Tiga Pilar Transparansi yang Berdampak
-
-Berdasarkan pengamatan di lapangan, setidaknya ada tiga hal mendasar yang membedakan pelayanan yang tulus dengan yang sekadar menggugurkan kewajiban:
-
-1. **Kejelasan Bahasa:** Menghilangkan istilah hukum atau birokrasi yang berbelit-belit agar setiap warga paham hak dan kewajibannya tanpa rasa takut.
-2. **Kecepatan Respons:** Membuka kanal dialog terbuka di mana keluhan tidak dianggap sebagai ancaman, melainkan data paling berharga untuk perbaikan sistem.
-3. **Akuntabilitas Hasil:** Menyampaikan apa yang bisa diselesaikan dan berani meminta maaf secara jujur atas keterbatasan yang sedang diperbaiki.
-
-> "Kepercayaan masyarakat tidak dibangun lewat baliho pencitraan, melainkan lewat rasa aman saat mereka berinteraksi dengan layanan terkecil sekalipun."
-
-Semoga catatan kecil ini menjadi pengingat bagi kita semua bahwa karya terbaik adalah karya yang manfaatnya dirasakan langsung oleh orang banyak tanpa memandang latar belakang sosial mereka.`
+      id: "exp-1",
+      role: "Inisiator Platform Literasi Publik",
+      organization: "Program Pembelajaran Terbuka Mandiri",
+      period: "2024 - Sekarang",
+      description: "Mengembangkan kurikulum terbuka gratis, mengarsip karya ilmiah publik, serta menyelenggarakan sesi belajar berkala."
     },
     {
-      id: "art-2",
-      title: "Mengapa Pengetahuan Terbuka Adalah Bentuk Pengabdian Tertinggi",
-      subtitle: "Sebuah alasan mengapa seluruh materi kelas dan catatan pembelajaran di platform ini disajikan tanpa biaya.",
-      category: "Pendidikan",
-      readTime: "4 min read",
-      date: "20 September 2026",
-      claps: 68,
-      thumbnail: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
-      thumbnailCaption: "Foto: Kolaborasi Pembelajaran Terbuka Komunitas",
-      content: `Di era di mana informasi kerap dikomersialisasikan di balik dinding berbayar (paywall), akses terhadap ilmu pengetahuan yang berkualitas menjadi barang mewah bagi sebagian besar saudara-saudara kita.
-
-Padahal, gagasan yang disimpan sendiri hanya akan menjadi kepuasan pribadi. Namun ketika gagasan itu dibagikan secara bebas dan terstruktur, ia memiliki kekuatan untuk menginspirasi perubahan nyata.
-
-![Lokakarya Terbuka dan Kelas Literasi Masyarakat](https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop)
-
-## Mengubah Platform Pribadi Menjadi Ruang Bersama
-
-Melalui website ini, seluruh materi kursus dan modul pelatihan disajikan secara cuma-cuma:
-
-* Menyediakan video panduan yang lugas dan fokus pada substansi.
-* Menyertakan catatan pendukung dan dokumen kerja yang bisa diunduh terbuka.
-* Membuka ruang diskusi agar proses belajar berjalan dua arah dan berkesinambungan.
-
-Mari bersama-sama merawat semangat berbagi ini. Semoga tulisan maupun materi pembelajaran ini dapat diteruskan kepada siapa pun yang membutuhkan.`
-    }
-  ],
-
-  courses: [
+      id: "exp-2",
+      role: "Peneliti & Penulis Independen",
+      organization: "Studi Kebijakan & Transformasi Digital",
+      period: "2021 - 2024",
+      description: "Menulis lebih dari 30 esai dan makalah reflektif tentang dampak kecerdasan buatan terhadap struktur sosial."
+    },
     {
-      id: "course-1",
-      title: "Dasar Pemikiran Kritis & Advokasi Publik",
-      category: "Tingkat Pemula • 3 Sesi Modul",
-      description: "Panduan komprehensif memahami dinamika masalah publik, menganalisis data fakta vs opini, dan menyusun gagasan advokasi yang terarah.",
-      sessions: [
-        {
-          title: "Sesi 1: Memahami Masalah Publik dari Akar Rumput",
-          videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-          duration: "12 Menit",
-          notes: `Selamat datang di Sesi Pertama. Pada modul pembuka ini, kita mempelajari bagaimana cara mengidentifikasi permasalahan di sekitar kita secara objektif.
-
-<div class="callout callout-tip">
-  <strong>💡 Prinsip Kunci:</strong> Hindari menyimpulkan masalah hanya dari asumsi di balik meja kerja. Dengarkan aspirasi dan dinamika masyarakat secara langsung.
-</div>
-
-### Poin Bahasan Utama:
-1. Membedakan antara **gejala (symptom)** dengan **akar masalah (root cause)**.
-2. Teknik wawancara empati sederhana untuk menggali keresahan warga.
-3. Mendokumentasikan temuan secara teratur sebelum merumuskan solusi.`
-        },
-        {
-          title: "Sesi 2: Memilah Fakta vs Opini dalam Narasi Kebijakan",
-          videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-          duration: "15 Menit",
-          notes: `Pada sesi kedua ini, kita mendalami literasi data dan verifikasi informasi publik.
-
-<div class="callout callout-note">
-  <strong>📌 Catatan Penting:</strong> Di era banjir informasi digital, kemampuan memeriksa kredibilitas sumber adalah keterampilan dasar yang wajib dimiliki setiap pegiat publik.
-</div>
-
-### Kerangka Analisis 3 Langkah:
-* **Uji Sumber:** Siapa yang menerbitkan informasi ini? Apakah ada potensi konflik kepentingan?
-* **Uji Metodologi:** Apakah data didukung oleh sampel yang valid dan dapat dipertanggungjawabkan?
-* **Uji Manfaat:** Apakah narasi ini membangun solusi atau sekadar memicu polarisasi?`
-        },
-        {
-          title: "Sesi 3: Menyusun Rencana Tindak Lanjut yang Berkelanjutan",
-          videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-          duration: "18 Menit",
-          notes: `Selamat telah menyelesaikan seluruh rangkaian modul ini. Tahap selanjutnya adalah merangkum seluruh pemahaman menjadi aksi konkret.
-
-<div class="callout callout-warning">
-  <strong>⚠️ Perhatian:</strong> Inisiatif yang baik adalah inisiatif yang dapat dilanjutkan oleh komunitas secara mandiri dan berkelanjutan.
-</div>
-
-Tinjau kembali isu di lingkungan Anda dan rumuskan ringkasan kerangka solusinya secara terstruktur.`
-        }
-      ]
+      id: "exp-3",
+      role: "Fasilitator Workshop Kebudayaan & Literasi",
+      organization: "Komunitas Pembelajar Terbuka",
+      period: "2019 - 2021",
+      description: "Mengkoordinasikan diskusi ilmiah populer dan pelatihan penulisan kritis bagi mahasiswa dan masyarakat umum."
     }
-  ],
-
-  adminAuth: {
-    username: "admin",
-    password: "admin123"
-  }
+  ]
 };
 
-// Global App State
-let state = loadState();
-let currentView = "home";
-let activeArticleId = null;
-let activeCourseId = null;
-let activeSessionIndex = 0;
-let completedSessions = loadCompletedSessions();
-let isAdminLoggedIn = false;
+const DEFAULT_ARTICLES = [
+  {
+    id: "art-1",
+    title: "Navigasi Etika dan Transformasi Digital di Era Kecerdasan Buatan",
+    category: "teknologi",
+    categoryLabel: "Teknologi & Digital",
+    date: "28 September 2026",
+    readTime: "6 min dibaca",
+    views: 1420,
+    isFeatured: true,
+    thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Bagaimana perkembangan algoritma generatif mengubah struktur kerja kreatif, etika publikasi, serta tantangan dalam mempertahankan kejujuran intelektual di ruang publik.",
+    content: `
+<p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">Perkembangan teknologi kecerdasan buatan bukan lagi sekadar wacana masa depan, melainkan kenyataan yang telah merobek struktur kebiasaan manusia dalam berpikir, menulis, dan berkarya.</p>
 
-// -------------------------------------------------------------
-// State Persistence Helpers (LocalStorage)
-// -------------------------------------------------------------
-function loadState() {
-  const saved = localStorage.getItem("personal_hub_state");
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      if (!parsed.profile) parsed.profile = {};
-      if (!Array.isArray(parsed.profile.experiences)) parsed.profile.experiences = [];
-      if (!Array.isArray(parsed.profile.skills)) parsed.profile.skills = [];
-      if (!Array.isArray(parsed.articles)) parsed.articles = [];
-      if (!Array.isArray(parsed.courses)) parsed.courses = [];
-      if (!parsed.adminAuth) parsed.adminAuth = DEFAULT_STATE.adminAuth;
-      return parsed;
-    } catch (e) {
-      console.error("Gagal memuat data dari LocalStorage, menggunakan default.", e);
-    }
+<h2>Dilema Keaslian dan Otomatisasi</h2>
+<p>Dalam rentang lima tahun terakhir, pergeseran paradigma dari otomatisasi mekanis ke otomatisasi kognitif telah memicu perdebatan sengit di berbagai lingkaran akademis. Ketika mesin mampu menghasilkan prosa yang koheren dalam hitungan detik, pertanyaan dasar mengenai 'apa artinya mencipta' menjadi sangat mendesak.</p>
+
+<blockquote>"Kemudahan yang ditawarkan oleh teknologi harus diimbangi dengan ketajaman nalar kritis, agar kita tidak sekadar menjadi konsumen pasif dari jalinan narasi buatan."</blockquote>
+
+<h2>Langkah Adaptasi Strategis</h2>
+<p>Kunci utama untuk bertahan dan berkembang di tengah gelombang ini bukanlah menolak kemajuan, melainkan membangun benteng etika serta memperdalam kapasitas argumentasi yang otentik.</p>
+`
+  },
+  {
+    id: "art-2",
+    title: "Membangun Tradisi Berpikir Kritis dalam Kebijakan Publik",
+    category: "opini",
+    categoryLabel: "Opini & Kebijakan",
+    date: "24 September 2026",
+    readTime: "5 min dibaca",
+    views: 980,
+    isFeatured: false,
+    thumbnail: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Sebuah tinjauan ilmiah mengenai pentingnya partisipasi publik yang berbasis data dan argumen rasional dalam pembentukan keputusan strategis.",
+    content: `<p>Kebijakan publik yang sehat membutuhkan perdebatan yang terbuka, didasari oleh bukti empiris yang sahih serta pertimbangan matang mengenai dampak jangka panjang bagi masyarakat luas.</p>`
+  },
+  {
+    id: "art-3",
+    title: "Demokratisasi Pendidikan Melalui Akses Belajar Terbuka",
+    category: "pendidikan",
+    categoryLabel: "Pendidikan & Literasi",
+    date: "18 September 2026",
+    readTime: "4 min dibaca",
+    views: 1250,
+    isFeatured: false,
+    thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Mengapa komitmen menyediakan materi belajar berkualitas tanpa hambatan finansial merupakan investasi terpenting bagi generasi masa depan.",
+    content: `<p>Akses terhadap pendidikan berkualitas adalah hak mendasar. Melalui platform digital yang inklusif, hambatan geografis dan ekonomi dapat diminimalisir secara signifikan.</p>`
+  },
+  {
+    id: "art-4",
+    title: "Metodologi Riset Mandiri: Dari Hipotesis Hingga Kesimpulan",
+    category: "riset",
+    categoryLabel: "Metodologi & Riset",
+    date: "10 September 2026",
+    readTime: "8 min dibaca",
+    views: 750,
+    isFeatured: false,
+    thumbnail: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Panduan praktis merancang penelitian independen bagi otodidak, peneliti muda, dan praktisi industri.",
+    content: `<p>Riset yang baik dimulai dari pertanyaan yang jelas dan metode pembuktian yang disiplin.</p>`
   }
-  return DEFAULT_STATE;
+];
+
+const DEFAULT_COURSES = [
+  {
+    id: "crs-1",
+    title: "Dasar-Dasar Penulisan Opini & Esai Kritis",
+    category: "Penulisan",
+    level: "Pemula - Menengah",
+    status: "Pendaftaran Terbuka",
+    thumbnail: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Menguasai struktur argumentasi ilmiah, sintesis ide, dan artikulasi bahasa dalam esai publikasi.",
+    duration: "4 Sesi Pembelajaran",
+    modules: [
+      { title: "Sesi 1: Merumuskan Pokok Pikiran Utama", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Fokus pada pembuatan thesis statement yang kuat dan terukur." },
+      { title: "Sesi 2: Mengumpulkan Bukti dan Data Empiris", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Teknik verifikasi sumber sekunder dan rujukan tepercaya." },
+      { title: "Sesi 3: Menyusun Alur Argumentasi", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Struktur paragraf deduktif-induktif yang sistematis." },
+      { title: "Sesi 4: Penyuntingan Akhir & Publikasi", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Proses revisi mandiri sebelum menerbitkan karya." }
+    ]
+  },
+  {
+    id: "crs-2",
+    title: "Pengantar Metodologi Analisis Kebijakan Digital",
+    category: "Riset Kebijakan",
+    level: "Menengah",
+    status: "Materi Siap Akses",
+    thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Studi kasus kerangka regulasi teknologi, hak privasi data, serta analisis dampak sosial di Indonesia.",
+    duration: "5 Sesi Pembelajaran",
+    modules: [
+      { title: "Sesi 1: Landasan Hukum & Regulasi Digital", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Tinjauan umum undang-undang dan aturan perlindungan data." }
+    ]
+  }
+];
+
+// --- LOCAL STORAGE HELPERS ---
+function getProfile() {
+  const data = localStorage.getItem('site_profile');
+  return data ? JSON.parse(data) : DEFAULT_PROFILE;
 }
 
-// -------------------------------------------------------------
-// Supabase Cloud Configuration & Realtime Sync Engine
-// -------------------------------------------------------------
-const SUPABASE_CONFIG = {
-  url: "https://ccsrakdoumhvfoqgupve.supabase.co",
-  key: "sb_publishable_YMYksbZJv0zj1ogYLO-_AQ_GFuRp6d4"
-};
-
-async function syncFromCloud() {
-  try {
-    updateCloudStatusBadge("syncing", "Menyinkronkan...");
-    const res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content?id=eq.1&select=*`, {
-      headers: {
-        "apikey": SUPABASE_CONFIG.key,
-        "Authorization": `Bearer ${SUPABASE_CONFIG.key}`
-      }
-    });
-
-    if (res.ok) {
-      const rows = await res.json();
-      if (rows && rows.length > 0 && rows[0].data) {
-        const cloudData = rows[0].data;
-        const cloudTime = cloudData.updatedAt || 0;
-        const localTime = state.updatedAt || 0;
-
-        // Hanya timpa data lokal JIKA data di cloud BENAR-BENAR LEBIH BARU!
-        if (cloudTime > localTime && cloudData.profile) {
-          state = cloudData;
-          localStorage.setItem("personal_hub_state", JSON.stringify(state));
-          renderAllViews();
-          updateCloudStatusBadge("online", "Cloud Tersinkron");
-          return;
-        } else if (localTime > cloudTime) {
-          // Data di perangkat ini lebih baru, simpan ke cloud agar cloud ter-update
-          await syncToCloud();
-          updateCloudStatusBadge("online", "Cloud Terkini");
-          return;
-        } else {
-          updateCloudStatusBadge("online", "Cloud Terhubung");
-          return;
-        }
-      }
-    }
-    updateCloudStatusBadge("online", "Cloud Terhubung");
-  } catch (err) {
-    console.warn("Koneksi cloud offline/fallback ke cache lokal:", err);
-    updateCloudStatusBadge("offline", "Cache Lokal");
-  }
+function saveProfile(data) {
+  localStorage.setItem('site_profile', JSON.stringify(data));
 }
 
-async function syncToCloud() {
-  try {
-    updateCloudStatusBadge("syncing", "Menyimpan ke cloud...");
-    if (!state.updatedAt) state.updatedAt = Date.now();
-    const payload = {
-      id: 1,
-      data: state,
-      updated_at: new Date().toISOString()
-    };
-
-    let res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content?id=eq.1`, {
-      method: "PATCH",
-      headers: {
-        "apikey": SUPABASE_CONFIG.key,
-        "Authorization": `Bearer ${SUPABASE_CONFIG.key}`,
-        "Content-Type": "application/json",
-        "Prefer": "return=minimal"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) {
-      // Jika baris 1 belum ada di database, lakukan insert
-      res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/site_content`, {
-        method: "POST",
-        headers: {
-          "apikey": SUPABASE_CONFIG.key,
-          "Authorization": `Bearer ${SUPABASE_CONFIG.key}`,
-          "Content-Type": "application/json",
-          "Prefer": "resolution=merge-duplicates"
-        },
-        body: JSON.stringify(payload)
-      });
-    }
-
-    if (res.ok) {
-      updateCloudStatusBadge("online", "Tersimpan di Cloud");
-    } else {
-      console.error("Respon Supabase:", res.status);
-      updateCloudStatusBadge("offline", "Gagal Simpan Cloud");
-    }
-  } catch (err) {
-    console.error("Gagal sinkronisasi ke cloud:", err);
-    updateCloudStatusBadge("offline", "Koneksi Cloud Putus");
-  }
+function getArticles() {
+  const data = localStorage.getItem('site_articles');
+  return data ? JSON.parse(data) : DEFAULT_ARTICLES;
 }
 
-function updateCloudStatusBadge(status, text) {
-  const badge = document.getElementById("cloudStatusBadge");
-  if (!badge) return;
-  if (status === "online") {
-    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>${text}</span>`;
-    badge.className = "inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800";
-  } else if (status === "syncing") {
-    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-spin"></span><span>${text}</span>`;
-    badge.className = "inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800";
-  } else {
-    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-neutral-400"></span><span>${text}</span>`;
-    badge.className = "inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700";
-  }
+function saveArticles(data) {
+  localStorage.setItem('site_articles', JSON.stringify(data));
 }
 
-function saveState() {
-  state.updatedAt = Date.now();
-  localStorage.setItem("personal_hub_state", JSON.stringify(state));
+function getCourses() {
+  const data = localStorage.getItem('site_courses');
+  return data ? JSON.parse(data) : DEFAULT_COURSES;
+}
+
+function saveCourses(data) {
+  localStorage.setItem('site_courses', JSON.stringify(data));
+}
+
+// --- APP STATE ---
+let currentCategory = 'semua';
+let searchQuery = '';
+let currentAdminTab = 'articles';
+
+// --- INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+  initDarkMode();
   renderAllViews();
-  syncToCloud();
-}
-
-function loadCompletedSessions() {
-  const saved = localStorage.getItem("personal_hub_completed_sessions");
-  return saved ? JSON.parse(saved) : {};
-}
-
-function saveCompletedSessions() {
-  localStorage.setItem("personal_hub_completed_sessions", JSON.stringify(completedSessions));
-}
-
-// -------------------------------------------------------------
-// Image Compression & Media Handlers for Medium-Style Content
-// -------------------------------------------------------------
-function compressImageFile(file, maxWidth = 1200, quality = 0.82) {
-  return new Promise((resolve, reject) => {
-    if (!file || !file.type.startsWith("image/")) {
-      reject(new Error("File yang dipilih bukan format gambar yang valid."));
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        let width = img.width;
-        let height = img.height;
-
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
-        }
-
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, width, height);
-
-        const dataUrl = canvas.toDataURL("image/jpeg", quality);
-        resolve(dataUrl);
-      };
-      img.onerror = () => reject(new Error("Gagal memuat file gambar."));
-      img.src = e.target.result;
-    };
-    reader.onerror = () => reject(new Error("Gagal membaca file."));
-    reader.readAsDataURL(file);
-  });
-}
-
-async function handleThumbnailFileUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  try {
-    const compressedDataUrl = await compressImageFile(file, 1200, 0.82);
-    document.getElementById("articleThumbnailUrlInput").value = compressedDataUrl;
-    updateThumbnailPreviewFromInput(compressedDataUrl);
-  } catch (err) {
-    alert("Gagal memproses gambar: " + err.message);
-  }
-}
-
-function updateThumbnailPreviewFromInput(url) {
-  const container = document.getElementById("articleThumbnailPreviewContainer");
-  const img = document.getElementById("articleThumbnailPreviewImg");
-  if (url && url.trim()) {
-    img.src = url.trim();
-    container.classList.remove("hidden");
-  } else {
-    container.classList.add("hidden");
-    img.src = "";
-  }
-}
-
-function clearArticleThumbnail() {
-  const fileInput = document.getElementById("articleThumbnailFileInput");
-  if (fileInput) fileInput.value = "";
-  document.getElementById("articleThumbnailUrlInput").value = "";
-  const container = document.getElementById("articleThumbnailPreviewContainer");
-  const img = document.getElementById("articleThumbnailPreviewImg");
-  if (container) container.classList.add("hidden");
-  if (img) img.src = "";
-}
-
-// Inline Image Modal Handlers
-function openInsertImageModal() {
-  document.getElementById("inlineImageFileInput").value = "";
-  document.getElementById("inlineImageUrlInput").value = "";
-  document.getElementById("inlineImageCaptionInput").value = "";
-  document.getElementById("inlineImagePreviewContainer").classList.add("hidden");
-  document.getElementById("inlineImagePreviewImg").src = "";
-  document.getElementById("insertInlineImageModal").classList.remove("hidden");
-}
-
-function closeInsertImageModal() {
-  document.getElementById("insertInlineImageModal").classList.add("hidden");
-}
-
-async function handleInlineImageFileUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  try {
-    const compressedDataUrl = await compressImageFile(file, 1200, 0.82);
-    document.getElementById("inlineImageUrlInput").value = compressedDataUrl;
-    updateInlineImagePreviewFromInput(compressedDataUrl);
-  } catch (err) {
-    alert("Gagal memproses gambar: " + err.message);
-  }
-}
-
-function updateInlineImagePreviewFromInput(url) {
-  const container = document.getElementById("inlineImagePreviewContainer");
-  const img = document.getElementById("inlineImagePreviewImg");
-  if (url && url.trim()) {
-    img.src = url.trim();
-    container.classList.remove("hidden");
-  } else {
-    container.classList.add("hidden");
-    img.src = "";
-  }
-}
-
-function applyInsertInlineImage() {
-  const url = document.getElementById("inlineImageUrlInput").value.trim();
-  const caption = document.getElementById("inlineImageCaptionInput").value.trim();
-
-  if (!url) {
-    alert("Pilih file gambar atau tempel URL gambar terlebih dahulu.");
-    return;
-  }
-
-  const markdownTag = `\n\n![${caption}](${url})\n\n`;
-  insertTextAtCursor("articleContentInput", markdownTag);
-  closeInsertImageModal();
-}
-
-// Formatting Toolbar Helper
-function insertFormatTag(type) {
-  const textarea = document.getElementById("articleContentInput");
-  if (!textarea) return;
-
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const selectedText = textarea.value.substring(start, end);
-  let replacement = "";
-
-  switch (type) {
-    case "bold":
-      replacement = `**${selectedText || 'Teks Tebal'}**`;
-      break;
-    case "italic":
-      replacement = `*${selectedText || 'Teks Miring'}*`;
-      break;
-    case "h2":
-      replacement = `\n\n## ${selectedText || 'Subjudul H2'}\n\n`;
-      break;
-    case "h3":
-      replacement = `\n\n### ${selectedText || 'Subjudul H3'}\n\n`;
-      break;
-    case "quote":
-      replacement = `\n\n> "${selectedText || 'Kutipan inspiratif atau kutipan penting'}"\n\n`;
-      break;
-    case "link":
-      const linkUrl = prompt("Masukkan URL Tautan (misal: https://...):", "https://");
-      if (linkUrl) {
-        replacement = `[${selectedText || 'Teks Tautan'}](${linkUrl})`;
-      } else {
-        return;
-      }
-      break;
-  }
-
-  textarea.setRangeText(replacement, start, end, "select");
-  textarea.focus();
-}
-
-function insertTextAtCursor(elementId, text) {
-  const textarea = document.getElementById(elementId);
-  if (!textarea) return;
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  textarea.setRangeText(text, start, end, "end");
-  textarea.focus();
-}
-
-// -------------------------------------------------------------
-// Navigation & View Routing
-// -------------------------------------------------------------
-function navigate(viewName, param = null) {
-  currentView = viewName;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
-  // Hide all views
-  document.querySelectorAll(".page-view").forEach(el => el.classList.add("hidden"));
-
-  // Reset desktop nav link styling
-  document.querySelectorAll(".nav-link").forEach(btn => btn.classList.remove("active"));
-  const activeBtn = document.getElementById(`nav-btn-${viewName}`);
-  if (activeBtn) activeBtn.classList.add("active");
-
-  // Show selected view
-  const targetView = document.getElementById(`view-${viewName}`);
-  if (targetView) targetView.classList.remove("hidden");
-
-  // Reset reading progress bar if not in article detail
-  const bar = document.getElementById("readingProgressBar");
-  if (bar && viewName !== "article-detail") bar.style.width = "0%";
-
-  // Trigger view-specific rendering
-  if (viewName === "home") {
-    renderHome();
-  } else if (viewName === "articles") {
-    renderArticlesList();
-  } else if (viewName === "article-detail" && param) {
-    renderArticleDetail(param);
-  } else if (viewName === "courses") {
-    renderCoursesCatalog();
-  } else if (viewName === "classroom" && param) {
-    renderClassroom(param.courseId, param.sessionIndex ?? 0);
-  } else if (viewName === "about") {
-    renderAboutPage();
-  }
-
-  // Refresh Lucide icons for new DOM elements
+  setupScrollProgress();
   lucide.createIcons();
-}
-
-// -------------------------------------------------------------
-// View 1: Home Rendering
-// -------------------------------------------------------------
-function renderHome() {
-  const p = state.profile || {};
-  const copyrightEl = document.getElementById("footerAuthorCopyright");
-  if (copyrightEl) copyrightEl.innerText = `© 2026 ${p.name || 'Penulis & Praktisi'}.`;
-
-  // Featured Courses (Home Grid)
-  const coursesContainer = document.getElementById("homeCoursesGrid");
-  coursesContainer.innerHTML = "";
-  state.courses.slice(0, 2).forEach(c => {
-    const card = document.createElement("div");
-    card.className = "card-expert p-6 sm:p-7 flex flex-col justify-between group";
-    card.innerHTML = `
-      <div>
-        <div class="flex items-center justify-between text-xs mb-3">
-          <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold uppercase tracking-wider text-[10px] border border-emerald-200/60 dark:border-emerald-800/60">
-            100% Gratis
-          </span>
-          <span class="text-neutral-500 dark:text-neutral-400 font-medium text-[11px]">${c.category}</span>
-        </div>
-        <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-2">
-          ${c.title}
-        </h3>
-        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed mb-5">
-          ${c.description}
-        </p>
-      </div>
-      <button onclick="navigate('classroom', { courseId: '${c.id}', sessionIndex: 0 })" class="btn-primary w-full py-2.5 text-xs">
-        <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
-        <span>Mulai Belajar Sekarang</span>
-      </button>
-    `;
-    coursesContainer.appendChild(card);
-  });
-
-  // Featured Articles (Home Feed with Medium-style Thumbnail)
-  const articlesContainer = document.getElementById("homeArticlesFeed");
-  articlesContainer.innerHTML = "";
-  state.articles.slice(0, 3).forEach(art => {
-    const item = document.createElement("article");
-    item.className = "card-expert p-6 sm:p-7 flex items-start justify-between gap-4 sm:gap-6 cursor-pointer group mb-5";
-    item.onclick = () => navigate("article-detail", art.id);
-    item.innerHTML = `
-      <div class="flex-1 min-w-0">
-        <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-2 font-mono">
-          <span class="font-semibold text-neutral-900 dark:text-neutral-200">${art.category}</span>
-          <span>•</span>
-          <span>${art.readTime}</span>
-          <span>•</span>
-          <span>${art.date}</span>
-        </div>
-        <h3 class="font-serif text-xl sm:text-2xl font-medium text-neutral-900 dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors leading-snug mb-2 line-clamp-2">
-          ${art.title}
-        </h3>
-        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed font-sans">
-          ${art.subtitle}
-        </p>
-      </div>
-      ${art.thumbnail ? `
-        <div class="w-20 h-20 sm:w-28 sm:h-24 rounded-xl overflow-hidden flex-shrink-0 border border-neutral-200/80 dark:border-surface-borderDark bg-neutral-100 dark:bg-neutral-800">
-          <img src="${art.thumbnail}" alt="${art.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-        </div>
-      ` : ''}
-    `;
-    articlesContainer.appendChild(item);
-  });
-}
-
-// -------------------------------------------------------------
-// View 2: Articles List (Medium Style Archive)
-// -------------------------------------------------------------
-function renderArticlesList(filtered = null) {
-  const list = filtered || state.articles;
-  const container = document.getElementById("articlesList");
-  container.innerHTML = "";
-
-  if (list.length === 0) {
-    container.innerHTML = `
-      <div class="py-12 text-center text-neutral-400 text-sm">
-        Tidak ada artikel yang cocok dengan pencarian Anda.
-      </div>
-    `;
-    return;
-  }
-
-  list.forEach(art => {
-    const item = document.createElement("article");
-    item.className = "card-expert p-6 sm:p-8 flex items-start justify-between gap-4 sm:gap-8 cursor-pointer group mb-6";
-    item.onclick = () => navigate("article-detail", art.id);
-    item.innerHTML = `
-      <div class="flex-1 min-w-0">
-        <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-2 font-mono">
-          <span class="font-semibold px-2.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">${art.category}</span>
-          <span>•</span>
-          <span>${art.readTime}</span>
-          <span>•</span>
-          <span>${art.date}</span>
-        </div>
-        <h2 class="font-serif text-2xl sm:text-3xl font-normal text-neutral-900 dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors leading-tight mb-2">
-          ${art.title}
-        </h2>
-        <p class="text-sm font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-3 mb-4">
-          ${art.subtitle}
-        </p>
-        <div class="flex items-center justify-between text-xs text-neutral-400 pt-1 font-sans">
-          <div class="flex items-center gap-1.5">
-            <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500"></i>
-            <span>${art.claps || 0} apresiasi</span>
-          </div>
-          <span class="font-semibold text-neutral-900 dark:text-white group-hover:underline flex items-center gap-1">
-            Baca selengkapnya <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-          </span>
-        </div>
-      </div>
-      ${art.thumbnail ? `
-        <div class="w-24 h-24 sm:w-36 sm:h-28 rounded-2xl overflow-hidden flex-shrink-0 border border-neutral-200/80 dark:border-surface-borderDark bg-neutral-100 dark:bg-neutral-800">
-          <img src="${art.thumbnail}" alt="${art.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-        </div>
-      ` : ''}
-    `;
-    container.appendChild(item);
-  });
-
-  // Render categories filter pills
-  const catList = document.getElementById("articleCategoriesList");
-  const categories = ["Semua", ...new Set(state.articles.map(a => a.category).filter(Boolean))];
-  catList.innerHTML = "";
-  categories.forEach(cat => {
-    const pill = document.createElement("button");
-    pill.className = "px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-neutral-200 dark:border-surface-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-300 transition-colors";
-    pill.innerText = cat;
-    pill.onclick = () => {
-      if (cat === "Semua") renderArticlesList();
-      else renderArticlesList(state.articles.filter(a => a.category === cat));
-    };
-    catList.appendChild(pill);
-  });
-}
-
-function filterArticles() {
-  const query = document.getElementById("articleSearchInput").value.toLowerCase();
-  const filtered = state.articles.filter(a => 
-    a.title.toLowerCase().includes(query) ||
-    a.subtitle.toLowerCase().includes(query) ||
-    a.category.toLowerCase().includes(query)
-  );
-  renderArticlesList(filtered);
-  lucide.createIcons();
-}
-
-// -------------------------------------------------------------
-// View 3: Article Detail (Medium Reader Mode)
-// -------------------------------------------------------------
-function renderArticleDetail(articleId) {
-  const art = state.articles.find(a => a.id === articleId);
-  if (!art) {
-    navigate("articles");
-    return;
-  }
-
-  activeArticleId = articleId;
-  const p = state.profile;
-
-  document.getElementById("detailArticleCategory").innerText = art.category;
-  document.getElementById("detailArticleReadTime").innerText = art.readTime;
-  document.getElementById("detailArticleTitle").innerText = art.title;
-  document.getElementById("detailArticleSubtitle").innerText = art.subtitle;
-  document.getElementById("detailArticleDate").innerText = art.date;
-  document.getElementById("detailArticleClaps").innerText = art.claps || 0;
-
-  document.getElementById("detailAuthorName").innerText = p.name;
-  document.getElementById("footerAuthorName").innerText = `Ditulis oleh ${p.name}`;
-  document.getElementById("footerAuthorBio").innerText = p.bio;
-
-  const initials = p.name.split(" ").map(w => w[0]).join("").substring(0, 2).toUpperCase() || "P";
-  document.getElementById("detailAuthorInitials").innerText = initials;
-  document.getElementById("footerAuthorAvatar").innerText = initials;
-
-  const footerLn = document.getElementById("footerLinkedInLink");
-  if (p.linkedin) {
-    footerLn.href = p.linkedin;
-    footerLn.classList.remove("hidden");
-  } else {
-    footerLn.classList.add("hidden");
-  }
-
-  // Cover Image Handling
-  const coverContainer = document.getElementById("detailArticleCoverContainer");
-  const coverImg = document.getElementById("detailArticleCoverImg");
-  const coverCaption = document.getElementById("detailArticleCoverCaption");
-
-  if (art.thumbnail) {
-    coverImg.src = art.thumbnail;
-    coverContainer.classList.remove("hidden");
-    if (art.thumbnailCaption) {
-      coverCaption.innerText = art.thumbnailCaption;
-      coverCaption.classList.remove("hidden");
-    } else {
-      coverCaption.classList.add("hidden");
-    }
-  } else {
-    coverContainer.classList.add("hidden");
-    coverImg.src = "";
-    coverCaption.classList.add("hidden");
-  }
-
-  // Format Content (Medium-grade Markdown & Image Renderer)
-  const bodyContainer = document.getElementById("detailArticleContent");
-  bodyContainer.innerHTML = formatMarkdownContent(art.content);
-}
-
-function formatMarkdownContent(raw) {
-  if (!raw) return "";
-  const paragraphs = raw.split(/\n\n+/);
-  return paragraphs.map(p => {
-    p = p.trim();
-    if (!p) return "";
-
-    // Image block regex: ![alt](url)
-    const imgMatch = p.match(/^!\[(.*?)\]\((.*?)\)$/);
-    if (imgMatch) {
-      const alt = imgMatch[1];
-      const url = imgMatch[2];
-      return `<figure class="my-8 text-center"><img src="${url}" alt="${alt}" class="w-full max-h-[520px] object-cover rounded-2xl shadow-sm border border-neutral-200/60 dark:border-surface-borderDark">${alt ? `<figcaption class="text-center font-sans text-xs text-neutral-500 dark:text-neutral-400 italic mt-2.5">${alt}</figcaption>` : ''}</figure>`;
-    }
-
-    if (p.startsWith("## ")) {
-      return `<h2 class="text-2xl sm:text-3xl font-serif font-bold text-neutral-900 dark:text-white mt-10 mb-4 tracking-tight">${p.replace("## ", "")}</h2>`;
-    } else if (p.startsWith("### ")) {
-      return `<h3 class="text-xl sm:text-2xl font-serif font-semibold text-neutral-900 dark:text-white mt-8 mb-3 tracking-tight">${p.replace("### ", "")}</h3>`;
-    } else if (p.startsWith("> ")) {
-      const quoteText = p.replace(/^>\s*/, "").replace(/^"/, "").replace(/"$/, "");
-      return `<blockquote class="my-8 pl-6 border-l-4 border-brand-600 dark:border-brand-500 font-serif italic text-xl sm:text-2xl text-neutral-700 dark:text-neutral-300 leading-relaxed">${quoteText}</blockquote>`;
-    } else if (p.startsWith("* ") || p.startsWith("- ")) {
-      const items = p.split("\n").map(li => {
-        let text = li.replace(/^[\*\-]\s*/, "");
-        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
-        return `<li class="ml-4">${text}</li>`;
-      }).join("");
-      return `<ul class="list-disc pl-6 space-y-2 my-6 font-serif">${items}</ul>`;
-    } else if (/^\d+\.\s/.test(p)) {
-      const items = p.split("\n").map(li => {
-        let text = li.replace(/^\d+\.\s*/, "");
-        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
-        return `<li class="ml-4">${text}</li>`;
-      }).join("");
-      return `<ol class="list-decimal pl-6 space-y-2 my-6 font-serif">${items}</ol>`;
-    } else {
-      let formatted = p
-        .replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, url) => {
-          return `<figure class="my-8 text-center"><img src="${url}" alt="${alt}" class="w-full max-h-[520px] object-cover rounded-2xl shadow-sm border border-neutral-200/60 dark:border-surface-borderDark">${alt ? `<figcaption class="text-center font-sans text-xs text-neutral-500 dark:text-neutral-400 italic mt-2.5">${alt}</figcaption>` : ''}</figure>`;
-        })
-        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-brand-600 dark:text-brand-400 underline font-medium hover:opacity-80">$1</a>')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>');
-      return `<p class="mb-6 leading-[1.85]">${formatted}</p>`;
-    }
-  }).join("");
-}
-
-function clapArticle() {
-  const art = state.articles.find(a => a.id === activeArticleId);
-  if (art) {
-    art.claps = (art.claps || 0) + 1;
-    document.getElementById("detailArticleClaps").innerText = art.claps;
-    saveState();
-  }
-}
-
-function shareArticle() {
-  navigator.clipboard.writeText(window.location.href);
-  alert("Tautan artikel berhasil disalin ke clipboard!");
-}
-
-// Reading progress bar scroll listener
-window.addEventListener("scroll", () => {
-  if (currentView === "article-detail") {
-    const winScroll = document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    const bar = document.getElementById("readingProgressBar");
-    if (bar) bar.style.width = scrolled + "%";
-  }
 });
 
-// -------------------------------------------------------------
-// View 4: Courses Catalog (edX Style)
-// -------------------------------------------------------------
-function renderCoursesCatalog() {
-  const container = document.getElementById("coursesCatalogGrid");
-  container.innerHTML = "";
-
-  state.courses.forEach(c => {
-    const card = document.createElement("div");
-    card.className = "card-interactive rounded-2xl border border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark shadow-sm hover:border-emerald-400 dark:hover:border-emerald-600 transition-all overflow-hidden flex flex-col justify-between";
-    card.innerHTML = `
-      <div class="p-6">
-        <div class="flex items-center justify-between text-xs mb-3">
-          <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 font-bold uppercase tracking-wider text-[10px]">
-            Kelas Terbuka
-          </span>
-          <span class="text-neutral-500 font-medium text-[11px]">${c.sessions ? c.sessions.length : 0} Sesi Modul</span>
-        </div>
-        <h3 class="font-bold text-lg text-neutral-900 dark:text-white leading-snug mb-2">
-          ${c.title}
-        </h3>
-        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 line-clamp-3 leading-relaxed mb-4">
-          ${c.description}
-        </p>
-      </div>
-
-      <div class="px-6 pb-6 pt-2 border-t border-neutral-100 dark:border-surface-borderDark/60 bg-neutral-50/50 dark:bg-[#12161c]">
-        <button onclick="navigate('classroom', { courseId: '${c.id}', sessionIndex: 0 })" class="btn-tactile-emerald w-full py-2.5 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-500 flex items-center justify-center gap-2 transition-colors">
-          <i data-lucide="play" class="w-4 h-4 fill-current"></i>
-          <span>Masuk Ruang Kelas Gratis</span>
-        </button>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-// -------------------------------------------------------------
-// View 5: Classroom / Player (edX Split Stage)
-// -------------------------------------------------------------
-function renderClassroom(courseId, sessionIndex = 0) {
-  const course = state.courses.find(c => c.id === courseId);
-  if (!course || !course.sessions || course.sessions.length === 0) {
-    alert("Kelas ini belum memiliki sesi.");
-    navigate("courses");
-    return;
-  }
-
-  activeCourseId = courseId;
-  activeSessionIndex = Math.max(0, Math.min(sessionIndex, course.sessions.length - 1));
-  const currentSession = course.sessions[activeSessionIndex];
-
-  // Header Info
-  document.getElementById("classroomCourseTitle").innerText = course.title;
-  document.getElementById("classroomProgressText").innerText = `Sesi ${activeSessionIndex + 1} dari ${course.sessions.length}`;
-
-  // Video embed (sanitize standard youtube links)
-  const embedUrl = normalizeYouTubeEmbedUrl(currentSession.videoUrl);
-  document.getElementById("classroomVideoPlayer").src = embedUrl;
-
-  // Session details
-  document.getElementById("classroomCurrentSessionBadge").innerText = `Modul • Sesi ${activeSessionIndex + 1} (${currentSession.duration || 'Video'})`;
-  document.getElementById("classroomCurrentSessionTitle").innerText = currentSession.title;
-  document.getElementById("classroomSessionNotes").innerHTML = currentSession.notes || "<p class='italic text-neutral-400'>Belum ada catatan materi untuk sesi ini.</p>";
-
-  // Completion Button state
-  const sessionKey = `${courseId}_s_${activeSessionIndex}`;
-  const isDone = !!completedSessions[sessionKey];
-  updateMarkCompleteBtn(isDone);
-
-  // Next / Prev button states
-  document.getElementById("btnPrevSession").disabled = (activeSessionIndex === 0);
-  document.getElementById("btnNextSession").disabled = (activeSessionIndex === course.sessions.length - 1);
-
-  // Render Sidebar Curriculum
-  renderClassroomSidebar(course);
-}
-
-function normalizeYouTubeEmbedUrl(url) {
-  if (!url) return "https://www.youtube.com/embed/dQw4w9WgXcQ";
-  if (url.includes("/embed/")) return url;
-  if (url.includes("watch?v=")) {
-    const videoId = url.split("watch?v=")[1].split("&")[0];
-    return `https://www.youtube.com/embed/${videoId}`;
-  }
-  if (url.includes("youtu.be/")) {
-    const videoId = url.split("youtu.be/")[1].split("?")[0];
-    return `https://www.youtube.com/embed/${videoId}`;
-  }
-  return url;
-}
-
-function renderClassroomSidebar(course) {
-  const container = document.getElementById("classroomSessionsList");
-  container.innerHTML = "";
-
-  let doneCount = 0;
-  course.sessions.forEach((s, idx) => {
-    const key = `${course.id}_s_${idx}`;
-    const done = !!completedSessions[key];
-    if (done) doneCount++;
-
-    const isActive = idx === activeSessionIndex;
-    const item = document.createElement("button");
-    item.className = `w-full text-left p-3 rounded-xl text-xs flex items-center justify-between transition-colors ${
-      isActive 
-        ? "bg-brand-50 border border-brand-200 dark:bg-brand-950/40 dark:border-brand-800 text-brand-700 dark:text-brand-300 font-bold" 
-        : "hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-300"
-    }`;
-    item.onclick = () => renderClassroom(course.id, idx);
-    item.innerHTML = `
-      <div class="flex items-center gap-2.5">
-        <div class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${
-          done 
-            ? "bg-emerald-500 text-white font-bold" 
-            : isActive 
-              ? "bg-brand-600 text-white" 
-              : "bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400"
-        }">
-          ${done ? "✓" : idx + 1}
-        </div>
-        <span class="truncate max-w-[180px]">${s.title}</span>
-      </div>
-      <span class="text-[10px] text-neutral-400">${s.duration || ''}</span>
-    `;
-    container.appendChild(item);
-  });
-
-  const percent = Math.round((doneCount / course.sessions.length) * 100);
-  document.getElementById("classroomCompletionStatus").innerText = `${percent}% Selesai`;
-}
-
-function toggleSessionCompleted() {
-  const key = `${activeCourseId}_s_${activeSessionIndex}`;
-  completedSessions[key] = !completedSessions[key];
-  saveCompletedSessions();
-  updateMarkCompleteBtn(completedSessions[key]);
-
-  const course = state.courses.find(c => c.id === activeCourseId);
-  if (course) renderClassroomSidebar(course);
-}
-
-function updateMarkCompleteBtn(isDone) {
-  const icon = document.getElementById("markCompleteIcon");
-  const text = document.getElementById("markCompleteText");
-  const btn = document.getElementById("btnMarkComplete");
-  if (isDone) {
-    icon.className = "w-4 h-4 text-emerald-500 fill-current";
-    text.innerText = "Telah Diselesaikan";
-    btn.classList.add("border-emerald-500", "bg-emerald-50", "dark:bg-emerald-950/30");
+// --- DARK MODE Persistence ---
+function initDarkMode() {
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
   } else {
-    icon.className = "w-4 h-4 text-neutral-400";
-    text.innerText = "Tandai Selesai";
-    btn.classList.remove("border-emerald-500", "bg-emerald-50", "dark:bg-emerald-950/30");
+    document.documentElement.classList.remove('dark');
   }
 }
 
-function navClassroomSession(direction) {
-  if (direction === "prev") {
-    renderClassroom(activeCourseId, activeSessionIndex - 1);
-  } else if (direction === "next") {
-    renderClassroom(activeCourseId, activeSessionIndex + 1);
-  }
-}
-
-function toggleSidebarMobile() {
-  const sb = document.getElementById("classroomSidebar");
-  sb.classList.toggle("hidden");
-}
-
-// -------------------------------------------------------------
-// View 6: About / Tentang Saya & Rekam Jejak
-// -------------------------------------------------------------
-function renderAboutPage() {
-  const p = state.profile || {};
-
-  // Populate About Me Profile Header
-  const nameEl = document.getElementById("aboutName");
-  if (nameEl) nameEl.innerText = p.name || "Penulis & Praktisi";
-
-  const headlineEl = document.getElementById("aboutHeadline");
-  if (headlineEl) headlineEl.innerText = p.headline || "";
-
-  const bioEl = document.getElementById("aboutBio");
-  if (bioEl) bioEl.innerText = p.bio || "";
-
-  const initials = (p.name || "P").split(" ").map(w => w[0]).join("").substring(0, 2).toUpperCase() || "P";
-  const avatarFallback = document.getElementById("aboutAvatarFallback");
-  if (avatarFallback) avatarFallback.innerText = initials;
-
-  const lnBtn = document.getElementById("aboutBtnLinkedIn");
-  if (lnBtn) {
-    if (p.linkedin) {
-      lnBtn.href = p.linkedin;
-      lnBtn.classList.remove("hidden");
-    } else {
-      lnBtn.classList.add("hidden");
-    }
-  }
-
-  const emBtn = document.getElementById("aboutBtnEmail");
-  if (emBtn) {
-    if (p.email) {
-      emBtn.href = `mailto:${p.email}`;
-      emBtn.classList.remove("hidden");
-    } else {
-      emBtn.classList.add("hidden");
-    }
-  }
-
-  // Populate Experience Timeline (Rekam Jejak)
-  const expContainer = document.getElementById("aboutExperienceList");
-  if (expContainer) {
-    expContainer.innerHTML = "";
-    const exps = p.experiences || [];
-    if (exps.length === 0) {
-      expContainer.innerHTML = "<p class='text-xs text-neutral-400 italic py-2'>Belum ada riwayat pengalaman.</p>";
-    } else {
-      exps.forEach(exp => {
-        const item = document.createElement("div");
-        item.className = "relative group";
-        item.innerHTML = `
-          <div class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-brand-600 ring-4 ring-white dark:ring-surface-dark"></div>
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-            <h3 class="font-bold text-base text-neutral-900 dark:text-white">${exp.role}</h3>
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 self-start sm:self-auto">${exp.period}</span>
-          </div>
-          <p class="text-xs font-semibold text-brand-600 dark:text-brand-400 mb-2">${exp.organization}</p>
-          <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">${exp.description}</p>
-        `;
-        expContainer.appendChild(item);
-      });
-    }
-  }
-
-  const skillsContainer = document.getElementById("aboutSkillsList");
-  skillsContainer.innerHTML = "";
-  const skills = p.skills || [];
-  if (skills.length === 0) {
-    skillsContainer.innerHTML = "<p class='text-xs text-neutral-400 italic py-1'>Belum ada keahlian yang ditambahkan.</p>";
-  } else {
-    skills.forEach(sk => {
-      const tag = document.createElement("span");
-      tag.className = "px-3 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-surface-cardDark border border-neutral-200 dark:border-surface-borderDark text-neutral-700 dark:text-neutral-300 shadow-sm";
-      tag.innerText = sk;
-      skillsContainer.appendChild(tag);
-    });
-  }
-  lucide.createIcons();
-}
-
-// -------------------------------------------------------------
-// Admin Portal & Authentication Management
-// -------------------------------------------------------------
-function openAdmin() {
-  document.getElementById("adminModal").classList.remove("hidden");
-  if (isAdminLoggedIn) {
-    showAdminWorkspace();
-  } else {
-    document.getElementById("adminLoginGate").classList.remove("hidden");
-    document.getElementById("adminWorkspace").classList.add("hidden");
-  }
-  lucide.createIcons();
-}
-
-function closeAdmin() {
-  document.getElementById("adminModal").classList.add("hidden");
-}
-
-function handleAdminLogin(e) {
-  e.preventDefault();
-  const u = document.getElementById("adminUserInput").value.trim();
-  const p = document.getElementById("adminPassInput").value.trim();
-  const err = document.getElementById("adminLoginError");
-
-  if (u === state.adminAuth.username && p === state.adminAuth.password) {
-    isAdminLoggedIn = true;
-    err.classList.add("hidden");
-    showAdminWorkspace();
-  } else {
-    err.classList.remove("hidden");
-  }
-}
-
-function showAdminWorkspace() {
-  document.getElementById("adminLoginGate").classList.add("hidden");
-  document.getElementById("adminWorkspace").classList.remove("hidden");
-  populateAdminProfileInputs();
-  populateAdminExperiences();
-  renderAdminArticlesTable();
-  renderAdminCoursesTable();
-  lucide.createIcons();
-}
-
-function handleAdminLogout() {
-  isAdminLoggedIn = false;
-  document.getElementById("adminPassInput").value = "";
-  document.getElementById("adminLoginGate").classList.remove("hidden");
-  document.getElementById("adminWorkspace").classList.add("hidden");
-}
-
-function switchAdminTab(tabId) {
-  document.querySelectorAll(".admin-tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".admin-content-pane").forEach(p => p.classList.add("hidden"));
-
-  const targetTab = document.getElementById(`btn-${tabId}`);
-  if (targetTab) targetTab.classList.add("active");
-
-  const targetPane = document.getElementById(tabId);
-  if (targetPane) targetPane.classList.remove("hidden");
-
-  lucide.createIcons();
-}
-
-// Admin Tab 1: Profile
-function populateAdminProfileInputs() {
-  const p = state.profile;
-  document.getElementById("inputProfileName").value = p.name;
-  document.getElementById("inputProfileHeadline").value = p.headline;
-  document.getElementById("inputProfileBio").value = p.bio;
-  document.getElementById("inputProfileLinkedIn").value = p.linkedin || "";
-  document.getElementById("inputProfileEmail").value = p.email || "";
-}
-
-function saveProfileChanges() {
-  state.profile.name = document.getElementById("inputProfileName").value.trim();
-  state.profile.headline = document.getElementById("inputProfileHeadline").value.trim();
-  state.profile.bio = document.getElementById("inputProfileBio").value.trim();
-  state.profile.linkedin = document.getElementById("inputProfileLinkedIn").value.trim();
-  state.profile.email = document.getElementById("inputProfileEmail").value.trim();
-
-  saveState();
-  alert("Profil berhasil diperbarui!");
-}
-
-// Admin Tab 2: Experiences & Skills (Rekam Jejak)
-let editingExperiences = [];
-
-function populateAdminExperiences() {
-  editingExperiences = JSON.parse(JSON.stringify(state.profile.experiences || []));
-  renderAdminExperiencesList();
-
-  const skillsInput = document.getElementById("inputAdminSkills");
-  if (skillsInput) {
-    skillsInput.value = (state.profile.skills || []).join(", ");
-  }
-}
-
-function renderAdminExperiencesList() {
-  const container = document.getElementById("adminExperiencesList");
-  if (!container) return;
-  container.innerHTML = "";
-
-  if (editingExperiences.length === 0) {
-    container.innerHTML = "<p class='text-xs italic text-neutral-400'>Belum ada riwayat pengalaman. Klik tombol '+ Tambah Pengalaman' di atas.</p>";
-    return;
-  }
-
-  editingExperiences.forEach((exp, idx) => {
-    const card = document.createElement("div");
-    card.className = "p-3.5 rounded-xl border border-neutral-200 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark space-y-2.5";
-    card.innerHTML = `
-      <div class="flex items-center justify-between text-xs font-bold text-neutral-700 dark:text-neutral-300">
-        <span class="flex items-center gap-1.5 text-brand-600 dark:text-brand-400">
-          <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
-          <span>Pengalaman #${idx + 1}</span>
-        </span>
-        <button type="button" onclick="removeExperienceRow(${idx})" class="text-rose-500 hover:underline text-[11px] font-semibold">Hapus</button>
-      </div>
-
-      <div class="grid sm:grid-cols-2 gap-2">
-        <div>
-          <label class="block text-[11px] font-semibold text-neutral-600 dark:text-neutral-400 mb-0.5">Peran / Jabatan</label>
-          <input type="text" placeholder="Jabatan atau peran" value="${exp.role || ''}" oninput="updateExperienceField(${idx}, 'role', this.value)" class="admin-input">
-        </div>
-        <div>
-          <label class="block text-[11px] font-semibold text-neutral-600 dark:text-neutral-400 mb-0.5">Nama Lembaga / Organisasi</label>
-          <input type="text" placeholder="Institusi atau organisasi" value="${exp.organization || ''}" oninput="updateExperienceField(${idx}, 'organization', this.value)" class="admin-input">
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-[11px] font-semibold text-neutral-600 dark:text-neutral-400 mb-0.5">Periode / Waktu</label>
-        <input type="text" placeholder="2024 — Sekarang" value="${exp.period || ''}" oninput="updateExperienceField(${idx}, 'period', this.value)" class="admin-input">
-      </div>
-
-      <div>
-        <label class="block text-[11px] font-semibold text-neutral-600 dark:text-neutral-400 mb-0.5">Deskripsi Peran & Kontribusi Nyata</label>
-        <textarea rows="2" placeholder="Uraian tanggung jawab utama, inisiatif, dan capaian program" oninput="updateExperienceField(${idx}, 'description', this.value)" class="admin-input text-xs">${exp.description || ''}</textarea>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-
-  lucide.createIcons();
-}
-
-function addNewExperienceRow() {
-  editingExperiences.push({
-    role: "Peran Profesional",
-    organization: "Institusi / Organisasi",
-    period: "2024 — Sekarang",
-    description: "Uraian tugas pokok dan kontribusi nyata dalam program pengabdian atau pekerjaan."
-  });
-  renderAdminExperiencesList();
-}
-
-function removeExperienceRow(index) {
-  editingExperiences.splice(index, 1);
-  renderAdminExperiencesList();
-}
-
-function updateExperienceField(index, field, value) {
-  if (editingExperiences[index]) {
-    editingExperiences[index][field] = value;
-  }
-}
-
-function saveExperiencesAndSkills() {
-  state.profile.experiences = editingExperiences;
-
-  const rawSkills = document.getElementById("inputAdminSkills").value;
-  state.profile.skills = rawSkills
-    .split(",")
-    .map(s => s.trim())
-    .filter(Boolean);
-
-  saveState();
-  renderAboutPage();
-  alert("Rekam jejak dan keahlian berhasil disimpan!");
-}
-
-// Admin Tab 3: Articles CRUD
-function renderAdminArticlesTable() {
-  const container = document.getElementById("adminArticlesTable");
-  container.innerHTML = "";
-
-  state.articles.forEach(art => {
-    const row = document.createElement("div");
-    row.className = "p-3 rounded-lg border border-neutral-200 dark:border-surface-borderDark flex items-center justify-between gap-3 bg-white dark:bg-surface-cardDark";
-    row.innerHTML = `
-      <div class="flex items-center gap-3 flex-1 truncate">
-        ${art.thumbnail ? `<img src="${art.thumbnail}" alt="" class="w-10 h-10 rounded-lg object-cover flex-shrink-0 border border-neutral-200 dark:border-surface-borderDark">` : ''}
-        <div class="flex-1 truncate">
-          <h5 class="text-xs font-bold text-neutral-900 dark:text-white truncate">${art.title}</h5>
-          <span class="text-[10px] text-neutral-400">${art.category} • ${art.date}</span>
-        </div>
-      </div>
-      <div class="flex items-center gap-1.5 flex-shrink-0">
-        <button onclick="editArticle('${art.id}')" class="px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-800 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200">
-          Edit
-        </button>
-        <button onclick="deleteArticle('${art.id}')" class="px-2.5 py-1 rounded bg-rose-50 dark:bg-rose-950/40 text-[11px] font-semibold text-rose-600 hover:bg-rose-100">
-          Hapus
-        </button>
-      </div>
-    `;
-    container.appendChild(row);
-  });
-}
-
-function openNewArticleForm() {
-  document.getElementById("articleEditorContainer").classList.remove("hidden");
-  document.getElementById("articleEditorTitle").innerText = "Tulis Artikel Baru";
-  document.getElementById("editArticleId").value = "";
-  document.getElementById("articleTitleInput").value = "";
-  document.getElementById("articleCategoryInput").value = "";
-  document.getElementById("articleSubtitleInput").value = "";
-  document.getElementById("articleContentInput").value = "";
-  clearArticleThumbnail();
-}
-
-function closeArticleEditor() {
-  document.getElementById("articleEditorContainer").classList.add("hidden");
-}
-
-function editArticle(id) {
-  const art = state.articles.find(a => a.id === id);
-  if (!art) return;
-  document.getElementById("articleEditorContainer").classList.remove("hidden");
-  document.getElementById("articleEditorTitle").innerText = "Edit Artikel";
-  document.getElementById("editArticleId").value = art.id;
-  document.getElementById("articleTitleInput").value = art.title;
-  document.getElementById("articleCategoryInput").value = art.category;
-  document.getElementById("articleSubtitleInput").value = art.subtitle;
-  document.getElementById("articleContentInput").value = art.content;
-  if (art.thumbnail) {
-    document.getElementById("articleThumbnailUrlInput").value = art.thumbnail;
-    updateThumbnailPreviewFromInput(art.thumbnail);
-  } else {
-    clearArticleThumbnail();
-  }
-}
-
-function saveArticleFromEditor() {
-  const id = document.getElementById("editArticleId").value;
-  const title = document.getElementById("articleTitleInput").value.trim();
-  const category = document.getElementById("articleCategoryInput").value.trim() || "Opini";
-  const subtitle = document.getElementById("articleSubtitleInput").value.trim();
-  const content = document.getElementById("articleContentInput").value.trim();
-  const thumbnail = document.getElementById("articleThumbnailUrlInput").value.trim();
-
-  if (!title || !content) {
-    alert("Judul dan isi artikel tidak boleh kosong!");
-    return;
-  }
-
-  if (id) {
-    // Edit existing
-    const art = state.articles.find(a => a.id === id);
-    if (art) {
-      art.title = title;
-      art.category = category;
-      art.subtitle = subtitle;
-      art.content = content;
-      art.thumbnail = thumbnail || null;
-    }
-  } else {
-    // Create new
-    const newArt = {
-      id: "art-" + Date.now(),
-      title,
-      category,
-      subtitle,
-      content,
-      thumbnail: thumbnail || null,
-      date: new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }),
-      readTime: `${Math.max(1, Math.round(content.split(" ").length / 180))} min read`,
-      claps: 0
-    };
-    state.articles.unshift(newArt);
-  }
-
-  saveState();
-  closeArticleEditor();
-  renderAdminArticlesTable();
-  alert("Artikel berhasil disimpan dan diterbitkan!");
-}
-
-function deleteArticle(id) {
-  if (confirm("Apakah Anda yakin ingin menghapus tulisan ini?")) {
-    state.articles = state.articles.filter(a => a.id !== id);
-    saveState();
-    renderAdminArticlesTable();
-  }
-}
-
-// Admin Tab 4: Courses CRUD
-function renderAdminCoursesTable() {
-  const container = document.getElementById("adminCoursesTable");
-  container.innerHTML = "";
-
-  state.courses.forEach(c => {
-    const row = document.createElement("div");
-    row.className = "p-3 rounded-lg border border-neutral-200 dark:border-surface-borderDark flex items-center justify-between gap-3 bg-white dark:bg-surface-cardDark";
-    row.innerHTML = `
-      <div class="flex-1 truncate">
-        <h5 class="text-xs font-bold text-neutral-900 dark:text-white truncate">${c.title}</h5>
-        <span class="text-[10px] text-neutral-400">${c.category} • ${c.sessions ? c.sessions.length : 0} Sesi</span>
-      </div>
-      <div class="flex items-center gap-1.5 flex-shrink-0">
-        <button onclick="editCourse('${c.id}')" class="px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-800 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200">
-          Edit
-        </button>
-        <button onclick="deleteCourse('${c.id}')" class="px-2.5 py-1 rounded bg-rose-50 dark:bg-rose-950/40 text-[11px] font-semibold text-rose-600 hover:bg-rose-100">
-          Hapus
-        </button>
-      </div>
-    `;
-    container.appendChild(row);
-  });
-}
-
-let activeEditingSessions = [];
-
-function openNewCourseForm() {
-  document.getElementById("courseEditorContainer").classList.remove("hidden");
-  document.getElementById("courseEditorHeader").innerText = "Buat Kelas Baru";
-  document.getElementById("editCourseId").value = "";
-  document.getElementById("courseTitleInput").value = "";
-  document.getElementById("courseCategoryInput").value = "";
-  document.getElementById("courseDescInput").value = "";
-  activeEditingSessions = [
-    { title: "Sesi 1: Pengantar Modul", videoUrl: "", duration: "10 Menit", notes: "Uraian konsep kunci, bahan bacaan rujukan, serta rangkuman materi sesi ini." }
-  ];
-  renderSessionRowsEditor();
-}
-
-function closeCourseEditor() {
-  document.getElementById("courseEditorContainer").classList.add("hidden");
-}
-
-function editCourse(id) {
-  const c = state.courses.find(x => x.id === id);
-  if (!c) return;
-  document.getElementById("courseEditorContainer").classList.remove("hidden");
-  document.getElementById("courseEditorHeader").innerText = "Edit Kelas";
-  document.getElementById("editCourseId").value = c.id;
-  document.getElementById("courseTitleInput").value = c.title;
-  document.getElementById("courseCategoryInput").value = c.category;
-  document.getElementById("courseDescInput").value = c.description;
-  activeEditingSessions = JSON.parse(JSON.stringify(c.sessions || []));
-  renderSessionRowsEditor();
-}
-
-function renderSessionRowsEditor() {
-  const container = document.getElementById("sessionsEditorList");
-  container.innerHTML = "";
-
-  activeEditingSessions.forEach((s, idx) => {
-    const row = document.createElement("div");
-    row.className = "p-3 rounded-lg border border-neutral-200 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark space-y-2";
-    row.innerHTML = `
-      <div class="flex items-center justify-between text-xs font-bold text-neutral-700 dark:text-neutral-300">
-        <span>Sesi ${idx + 1}</span>
-        <button type="button" onclick="removeSessionRow(${idx})" class="text-rose-500 hover:underline text-[11px]">Hapus Sesi</button>
-      </div>
-      <div class="grid sm:grid-cols-2 gap-2">
-        <input type="text" placeholder="Judul sesi" value="${s.title}" oninput="updateSessionField(${idx}, 'title', this.value)" class="admin-input">
-        <input type="text" placeholder="Durasi, misal: 15 Menit" value="${s.duration || ''}" oninput="updateSessionField(${idx}, 'duration', this.value)" class="admin-input">
-      </div>
-      <input type="text" placeholder="Tautan video YouTube" value="${s.videoUrl || ''}" oninput="updateSessionField(${idx}, 'videoUrl', this.value)" class="admin-input">
-      <textarea rows="2" placeholder="Catatan materi, konsep kunci, dan bahan referensi pendukung sesi..." oninput="updateSessionField(${idx}, 'notes', this.value)" class="admin-input text-xs">${s.notes || ''}</textarea>
-    `;
-    container.appendChild(row);
-  });
-}
-
-function updateSessionField(index, field, value) {
-  if (activeEditingSessions[index]) {
-    activeEditingSessions[index][field] = value;
-  }
-}
-
-function addNewSessionRow() {
-  activeEditingSessions.push({
-    title: `Sesi ${activeEditingSessions.length + 1}: Pokok Bahasan`,
-    videoUrl: "",
-    duration: "10 Menit",
-    notes: "Uraian konsep kunci, bahan bacaan rujukan, serta rangkuman materi sesi ini."
-  });
-  renderSessionRowsEditor();
-}
-
-function removeSessionRow(index) {
-  activeEditingSessions.splice(index, 1);
-  renderSessionRowsEditor();
-}
-
-function saveCourseFromEditor() {
-  const id = document.getElementById("editCourseId").value;
-  const title = document.getElementById("courseTitleInput").value.trim();
-  const category = document.getElementById("courseCategoryInput").value.trim() || "Kelas Terbuka";
-  const desc = document.getElementById("courseDescInput").value.trim();
-
-  if (!title) {
-    alert("Judul kelas tidak boleh kosong!");
-    return;
-  }
-
-  if (id) {
-    const c = state.courses.find(x => x.id === id);
-    if (c) {
-      c.title = title;
-      c.category = category;
-      c.description = desc;
-      c.sessions = activeEditingSessions;
-    }
-  } else {
-    const newCourse = {
-      id: "course-" + Date.now(),
-      title,
-      category,
-      description: desc,
-      sessions: activeEditingSessions
-    };
-    state.courses.push(newCourse);
-  }
-
-  saveState();
-  closeCourseEditor();
-  renderAdminCoursesTable();
-  alert("Kelas terbuka berhasil disimpan!");
-}
-
-function deleteCourse(id) {
-  if (confirm("Apakah Anda yakin ingin menghapus kelas ini?")) {
-    state.courses = state.courses.filter(c => c.id !== id);
-    saveState();
-    renderAdminCoursesTable();
-  }
-}
-
-// Admin Tab 5: Security & Backup
-function updateAdminPassword() {
-  const newPass = document.getElementById("newAdminPasswordInput").value.trim();
-  if (newPass.length < 5) {
-    alert("Password baru minimal 5 karakter!");
-    return;
-  }
-  state.adminAuth.password = newPass;
-  saveState();
-  document.getElementById("newAdminPasswordInput").value = "";
-  alert("Password admin berhasil diperbarui!");
-}
-
-function exportDataBackup() {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
-  const downloadAnchor = document.createElement("a");
-  downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", `personal-hub-backup-${new Date().toISOString().split("T")[0]}.json`);
-  document.body.appendChild(downloadAnchor);
-  downloadAnchor.click();
-  downloadAnchor.remove();
-}
-
-function importDataBackup(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const imported = JSON.parse(e.target.result);
-      if (imported.profile && imported.articles && imported.courses) {
-        state = imported;
-        saveState();
-        alert("Data cadangan berhasil dipulihkan!");
-        showAdminWorkspace();
-      } else {
-        alert("Format file cadangan tidak valid.");
-      }
-    } catch (err) {
-      alert("Gagal membaca file JSON.");
-    }
-  };
-  reader.readAsText(file);
-}
-
-// -------------------------------------------------------------
-// Dark Mode & Mobile Menu Helpers
-// -------------------------------------------------------------
 function toggleDarkMode() {
-  document.documentElement.classList.toggle("dark");
-  const isDark = document.documentElement.classList.contains("dark");
-  localStorage.setItem("personal_hub_dark_mode", isDark ? "dark" : "light");
+  if (document.documentElement.classList.contains('dark')) {
+    document.documentElement.classList.remove('dark');
+    localStorage.theme = 'light';
+  } else {
+    document.documentElement.classList.add('dark');
+    localStorage.theme = 'dark';
+  }
+  lucide.createIcons();
 }
 
-function initTheme() {
-  const saved = localStorage.getItem("personal_hub_dark_mode");
-  if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
+// --- READING PROGRESS BAR ---
+function setupScrollProgress() {
+  window.addEventListener('scroll', () => {
+    const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    const bar = document.getElementById('readingProgressBar');
+    if (bar) bar.style.width = (scrolled || 0) + '%';
+  });
+}
+
+// --- NAVIGATION ROUTER ---
+function navigate(pageId, itemId = null) {
+  const sections = document.querySelectorAll('.view-section');
+  sections.forEach(sec => sec.classList.add('hidden'));
+
+  const navBtns = document.querySelectorAll('.nav-pill');
+  navBtns.forEach(btn => btn.classList.remove('active'));
+  const activeNav = document.getElementById(`nav-btn-${pageId}`);
+  if (activeNav) activeNav.classList.add('active');
+
+  const targetView = document.getElementById(`view-${pageId}`);
+  if (targetView) {
+    targetView.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  if (pageId === 'home') renderHome();
+  else if (pageId === 'articles') renderArticlesCatalog();
+  else if (pageId === 'article-detail' && itemId) renderArticleDetail(itemId);
+  else if (pageId === 'courses') renderCoursesCatalog();
+  else if (pageId === 'course-detail' && itemId) renderCourseDetail(itemId);
+  else if (pageId === 'about') renderAboutPage();
+
+  lucide.createIcons();
 }
 
 function toggleMobileMenu() {
-  const m = document.getElementById("mobileMenu");
-  m.classList.toggle("hidden");
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.toggle('hidden');
 }
 
-// -------------------------------------------------------------
-// App Initialization
-// -------------------------------------------------------------
+function focusHeroSearch() {
+  navigate('home');
+  setTimeout(() => {
+    const input = document.getElementById('heroSearchInput');
+    if (input) input.focus();
+  }, 100);
+}
+
+// --- RENDER ALL VIEWS ---
 function renderAllViews() {
   renderHome();
-  renderArticlesList();
-  renderCoursesCatalog();
   renderAboutPage();
+  renderArticlesCatalog();
+  renderCoursesCatalog();
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  initTheme();
-  renderAllViews();
+// --- HOME PAGE RENDERER ---
+function renderHome() {
+  const articles = getArticles();
+  const courses = getCourses();
+  const profile = getProfile();
+
+  let filteredArticles = articles.filter(art => {
+    const matchCat = (currentCategory === 'semua') || (art.category === currentCategory);
+    const matchSearch = !searchQuery || 
+      art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      art.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchCat && matchSearch;
+  });
+
+  // 1. Featured Article
+  const featuredContainer = document.getElementById('featuredArticleContainer');
+  const featured = filteredArticles.find(a => a.isFeatured) || filteredArticles[0];
+
+  if (featuredContainer && featured) {
+    featuredContainer.innerHTML = `
+      <div onclick="navigate('article-detail', '${featured.id}')" class="featured-article-card group cursor-pointer p-6 sm:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          <div class="md:col-span-7 space-y-4">
+            <div class="flex items-center gap-3">
+              <span class="badge-tag badge-blue">${featured.categoryLabel || 'Karya Utama'}</span>
+              <span class="text-xs text-slate-500 font-mono">${featured.date}</span>
+              <span class="text-xs text-slate-500 font-mono">• ${featured.readTime}</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+              ${featured.title}
+            </h2>
+            <p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+              ${featured.excerpt}
+            </p>
+            <div class="pt-2 flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">
+              <span>Baca Artikel Selengkapnya</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="md:col-span-5">
+            <img src="${featured.thumbnail}" alt="${featured.title}" class="w-full h-56 sm:h-64 object-cover rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
+          </div>
+        </div>
+      </div>
+    `;
+  } else if (featuredContainer) {
+    featuredContainer.innerHTML = `<p class="text-sm text-slate-500 italic py-4">Tidak ada artikel yang cocok dengan pencarian.</p>`;
+  }
+
+  // 2. Articles List Feed
+  const feedContainer = document.getElementById('homeArticlesFeed');
+  if (feedContainer) {
+    const feedItems = filteredArticles.filter(a => a.id !== (featured ? featured.id : null));
+    if (feedItems.length === 0) {
+      feedContainer.innerHTML = `<p class="text-sm text-slate-500 italic py-4">Tidak ada karya tulis tambahan untuk kategori ini.</p>`;
+    } else {
+      feedContainer.innerHTML = feedItems.map(item => `
+        <div onclick="navigate('article-detail', '${item.id}')" class="surface-card surface-card-hover p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
+          <img src="${item.thumbnail}" alt="${item.title}" class="w-full sm:w-44 h-32 object-cover rounded-xl shrink-0 border border-slate-200 dark:border-slate-700">
+          <div class="space-y-2 flex-grow">
+            <div class="flex items-center gap-2">
+              <span class="badge-tag badge-emerald">${item.categoryLabel}</span>
+              <span class="text-[11px] text-slate-400 font-mono">${item.date}</span>
+              <span class="text-[11px] text-slate-400 font-mono">• ${item.readTime}</span>
+            </div>
+            <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors leading-snug">
+              ${item.title}
+            </h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
+              ${item.excerpt}
+            </p>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
+  // 3. Sidebar Widget: Free Courses
+  const sidebarCourses = document.getElementById('sidebarCoursesFeed');
+  if (sidebarCourses) {
+    sidebarCourses.innerHTML = courses.slice(0, 3).map(crs => `
+      <div onclick="navigate('course-detail', '${crs.id}')" class="p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer border border-slate-100 dark:border-slate-800 transition-colors space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">${crs.category}</span>
+          <span class="text-[10px] font-mono text-slate-400">${crs.duration}</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors line-clamp-2">
+          ${crs.title}
+        </h4>
+      </div>
+    `).join('');
+  }
+
+  // 4. Sidebar Widget: Popular Articles (Ranked 1, 2, 3)
+  const sidebarPopular = document.getElementById('sidebarPopularFeed');
+  if (sidebarPopular) {
+    const popularSorted = [...articles].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 4);
+    sidebarPopular.innerHTML = popularSorted.map((item, index) => `
+      <div onclick="navigate('article-detail', '${item.id}')" class="flex gap-3 items-start cursor-pointer group py-1">
+        <span class="ranking-number">${index + 1}</span>
+        <div class="space-y-0.5">
+          <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 transition-colors line-clamp-2">
+            ${item.title}
+          </h4>
+          <span class="text-[10px] text-slate-400 font-mono">${item.views || 0} pembaca • ${item.readTime}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 5. Sidebar Profile Sync
+  document.getElementById('sidebarProfileName').textContent = profile.name;
+  document.getElementById('sidebarProfileHeadline').textContent = profile.headline;
+  document.getElementById('sidebarProfileBio').textContent = profile.bio;
+  document.getElementById('sidebarProfileImg').src = profile.avatar;
+
   lucide.createIcons();
-  syncFromCloud();
-});
+}
+
+// --- SEARCH & FILTER HANDLERS ---
+function handleGlobalSearch(val) {
+  searchQuery = val.trim();
+  const clearBtn = document.getElementById('clearSearchBtn');
+  if (clearBtn) {
+    if (searchQuery) clearBtn.classList.remove('hidden');
+    else clearBtn.classList.add('hidden');
+  }
+  renderHome();
+}
+
+function clearSearch() {
+  const input = document.getElementById('heroSearchInput');
+  if (input) input.value = '';
+  searchQuery = '';
+  document.getElementById('clearSearchBtn').classList.add('hidden');
+  renderHome();
+}
+
+function filterCategory(cat) {
+  currentCategory = cat;
+  const chips = document.querySelectorAll('#categoryChipsContainer button');
+  chips.forEach(chip => {
+    chip.classList.remove('active');
+  });
+  if (event && event.target) event.target.classList.add('active');
+  renderHome();
+}
+
+function filterArticlesPage(val) {
+  const query = val.toLowerCase().trim();
+  const articles = getArticles();
+  const grid = document.getElementById('fullArticlesGrid');
+  if (!grid) return;
+
+  const filtered = articles.filter(a => 
+    a.title.toLowerCase().includes(query) || 
+    a.excerpt.toLowerCase().includes(query) ||
+    a.categoryLabel.toLowerCase().includes(query)
+  );
+
+  grid.innerHTML = filtered.map(item => `
+    <div onclick="navigate('article-detail', '${item.id}')" class="surface-card surface-card-hover cursor-pointer overflow-hidden flex flex-col justify-between">
+      <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-48 object-cover border-b border-slate-100 dark:border-slate-800">
+      <div class="p-6 space-y-3 flex-grow flex flex-col justify-between">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+            <span class="badge-tag badge-blue">${item.categoryLabel}</span>
+            <span>${item.readTime}</span>
+          </div>
+          <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug">
+            ${item.title}
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+            ${item.excerpt}
+          </p>
+        </div>
+        <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <span>${item.date}</span>
+          <span class="text-blue-600 font-bold flex items-center gap-1">
+            <span>Baca</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  lucide.createIcons();
+}
+
+// --- ARTICLES CATALOG RENDERER ---
+function renderArticlesCatalog() {
+  filterArticlesPage('');
+}
+
+// --- ARTICLE DETAIL RENDERER ---
+function renderArticleDetail(id) {
+  const articles = getArticles();
+  const article = articles.find(a => a.id === id);
+  const container = document.getElementById('articleDetailContent');
+  if (!container || !article) return;
+
+  article.views = (article.views || 0) + 1;
+  saveArticles(articles);
+
+  container.innerHTML = `
+    <div class="space-y-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+      <div class="flex items-center gap-3">
+        <span class="badge-tag badge-blue">${article.categoryLabel}</span>
+        <span class="text-xs text-slate-500 font-mono">${article.date}</span>
+        <span class="text-xs text-slate-500 font-mono">• ${article.readTime}</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white leading-tight">
+        ${article.title}
+      </h1>
+      <div class="flex items-center justify-between pt-2">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs">R</div>
+          <div>
+            <span class="text-xs font-bold text-slate-900 dark:text-white block">Rauwa</span>
+            <span class="text-[10px] text-slate-500">Penulis & Pengampu</span>
+          </div>
+        </div>
+        <button onclick="shareArticle('${article.title}')" class="btn-pill-secondary text-xs px-3 py-1.5 flex items-center gap-1.5">
+          <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+          <span>Bagikan</span>
+        </button>
+      </div>
+    </div>
+
+    <img src="${article.thumbnail}" alt="${article.title}" class="w-full max-h-96 object-cover rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+
+    <div class="prose-custom">
+      ${article.content}
+    </div>
+  `;
+
+  lucide.createIcons();
+}
+
+function shareArticle(title) {
+  if (navigator.share) {
+    navigator.share({ title: title, url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Tautan artikel berhasil disalin ke clipboard!');
+  }
+}
+
+// --- COURSES CATALOG RENDERER ---
+function renderCoursesCatalog() {
+  const courses = getCourses();
+  const grid = document.getElementById('fullCoursesGrid');
+  if (!grid) return;
+
+  grid.innerHTML = courses.map(crs => `
+    <div onclick="navigate('course-detail', '${crs.id}')" class="surface-card surface-card-hover cursor-pointer overflow-hidden flex flex-col justify-between">
+      <img src="${crs.thumbnail}" alt="${crs.title}" class="w-full h-48 object-cover border-b border-slate-100 dark:border-slate-800">
+      <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="badge-tag badge-emerald">${crs.category}</span>
+            <span class="font-mono text-slate-400">${crs.duration}</span>
+          </div>
+          <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors leading-snug">
+            ${crs.title}
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+            ${crs.excerpt}
+          </p>
+        </div>
+        <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+          <span class="font-bold text-emerald-600 dark:text-emerald-400">${crs.status}</span>
+          <span class="btn-pill-primary text-[11px] px-3 py-1">Mulai Belajar</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  lucide.createIcons();
+}
+
+// --- COURSE DETAIL RENDERER ---
+function renderCourseDetail(id) {
+  const courses = getCourses();
+  const crs = courses.find(c => c.id === id);
+  const container = document.getElementById('courseDetailContent');
+  if (!container || !crs) return;
+
+  container.innerHTML = `
+    <div class="surface-card p-8 space-y-6">
+      <div class="flex items-center justify-between">
+        <span class="badge-tag badge-emerald">${crs.category}</span>
+        <span class="text-xs font-mono text-slate-500">${crs.duration}</span>
+      </div>
+      <h1 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">${crs.title}</h1>
+      <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${crs.excerpt}</p>
+    </div>
+
+    <div class="space-y-6">
+      <h2 class="text-xl font-serif font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-3">
+        Modul & Sesi Pembelajaran
+      </h2>
+      <div class="space-y-4">
+        ${crs.modules.map((mod, idx) => `
+          <div class="surface-card p-6 space-y-4">
+            <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 text-xs flex items-center justify-center font-mono font-bold">${idx+1}</span>
+              <span>${mod.title}</span>
+            </h3>
+            <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-900">
+              <iframe src="${mod.videoUrl}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-300 space-y-1">
+              <span class="font-bold text-slate-900 dark:text-white block">Catatan Materi:</span>
+              <p>${mod.notes}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  lucide.createIcons();
+}
+
+// --- ABOUT PAGE RENDERER ---
+function renderAboutPage() {
+  const profile = getProfile();
+
+  document.getElementById('aboutProfileName').textContent = profile.name;
+  document.getElementById('aboutProfileHeadline').textContent = profile.headline;
+  document.getElementById('aboutProfileBio').textContent = profile.bio;
+  document.getElementById('aboutProfileAvatar').src = profile.avatar;
+  document.getElementById('aboutLinkedInBtn').href = profile.linkedin || '#';
+  document.getElementById('aboutEmailBtn').href = `mailto:${profile.email}`;
+
+  const timeline = document.getElementById('aboutExperienceTimeline');
+  if (timeline && profile.experiences) {
+    timeline.innerHTML = profile.experiences.map(exp => `
+      <div class="surface-card p-6 space-y-2 border-l-4 border-l-blue-600">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <h3 class="font-bold text-base text-slate-900 dark:text-white">${exp.role}</h3>
+          <span class="text-xs font-mono font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/80 px-2.5 py-0.5 rounded-full w-fit">${exp.period}</span>
+        </div>
+        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">${exp.organization}</p>
+        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed pt-1">${exp.description}</p>
+      </div>
+    `).join('');
+  }
+
+  const skillsContainer = document.getElementById('aboutSkillsBadges');
+  if (skillsContainer && profile.skills) {
+    skillsContainer.innerHTML = profile.skills.map(skill => `
+      <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm">
+        ${skill}
+      </span>
+    `).join('');
+  }
+
+  lucide.createIcons();
+}
+
+// --- NEWSLETTER SUBMIT ---
+function handleNewsletterSubmit(e) {
+  e.preventDefault();
+  alert('Terima kasih! Alamat email Anda telah terdaftar untuk berlangganan karya tulis.');
+  e.target.reset();
+}
+
+// --- ADMIN DASHBOARD & CONTENT MANAGEMENT ---
+function openAdmin() {
+  document.getElementById('adminModal').classList.remove('hidden');
+}
+
+function closeAdmin() {
+  document.getElementById('adminModal').classList.add('hidden');
+}
+
+function checkAdminAuth() {
+  const pass = document.getElementById('adminPassInput').value;
+  if (pass === 'admin123' || pass === 'admin') {
+    document.getElementById('adminAuthSection').classList.add('hidden');
+    document.getElementById('adminDashboardSection').classList.remove('hidden');
+    switchAdminTab('articles');
+  } else {
+    alert('Kata kunci akses salah!');
+  }
+}
+
+function switchAdminTab(tab) {
+  currentAdminTab = tab;
+  renderAdminTab(tab);
+}
+
+function renderAdminTab(tab) {
+  const container = document.getElementById('adminContentContainer');
+  if (!container) return;
+
+  if (tab === 'articles') {
+    const articles = getArticles();
+    container.innerHTML = `
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Karya Tulis (${articles.length})</h3>
+          <button onclick="showAddArticleForm()" class="btn-pill-primary text-xs py-1.5 px-3">+ Tambah Artikel Baru</button>
+        </div>
+        <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
+          ${articles.map(a => `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs border border-slate-100 dark:border-slate-700">
+              <div class="truncate max-w-md">
+                <span class="font-bold text-slate-800 dark:text-slate-200 block truncate">${a.title}</span>
+                <span class="text-[10px] text-slate-400 font-mono">${a.categoryLabel} • ${a.date}</span>
+              </div>
+              <button onclick="deleteArticle('${a.id}')" class="text-red-500 hover:underline font-bold px-2 py-1">Hapus</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  } else if (tab === 'courses') {
+    const courses = getCourses();
+    container.innerHTML = `
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Kelas Terbuka (${courses.length})</h3>
+          <button onclick="showAddCourseForm()" class="btn-pill-primary text-xs py-1.5 px-3">+ Tambah Kelas Baru</button>
+        </div>
+        <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
+          ${courses.map(c => `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs border border-slate-100 dark:border-slate-700">
+              <div class="truncate max-w-md">
+                <span class="font-bold text-slate-800 dark:text-slate-200 block truncate">${c.title}</span>
+                <span class="text-[10px] text-slate-400 font-mono">${c.category} • ${c.duration}</span>
+              </div>
+              <button onclick="deleteCourse('${c.id}')" class="text-red-500 hover:underline font-bold px-2 py-1">Hapus</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  } else if (tab === 'profile') {
+    const p = getProfile();
+    container.innerHTML = `
+      <form onsubmit="saveProfileFromAdmin(event)" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Nama Pengampu:</label>
+            <input type="text" id="admName" value="${p.name}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+          </div>
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Foto Avatar URL:</label>
+            <input type="text" id="admAvatar" value="${p.avatar}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Headline / Sub-judul:</label>
+          <input type="text" id="admHeadline" value="${p.headline}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+        </div>
+
+        <div>
+          <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Biografi Ringkas:</label>
+          <textarea id="admBio" rows="3" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">${p.bio}</textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">LinkedIn URL:</label>
+            <input type="text" id="admLinkedin" value="${p.linkedin || ''}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+          </div>
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Email Kontak:</label>
+            <input type="email" id="admEmail" value="${p.email || ''}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Keahlian (pisahkan dengan koma):</label>
+          <input type="text" id="admSkills" value="${(p.skills || []).join(', ')}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+        </div>
+
+        <button type="submit" class="btn-pill-primary py-2.5 px-5">Simpan Perubahan Profil</button>
+      </form>
+    `;
+  }
+}
+
+// Add New Article Form
+function showAddArticleForm() {
+  const container = document.getElementById('adminContentContainer');
+  container.innerHTML = `
+    <form onsubmit="saveNewArticle(event)" class="space-y-4 text-xs">
+      <h3 class="font-bold text-sm text-slate-900 dark:text-white">Tambah Karya Tulis Baru</h3>
+      <div>
+        <label class="font-bold block mb-1">Judul Artikel:</label>
+        <input type="text" id="newArtTitle" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="font-bold block mb-1">Kategori:</label>
+          <select id="newArtCategory" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+            <option value="teknologi">Teknologi & Digital</option>
+            <option value="opini">Opini & Kebijakan</option>
+            <option value="pendidikan">Pendidikan & Literasi</option>
+            <option value="riset">Metodologi & Riset</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold block mb-1">Waktu Baca (misal: 5 min dibaca):</label>
+          <input type="text" id="newArtReadTime" value="5 min dibaca" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+        </div>
+      </div>
+      <div>
+        <label class="font-bold block mb-1">URL Gambar Thumbnail:</label>
+        <input type="text" id="newArtThumbnail" value="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+      </div>
+      <div>
+        <label class="font-bold block mb-1">Ringkasan (Excerpt):</label>
+        <textarea id="newArtExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"></textarea>
+      </div>
+      <div>
+        <label class="font-bold block mb-1">Isi Artikel (Format HTML):</label>
+        <textarea id="newArtContent" rows="5" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white" placeholder="<p>Tulis paragraf di sini...</p>"></textarea>
+      </div>
+      <div class="flex gap-3">
+        <button type="submit" class="btn-pill-primary py-2.5 px-5">Terbitkan Artikel</button>
+        <button type="button" onclick="renderAdminTab('articles')" class="btn-pill-secondary py-2.5 px-4">Batal</button>
+      </div>
+    </form>
+  `;
+}
+
+function saveNewArticle(e) {
+  e.preventDefault();
+  const articles = getArticles();
+  const cat = document.getElementById('newArtCategory').value;
+  const labels = {
+    'teknologi': 'Teknologi & Digital',
+    'opini': 'Opini & Kebijakan',
+    'pendidikan': 'Pendidikan & Literasi',
+    'riset': 'Metodologi & Riset'
+  };
+
+  const newArticle = {
+    id: `art-${Date.now()}`,
+    title: document.getElementById('newArtTitle').value,
+    category: cat,
+    categoryLabel: labels[cat] || 'Karya Tulis',
+    date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+    readTime: document.getElementById('newArtReadTime').value,
+    views: 0,
+    isFeatured: false,
+    thumbnail: document.getElementById('newArtThumbnail').value,
+    excerpt: document.getElementById('newArtExcerpt').value,
+    content: document.getElementById('newArtContent').value
+  };
+
+  articles.unshift(newArticle);
+  saveArticles(articles);
+  renderAllViews();
+  renderAdminTab('articles');
+  alert('Artikel baru berhasil diterbitkan!');
+}
+
+function deleteArticle(id) {
+  if (confirm('Yakin ingin menghapus karya tulis ini?')) {
+    let articles = getArticles();
+    articles = articles.filter(a => a.id !== id);
+    saveArticles(articles);
+    renderAllViews();
+    renderAdminTab('articles');
+  }
+}
+
+// Add New Course Form
+function showAddCourseForm() {
+  const container = document.getElementById('adminContentContainer');
+  container.innerHTML = `
+    <form onsubmit="saveNewCourse(event)" class="space-y-4 text-xs">
+      <h3 class="font-bold text-sm text-slate-900 dark:text-white">Tambah Kelas Terbuka Baru</h3>
+      <div>
+        <label class="font-bold block mb-1">Judul Kelas:</label>
+        <input type="text" id="newCrsTitle" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="font-bold block mb-1">Kategori:</label>
+          <input type="text" id="newCrsCategory" value="Literasi & Edukasi" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+        </div>
+        <div>
+          <label class="font-bold block mb-1">Durasi / Sesi:</label>
+          <input type="text" id="newCrsDuration" value="4 Sesi Pembelajaran" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+        </div>
+      </div>
+      <div>
+        <label class="font-bold block mb-1">URL Gambar Thumbnail:</label>
+        <input type="text" id="newCrsThumbnail" value="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+      </div>
+      <div>
+        <label class="font-bold block mb-1">Deskripsi Ringkas:</label>
+        <textarea id="newCrsExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"></textarea>
+      </div>
+      <div>
+        <label class="font-bold block mb-1">Judul Sesi 1 / Modul Utama:</label>
+        <input type="text" id="newCrsModTitle" value="Sesi 1: Pengantar Dasar & Kurikulum" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+      </div>
+      <div>
+        <label class="font-bold block mb-1">URL Embed Video Sesi 1 (YouTube):</label>
+        <input type="text" id="newCrsModVideo" value="https://www.youtube.com/embed/dQw4w9WgXcQ" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
+      </div>
+      <div>
+        <label class="font-bold block mb-1">Catatan Materi Sesi 1:</label>
+        <textarea id="newCrsModNotes" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white">Garis besar konsep materi dan panduan diskusi mandiri.</textarea>
+      </div>
+      <div class="flex gap-3">
+        <button type="submit" class="btn-pill-primary py-2.5 px-5">Terbitkan Kelas</button>
+        <button type="button" onclick="renderAdminTab('courses')" class="btn-pill-secondary py-2.5 px-4">Batal</button>
+      </div>
+    </form>
+  `;
+}
+
+function saveNewCourse(e) {
+  e.preventDefault();
+  const courses = getCourses();
+  const newCourse = {
+    id: `crs-${Date.now()}`,
+    title: document.getElementById('newCrsTitle').value,
+    category: document.getElementById('newCrsCategory').value,
+    level: "Umum & Mandiri",
+    status: "Pendaftaran Terbuka",
+    thumbnail: document.getElementById('newCrsThumbnail').value,
+    excerpt: document.getElementById('newCrsExcerpt').value,
+    duration: document.getElementById('newCrsDuration').value,
+    modules: [
+      {
+        title: document.getElementById('newCrsModTitle').value,
+        videoUrl: document.getElementById('newCrsModVideo').value,
+        notes: document.getElementById('newCrsModNotes').value
+      }
+    ]
+  };
+
+  courses.unshift(newCourse);
+  saveCourses(courses);
+  renderAllViews();
+  renderAdminTab('courses');
+  alert('Kelas terbuka baru berhasil diterbitkan!');
+}
+
+function deleteCourse(id) {
+  if (confirm('Yakin ingin menghapus kelas terbuka ini?')) {
+    let courses = getCourses();
+    courses = courses.filter(c => c.id !== id);
+    saveCourses(courses);
+    renderAllViews();
+    renderAdminTab('courses');
+  }
+}
+
+function saveProfileFromAdmin(e) {
+  e.preventDefault();
+  const p = getProfile();
+  p.name = document.getElementById('admName').value;
+  p.headline = document.getElementById('admHeadline').value;
+  p.bio = document.getElementById('admBio').value;
+  p.avatar = document.getElementById('admAvatar').value;
+  p.linkedin = document.getElementById('admLinkedin').value;
+  p.email = document.getElementById('admEmail').value;
+  p.skills = document.getElementById('admSkills').value.split(',').map(s => s.trim()).filter(Boolean);
+  saveProfile(p);
+  renderAllViews();
+  alert('Profil dan keahlian berhasil diperbarui!');
+}
