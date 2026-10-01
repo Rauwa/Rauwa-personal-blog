@@ -97,6 +97,51 @@ const DEFAULT_COURSES = [
 // --- EDITING STATE ---
 let editingArticleId = null;
 
+// --- SUPABASE CLOUD SYNC ENGINE ---
+const SUPABASE_PROJECT_URL = "https://ccsrakdoumhvfoqgupve.supabase.co";
+let supabase = null;
+
+function initSupabaseClient() {
+  const anonKey = localStorage.getItem('supabase_anon_key');
+  if (anonKey && window.supabase && window.supabase.createClient) {
+    try {
+      supabase = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
+      console.log("Supabase Client initialized successfully!");
+      return true;
+    } catch (e) {
+      console.error("Failed to initialize Supabase client", e);
+      supabase = null;
+      return false;
+    }
+  }
+  return false;
+}
+
+async function syncFromSupabase() {
+  if (!supabase) return;
+  try {
+    const { data: articles, error: artError } = await supabase.from('articles').select('*').order('created_at', { ascending: false });
+    if (!artError && articles && articles.length > 0) {
+      localStorage.setItem('site_articles', JSON.stringify(articles));
+    }
+
+    const { data: courses, error: crsError } = await supabase.from('courses').select('*');
+    if (!crsError && courses && courses.length > 0) {
+      localStorage.setItem('site_courses', JSON.stringify(courses));
+    }
+
+    const { data: profileData, error: profError } = await supabase.from('profile').select('*').limit(1);
+    if (!profError && profileData && profileData.length > 0) {
+      const prof = profileData[0].data || profileData[0];
+      localStorage.setItem('site_profile', JSON.stringify(prof));
+    }
+
+    renderAllViews();
+  } catch (e) {
+    console.warn("Supabase sync warning, fallback to local storage", e);
+  }
+}
+
 // --- LOCAL STORAGE MANAGER ---
 function getProfile() {
   const data = localStorage.getItem('site_profile');
@@ -105,6 +150,11 @@ function getProfile() {
 
 function saveProfile(data) {
   localStorage.setItem('site_profile', JSON.stringify(data));
+  if (supabase) {
+    supabase.from('profile').upsert([{ id: 'default', data: data }], { onConflict: 'id' }).then(({ error }) => {
+      if (error) console.error("Supabase upsert profile error", error);
+    });
+  }
 }
 
 function getArticles() {
@@ -122,6 +172,11 @@ function getArticles() {
 
 function saveArticles(data) {
   localStorage.setItem('site_articles', JSON.stringify(data));
+  if (supabase) {
+    supabase.from('articles').upsert(data, { onConflict: 'id' }).then(({ error }) => {
+      if (error) console.error("Supabase upsert articles error", error);
+    });
+  }
 }
 
 function getCourses() {
@@ -131,6 +186,11 @@ function getCourses() {
 
 function saveCourses(data) {
   localStorage.setItem('site_courses', JSON.stringify(data));
+  if (supabase) {
+    supabase.from('courses').upsert(data, { onConflict: 'id' }).then(({ error }) => {
+      if (error) console.error("Supabase upsert courses error", error);
+    });
+  }
 }
 
 // --- INITIALIZATION ---
@@ -139,6 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAllViews();
   setupScrollProgress();
   initPastelInteractiveParticles();
+  initSupabaseClient();
+  syncFromSupabase();
   lucide.createIcons();
 });
 
@@ -877,10 +939,166 @@ function renderAdminTab(tab) {
           </div>
         </div>
 
+    </div>
+    `;
+    lucide.createIcons();
+  } else if (tab === 'supabase') {
+    const isConnected = !!supabase;
+    const currentAnonKey = localStorage.getItem('supabase_anon_key') || '';
+    
+    container.innerHTML = `
+      <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
+        <div class="p-5 rounded-2xl bg-slate-50 dark:bg-white/5 border border-cyan-200 dark:border-blue-900/60 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-serif font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+              <span>⚡ Status Supabase Cloud Sync</span>
+            </h3>
+            ${isConnected 
+              ? `<span class="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">🟢 Terhubung ke Cloud</span>`
+              : `<span class="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">⚪ Belum Terhubung</span>`
+            }
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Project URL:</label>
+              <input type="text" value="${SUPABASE_PROJECT_URL}" readonly class="w-full px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-xs border border-slate-300 dark:border-slate-700">
+            </div>
+
+            <div>
+              <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Anon Public Key (`eyJ...`):</label>
+              <input type="password" id="supabaseAnonKeyInput" value="${currentAnonKey}" placeholder="Tempelkan kunci anon public Supabase di sini..." class="w-full px-3 py-2 rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs focus:outline-none focus:border-cyan-500">
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                💡 <b>Petunjuk Mengambil Kunci:</b> Di Dashboard Supabase Anda (seperti screenshot yang Anda kirimkan), klik tombol <b>API Keys</b> di bagian kanan bawah, lalu salin kunci <code>anon</code> public.
+              </p>
+            </div>
+
+            <div class="pt-2 flex flex-wrap items-center gap-3">
+              <button onclick="saveSupabaseConfig()" class="btn-awwwards-primary text-xs py-2 px-4">
+                <span>💾 Simpan & Hubungkan Supabase</span>
+              </button>
+              ${isConnected ? `
+                <button onclick="pushAllLocalDataToSupabase()" class="btn-awwwards-secondary text-xs py-2 px-4 font-bold text-cyan-600 dark:text-blue-400">
+                  <span>📤 Push Semua Artikel & Data ke Cloud Supabase</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-cyan-50/60 dark:bg-blue-950/40 border border-cyan-200 dark:border-blue-900/60 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-slate-900 dark:text-white">🛠️ Tabel SQL Supabase (Skrip Setup 1-Klik)</h4>
+            <button onclick="copySupabaseSQL()" class="text-xs font-mono text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            Jika tabel di Supabase Anda belum dibuat, salin skrip SQL di bawah ini dan tempel di menu <b>SQL Editor</b> pada Dashboard Supabase Anda:
+          </p>
+          <pre id="supabaseSqlCode" class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-48 border border-slate-800 leading-relaxed">
+CREATE TABLE IF NOT EXISTS articles (
+  id TEXT PRIMARY KEY,
+  title TEXT,
+  category TEXT,
+  categoryLabel TEXT,
+  date TEXT,
+  readTime TEXT,
+  views INTEGER DEFAULT 0,
+  isFeatured BOOLEAN DEFAULT false,
+  thumbnail TEXT,
+  excerpt TEXT,
+  content TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+CREATE TABLE IF NOT EXISTS courses (
+  id TEXT PRIMARY KEY,
+  title TEXT,
+  category TEXT,
+  level TEXT,
+  status TEXT,
+  thumbnail TEXT,
+  excerpt TEXT,
+  duration TEXT,
+  modules JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+CREATE TABLE IF NOT EXISTS profile (
+  id TEXT PRIMARY KEY,
+  data JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Access Articles" ON articles FOR ALL USING (true) WITH CHECK (true);
+
+ALTER TABLE courses ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Access Courses" ON courses FOR ALL USING (true) WITH CHECK (true);
+
+ALTER TABLE profile ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK (true);
+          </pre>
+        </div>
       </div>
     `;
     lucide.createIcons();
   }
+}
+
+async function pushAllLocalDataToSupabase() {
+  if (!supabase) {
+    alert("Supabase belum dikonfigurasi! Masukkan anon public key terlebih dahulu.");
+    return;
+  }
+
+  const articles = getArticles();
+  const courses = getCourses();
+  const profile = getProfile();
+
+  let articleSuccess = 0;
+  let courseSuccess = 0;
+
+  try {
+    if (articles.length > 0) {
+      const { error } = await supabase.from('articles').upsert(articles, { onConflict: 'id' });
+      if (!error) articleSuccess = articles.length;
+    }
+
+    if (courses.length > 0) {
+      const { error } = await supabase.from('courses').upsert(courses, { onConflict: 'id' });
+      if (!error) courseSuccess = courses.length;
+    }
+
+    await supabase.from('profile').upsert([{ id: 'default', data: profile }], { onConflict: 'id' });
+
+    alert(`✅ Berhasil melakukan sinkronisasi cloud!\n• ${articleSuccess} artikel telah diunggah ke Supabase.\n• ${courseSuccess} kelas edX telah diunggah ke Supabase.`);
+  } catch (e) {
+    alert(`Gagal mengunggah data ke Supabase: ${e.message}`);
+  }
+}
+
+function saveSupabaseConfig() {
+  const anonKey = document.getElementById('supabaseAnonKeyInput').value.trim();
+  if (!anonKey) {
+    alert('Harap masukkan Supabase anon public key!');
+    return;
+  }
+
+  localStorage.setItem('supabase_anon_key', anonKey);
+  const success = initSupabaseClient();
+  if (success) {
+    alert('✅ Konfigurasi Kunci Supabase Berhasil Disimpan & Terhubung!');
+    syncFromSupabase();
+    renderAdminTab('supabase');
+  } else {
+    alert('Gagal menginisialisasi Kunci Supabase. Pastikan format anon key benar.');
+  }
+}
+
+function copySupabaseSQL() {
+  const code = document.getElementById('supabaseSqlCode').innerText;
+  navigator.clipboard.writeText(code);
+  alert('Kode SQL Schema berhasil disalin ke clipboard!');
 }
 
 // Show Article Form (New or Edit Existing Published Article)
