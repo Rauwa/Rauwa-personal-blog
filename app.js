@@ -224,7 +224,7 @@ function saveCourses(data) {
 }
 
 // --- INITIALIZATION ---
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
   initDarkMode();
   renderAllViews();
   setupScrollProgress();
@@ -232,7 +232,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initSupabaseClient();
   syncFromSupabase();
   lucide.createIcons();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
 function initDarkMode() {
   if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -1436,3 +1442,6 @@ function deleteCourse(id) {
     renderAdminTab('courses');
   }
 }
+
+// Guaranteed Immediate Render Invocation
+renderAllViews();
