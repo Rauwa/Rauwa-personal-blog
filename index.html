@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Karya Tulis & Kelas Terbuka — Platform Literasi Publik</title>
-  <meta name="description" content="Platform pribadi publikasi karya tulis, opini ilmiah, dan kelas terbuka gratis bersesi.">
+  <meta name="description" content="Platform pribadi publikasi karya tulis, riset, opini, dan kelas terbuka gratis.">
 
   <!-- Typography & Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,14 +22,6 @@
             sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
             serif: ['"Newsreader"', 'Georgia', 'serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            surface: {
-              light: '#faf9f6',
-              dark: '#0f172a',
-              cardDark: '#1e293b',
-              borderDark: '#334155'
-            }
           }
         }
       }
@@ -39,73 +31,71 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Bespoke Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=5.0">
+  <!-- Bespoke Awwwards Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=7.0">
 </head>
-<body class="bg-[#faf9f6] text-slate-900 dark:bg-[#0f172a] dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+<body class="bg-[#090b10] text-slate-100 light:bg-[#f8fafc] light:text-slate-900 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
   <!-- Reading Progress Bar -->
   <div id="readingProgressBar" class="reading-progress-bar"></div>
 
-  <!-- Floating Glass Header Navbar -->
-  <header class="sticky top-0 z-40 glass-nav transition-colors">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+  <!-- Awwwards Floating Glass Header -->
+  <header class="sticky top-0 z-40 awwwards-nav transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
       
-      <!-- Brand & Title Logo -->
-      <a href="#home" onclick="navigate('home')" class="group flex items-center gap-3 shrink-0">
-        <div class="w-9 h-9 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center font-serif font-bold text-base shadow-sm group-hover:scale-105 transition-transform">
+      <!-- Brand Logo -->
+      <a href="#home" onclick="navigate('home')" class="group flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-emerald-500 text-white flex items-center justify-center font-serif font-bold text-lg shadow-lg group-hover:scale-105 transition-transform">
           K
         </div>
         <div class="flex flex-col">
-          <span class="font-bold text-sm sm:text-base tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          <span class="font-serif font-bold text-base sm:text-lg tracking-tight text-white light:text-slate-900 group-hover:text-indigo-400 transition-colors">
             Karya Tulis & Kelas Terbuka
           </span>
-          <span class="text-[10px] text-slate-500 font-medium tracking-widest uppercase -mt-0.5">
-            Platform Literasi Publik
-          </span>
+          <div class="flex items-center gap-2 -mt-0.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+              Platform Literasi Publik
+            </span>
+          </div>
         </div>
       </a>
 
-      <!-- Desktop Navigation Links -->
-      <nav class="hidden md:flex items-center gap-1">
-        <button onclick="navigate('home')" id="nav-btn-home" class="nav-pill active">
-          Beranda
+      <!-- Desktop Nav Pills -->
+      <nav class="hidden md:flex items-center gap-1.5">
+        <button onclick="navigate('home')" id="nav-btn-home" class="nav-awwwards active">
+          Beranda Utama
         </button>
-        <button onclick="navigate('articles')" id="nav-btn-articles" class="nav-pill">
+        <button onclick="navigate('articles')" id="nav-btn-articles" class="nav-awwwards">
           Karya Tulis
         </button>
-        <button onclick="navigate('courses')" id="nav-btn-courses" class="nav-pill flex items-center gap-1.5">
+        <button onclick="navigate('courses')" id="nav-btn-courses" class="nav-awwwards flex items-center gap-2">
           <span>Kelas Terbuka</span>
-          <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
+          <span class="px-2 py-0.5 text-[9px] font-mono font-bold uppercase rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
             Gratis
           </span>
         </button>
-        <button onclick="navigate('about')" id="nav-btn-about" class="nav-pill">
+        <button onclick="navigate('about')" id="nav-btn-about" class="nav-awwwards">
           Tentang Saya
         </button>
       </nav>
 
       <!-- Right Header Actions -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Quick Search Focus Button (Mobile/Desktop) -->
-        <button onclick="focusHeroSearch()" class="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Cari Konten">
-          <i data-lucide="search" class="w-4 h-4"></i>
-        </button>
-
-        <!-- Dark Mode Toggle -->
-        <button onclick="toggleDarkMode()" class="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Toggle Tema Gelap/Terang" aria-label="Toggle Theme">
+      <div class="flex items-center gap-3">
+        <!-- Dark/Light Toggle -->
+        <button onclick="toggleDarkMode()" class="p-2.5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors" title="Toggle Tema">
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
           <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
         </button>
 
         <!-- Admin Access Button -->
-        <button onclick="openAdmin()" class="btn-pill-secondary text-xs px-3.5 py-1.5">
-          <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+        <button onclick="openAdmin()" class="btn-awwwards-secondary text-xs px-4 py-2">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-indigo-400"></i>
           <span class="hidden sm:inline">Pusat Kendali</span>
         </button>
 
         <!-- Mobile Drawer Toggle -->
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl text-slate-300 hover:bg-white/10">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
       </div>
@@ -113,155 +103,118 @@
     </div>
 
     <!-- Mobile Drawer Navigation -->
-    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f172a] px-4 py-3 space-y-1">
-      <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Beranda</button>
-      <button onclick="navigate('articles'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Karya Tulis</button>
-      <button onclick="navigate('courses'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Kelas Terbuka (Gratis)</button>
-      <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Tentang Saya</button>
+    <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 bg-[#090b10] px-4 py-3 space-y-1">
+      <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Beranda Utama</button>
+      <button onclick="navigate('articles'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Karya Tulis</button>
+      <button onclick="navigate('courses'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Kelas Terbuka (Gratis)</button>
+      <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Tentang Saya</button>
     </div>
   </header>
 
   <!-- Main View Container -->
   <main class="flex-grow">
     
-    <!-- VIEW 1: HOME PAGE (Portal Multi-Kolom) -->
+    <!-- VIEW 1: HOME PAGE (Awwwards Display Showcase) -->
     <section id="view-home" class="view-section">
       
-      <!-- Hero Banner Section -->
-      <div class="hero-glow-bg bg-gradient-to-b from-white via-[#faf9f6] to-[#faf9f6] dark:from-[#0f172a] dark:to-[#0f172a] border-b border-slate-200/60 dark:border-slate-800/60 py-12 md:py-16 px-4">
-        <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+      <!-- Hero Showcase Section -->
+      <div class="awwwards-hero-glow py-16 md:py-24 px-4 border-b border-white/10 light:border-slate-200">
+        <div class="max-w-5xl mx-auto text-center space-y-8 relative z-10">
           
-          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 text-xs font-bold tracking-wide border border-blue-200/60 dark:border-blue-800/60">
-            <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-            <span>Platform Pengetahuan & Literasi Publik</span>
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-mono font-bold tracking-wider border border-indigo-500/30">
+            <span>PLATFORM PUBLIKASI & LITERASI PUBLIK</span>
           </div>
 
-          <h1 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
-            Eksplorasi Karya Tulis, Opini Ilmiah, & Kelas Terbuka Gratis
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-white light:text-slate-900 tracking-tight leading-tight">
+            Ruang Publikasi Karya Tulis, Riset, & Kelas Terbuka
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto font-sans leading-relaxed">
+          <p class="text-base sm:text-lg text-slate-300 light:text-slate-600 max-w-2xl mx-auto font-sans leading-relaxed">
             Didedikasikan untuk keterbukaan ilmu pengetahuan, analisis kritis, dan ruang belajar mandiri tanpa hambatan paywall.
           </p>
 
           <!-- Interactive Search Bar -->
-          <div class="max-w-2xl mx-auto pt-2">
-            <div class="search-hero-box flex items-center px-4 py-2.5">
-              <i data-lucide="search" class="w-5 h-5 text-slate-400 shrink-0 mr-3"></i>
-              <input type="text" id="heroSearchInput" oninput="handleGlobalSearch(this.value)" placeholder="Cari topik artikel, riset, atau kelas..." class="w-full bg-transparent text-sm sm:text-base text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none">
-              <button onclick="clearSearch()" id="clearSearchBtn" class="hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
-                <i data-lucide="x" class="w-4 h-4"></i>
-              </button>
+          <div class="max-w-xl mx-auto pt-2">
+            <div class="search-awwwards-box flex items-center px-5 py-3">
+              <i data-lucide="search" class="w-5 h-5 text-indigo-400 shrink-0 mr-3"></i>
+              <input type="text" id="heroSearchInput" oninput="handleGlobalSearch(this.value)" placeholder="Cari topik artikel, riset, atau kelas..." class="w-full bg-transparent text-sm text-white light:text-slate-900 placeholder-slate-400 focus:outline-none">
             </div>
           </div>
 
           <!-- Category Chips -->
           <div class="flex items-center justify-center gap-2 flex-wrap pt-2" id="categoryChipsContainer">
-            <button onclick="filterCategory('semua')" class="chip-category active">Semua Topik</button>
-            <button onclick="filterCategory('teknologi')" class="chip-category">Teknologi & Digital</button>
-            <button onclick="filterCategory('opini')" class="chip-category">Opini & Kebijakan</button>
-            <button onclick="filterCategory('pendidikan')" class="chip-category">Pendidikan & Literasi</button>
-            <button onclick="filterCategory('riset')" class="chip-category">Metodologi & Riset</button>
+            <button onclick="filterCategory('semua')" class="chip-awwwards active">Semua Topik</button>
+            <button onclick="filterCategory('teknologi')" class="chip-awwwards">Teknologi & Digital</button>
+            <button onclick="filterCategory('opini')" class="chip-awwwards">Opini & Kebijakan</button>
+            <button onclick="filterCategory('pendidikan')" class="chip-awwwards">Pendidikan & Literasi</button>
+            <button onclick="filterCategory('riset')" class="chip-awwwards">Metodologi & Riset</button>
           </div>
 
         </div>
       </div>
 
-      <!-- Main Portal Content Container (Multi-Column Layout) -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <!-- Main Showcase Section -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          <!-- LEFT / CENTER COLUMN (70% - Main Content Feed) -->
+          <!-- Left Column (70% - Featured Article & Articles List) -->
           <div class="lg:col-span-8 space-y-10">
-            
-            <!-- Featured Main Article Widget -->
-            <div id="featuredArticleContainer">
-              <!-- Rendered via app.js -->
-            </div>
-
-            <!-- Latest Articles Feed Header -->
-            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+            <div class="flex items-center justify-between border-b border-white/10 light:border-slate-200 pb-4">
               <div class="flex items-center gap-2">
-                <i data-lucide="newspaper" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
-                <h2 class="text-xl font-serif font-bold text-slate-900 dark:text-white">Karya Tulis & Opini Terbaru</h2>
+                <i data-lucide="book-open" class="w-5 h-5 text-indigo-400"></i>
+                <h2 class="text-xl font-serif font-bold text-white light:text-slate-900">Karya Utama / Featured Publication</h2>
               </div>
-              <button onclick="navigate('articles')" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
+              <button onclick="navigate('articles')" class="text-xs font-mono text-indigo-400 hover:underline flex items-center gap-1">
                 <span>Lihat Semua Karya</span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
               </button>
             </div>
 
-            <!-- Main Articles Feed List -->
-            <div id="homeArticlesFeed" class="space-y-6">
+            <!-- Featured Article Box -->
+            <div id="featuredArticleContainer">
               <!-- Rendered via app.js -->
             </div>
 
+            <!-- Feed List -->
+            <div id="homeArticlesFeed" class="space-y-6">
+              <!-- Rendered via app.js -->
+            </div>
           </div>
 
-          <!-- RIGHT SIDEBAR COLUMN (30% - Widgets) -->
+          <!-- Right Column (30% - Sidebar Widgets) -->
           <div class="lg:col-span-4 space-y-8">
             
-            <!-- Sidebar Widget 1: Kelas Terbuka Gratis -->
-            <div class="surface-card p-6 space-y-4">
-              <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+            <!-- Courses Widget -->
+            <div class="awwwards-card p-6 space-y-4">
+              <div class="flex items-center justify-between border-b border-white/10 light:border-slate-200 pb-3">
                 <div class="flex items-center gap-2">
-                  <i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i>
-                  <h3 class="font-bold text-base text-slate-900 dark:text-white">Kelas Terbuka Gratis</h3>
+                  <i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-400"></i>
+                  <h3 class="font-serif font-bold text-base text-white light:text-slate-900">Kelas Terbuka Gratis</h3>
                 </div>
-                <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">100% Bebas Biaya</span>
+                <span class="text-[10px] font-mono font-bold text-emerald-400">100% BEBAS BIAYA</span>
               </div>
-              <div id="sidebarCoursesFeed" class="space-y-4">
+              <div id="sidebarCoursesFeed" class="space-y-3">
                 <!-- Rendered via app.js -->
               </div>
-              <button onclick="navigate('courses')" class="w-full btn-pill-secondary text-xs py-2">
+              <button onclick="navigate('courses')" class="w-full btn-awwwards-secondary text-xs py-2.5">
                 Jelajahi Semua Kelas
               </button>
             </div>
 
-            <!-- Sidebar Widget 2: Artikel Paling Populer -->
-            <div class="surface-card p-6 space-y-4">
-              <div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <i data-lucide="trending-up" class="w-5 h-5 text-amber-500"></i>
-                <h3 class="font-bold text-base text-slate-900 dark:text-white">Populer & Paling Banyak Dibaca</h3>
-              </div>
-              <div id="sidebarPopularFeed" class="space-y-4">
-                <!-- Rendered via app.js -->
-              </div>
-            </div>
-
-            <!-- Sidebar Widget 3: Newsletter Berlangganan -->
-            <div class="surface-card p-6 bg-gradient-to-br from-slate-900 to-slate-800 text-white dark:from-slate-800 dark:to-slate-900 space-y-4">
-              <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                <i data-lucide="mail" class="w-5 h-5 text-blue-400"></i>
-              </div>
-              <div class="space-y-1">
-                <h4 class="font-serif font-bold text-lg text-white">Langganan Karya Tulis</h4>
-                <p class="text-xs text-slate-300 leading-relaxed">
-                  Dapatkan pembaruan rilis tulisan terbaru dan jadwal kelas terbuka langsung ke email Anda. Tanpa spam.
-                </p>
-              </div>
-              <form onsubmit="handleNewsletterSubmit(event)" class="space-y-2 pt-2">
-                <input type="email" required placeholder="Alamat email Anda..." class="w-full px-3.5 py-2 rounded-xl text-xs bg-white/10 border border-white/20 text-white placeholder-slate-400 focus:outline-none focus:border-blue-400">
-                <button type="submit" class="w-full py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition-colors">
-                  Berlangganan Gratis
-                </button>
-              </form>
-            </div>
-
-            <!-- Sidebar Widget 4: Ringkasan Pengampu & Rekam Jejak -->
-            <div class="surface-card p-6 space-y-4">
+            <!-- Author Card -->
+            <div class="awwwards-card p-6 space-y-4">
               <div class="flex items-center gap-3">
-                <img id="sidebarProfileImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Profile" class="w-12 h-12 rounded-full object-cover border border-slate-200 dark:border-slate-700">
+                <img id="sidebarProfileImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Author" class="w-14 h-14 rounded-2xl object-cover border border-white/10">
                 <div>
-                  <h4 id="sidebarProfileName" class="font-bold text-sm text-slate-900 dark:text-white">Rauwa</h4>
-                  <p id="sidebarProfileHeadline" class="text-xs text-slate-500 dark:text-slate-400">Penulis & Inisiator Literasi Publik</p>
+                  <h4 id="sidebarProfileName" class="font-bold text-sm text-white light:text-slate-900">Rauwa</h4>
+                  <p id="sidebarProfileHeadline" class="text-xs text-indigo-400">Penulis & Inisiator Literasi Publik</p>
                 </div>
               </div>
-              <p id="sidebarProfileBio" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p id="sidebarProfileBio" class="text-xs text-slate-300 light:text-slate-600 leading-relaxed">
                 Pengampu platform independen untuk penyebaran ilmu pengetahuan dan pembelajaran terbuka.
               </p>
-              <button onclick="navigate('about')" class="w-full btn-pill-secondary text-xs py-2">
-                Lihat Profil Lengkap & Rekam Jejak
+              <button onclick="navigate('about')" class="w-full btn-awwwards-secondary text-xs py-2.5">
+                Lihat Profil & Rekam Jejak
               </button>
             </div>
 
@@ -273,77 +226,55 @@
     </section>
 
     <!-- VIEW 2: ARTICLES CATALOG PAGE -->
-    <section id="view-articles" class="view-section hidden py-10 px-4">
+    <section id="view-articles" class="view-section hidden py-12 px-4">
       <div class="max-w-7xl mx-auto space-y-8">
-        
-        <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
-          <h1 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Karya Tulis & Publikasi</h1>
-          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+        <div class="border-b border-white/10 light:border-slate-200 pb-6">
+          <h1 class="text-3xl font-serif font-bold text-white light:text-slate-900">Arsip Karya Tulis & Publikasi</h1>
+          <p class="text-sm text-slate-400 mt-1">
             Arsip lengkap gagasan, riset, dan analisis pemikiran yang dapat diakses secara bebas.
           </p>
         </div>
 
-        <!-- Filter & Search Controls -->
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-          <div class="relative flex-grow max-w-md">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
-            <input type="text" id="articlePageSearchInput" oninput="filterArticlesPage(this.value)" placeholder="Cari dalam karya tulis..." class="w-full pl-10 pr-4 py-2 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-blue-600">
-          </div>
-          <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" id="articlesCategoryFilter">
-            <!-- Dynamic filters -->
-          </div>
-        </div>
-
-        <!-- Articles Grid -->
         <div id="fullArticlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Rendered via app.js -->
         </div>
-
       </div>
     </section>
 
     <!-- VIEW 3: ARTICLE DETAIL PAGE -->
-    <section id="view-article-detail" class="view-section hidden py-10 px-4">
-      <div class="max-w-3xl mx-auto space-y-8">
-        
-        <button onclick="navigate('articles')" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+    <section id="view-article-detail" class="view-section hidden py-12 px-4">
+      <div class="max-w-4xl mx-auto space-y-8">
+        <button onclick="navigate('articles')" class="inline-flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          <span>Kembali ke Daftar Karya Tulis</span>
+          <span>Kembali ke Katalog Karya Tulis</span>
         </button>
 
         <article id="articleDetailContent" class="space-y-8">
           <!-- Rendered via app.js -->
         </article>
-
       </div>
     </section>
 
     <!-- VIEW 4: COURSES CATALOG PAGE -->
-    <section id="view-courses" class="view-section hidden py-10 px-4">
+    <section id="view-courses" class="view-section hidden py-12 px-4">
       <div class="max-w-7xl mx-auto space-y-8">
-        
-        <div class="border-b border-slate-200 dark:border-slate-800 pb-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold mb-2">
-            <span>100% Tanpa Biaya • Akses Terbuka</span>
-          </div>
-          <h1 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Kelas Terbuka & Sesi Belajar</h1>
-          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            Modul pembelajaran interaktif, materi video, dan catatan materi untuk pengembangan kapasitas mandiri.
+        <div class="border-b border-white/10 light:border-slate-200 pb-6">
+          <h1 class="text-3xl font-serif font-bold text-white light:text-slate-900">Kelas Terbuka & Sesi Belajar</h1>
+          <p class="text-sm text-slate-400 mt-1">
+            Modul pembelajaran interaktif dan catatan materi untuk pengembangan kapasitas mandiri.
           </p>
         </div>
 
         <div id="fullCoursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Rendered via app.js -->
         </div>
-
       </div>
     </section>
 
     <!-- VIEW 5: COURSE DETAIL PAGE -->
-    <section id="view-course-detail" class="view-section hidden py-10 px-4">
+    <section id="view-course-detail" class="view-section hidden py-12 px-4">
       <div class="max-w-4xl mx-auto space-y-8">
-        
-        <button onclick="navigate('courses')" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+        <button onclick="navigate('courses')" class="inline-flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
           <span>Kembali ke Katalog Kelas Terbuka</span>
         </button>
@@ -351,35 +282,31 @@
         <div id="courseDetailContent" class="space-y-8">
           <!-- Rendered via app.js -->
         </div>
-
       </div>
     </section>
 
-    <!-- VIEW 6: ABOUT PAGE ("Tentang Saya" & Rekam Jejak) -->
+    <!-- VIEW 6: ABOUT PAGE -->
     <section id="view-about" class="view-section hidden py-12 px-4">
-      <div class="max-w-4xl mx-auto space-y-12">
-        
-        <!-- Header Profile Card -->
-        <div class="surface-card p-8 space-y-6 relative overflow-hidden">
+      <div class="max-w-4xl mx-auto space-y-10">
+        <div class="awwwards-card p-8 space-y-6">
           <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-            <img id="aboutProfileAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Avatar" class="w-28 h-28 md:w-32 md:h-32 rounded-2xl object-cover border-2 border-slate-200 dark:border-slate-700 shadow-sm shrink-0">
+            <img id="aboutProfileAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Avatar" class="w-28 h-28 rounded-2xl object-cover border border-white/10 shrink-0">
             <div class="space-y-3 text-center md:text-left flex-grow">
               <div>
-                <h1 id="aboutProfileName" class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white">Rauwa</h1>
-                <p id="aboutProfileHeadline" class="text-sm font-semibold text-blue-600 dark:text-blue-400 mt-0.5">Penulis & Inisiator Literasi Publik</p>
+                <h1 id="aboutProfileName" class="text-2xl sm:text-3xl font-serif font-bold text-white light:text-slate-900">Rauwa</h1>
+                <p id="aboutProfileHeadline" class="text-sm font-semibold text-indigo-400 mt-0.5">Penulis & Inisiator Literasi Publik</p>
               </div>
-              <p id="aboutProfileBio" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
-                Berpengalaman dalam pengembangan materi edukasi terbuka, pengkajian opini publik, dan pembangunan jaringan pembelajar mandiri.
+              <p id="aboutProfileBio" class="text-sm text-slate-300 light:text-slate-600 leading-relaxed">
+                Berpengalaman dalam pengembangan materi edukasi terbuka dan pengkajian opini publik.
               </p>
               
-              <!-- Contact Buttons -->
               <div class="flex items-center justify-center md:justify-start gap-3 pt-2">
-                <a id="aboutLinkedInBtn" href="#" target="_blank" class="btn-pill-secondary text-xs px-3.5 py-1.5 flex items-center gap-2">
-                  <i data-lucide="linkedin" class="w-3.5 h-3.5 text-blue-600"></i>
+                <a id="aboutLinkedInBtn" href="#" target="_blank" class="btn-awwwards-secondary text-xs px-4 py-2 flex items-center gap-2">
+                  <i data-lucide="linkedin" class="w-4 h-4 text-indigo-400"></i>
                   <span>LinkedIn</span>
                 </a>
-                <a id="aboutEmailBtn" href="#" class="btn-pill-secondary text-xs px-3.5 py-1.5 flex items-center gap-2">
-                  <i data-lucide="mail" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <a id="aboutEmailBtn" href="#" class="btn-awwwards-secondary text-xs px-4 py-2 flex items-center gap-2">
+                  <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i>
                   <span>Email Kontak</span>
                 </a>
               </div>
@@ -387,88 +314,69 @@
           </div>
         </div>
 
-        <!-- Rekam Jejak Timeline Section -->
         <div class="space-y-6">
-          <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-            <i data-lucide="briefcase" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
-            <h2 class="text-xl font-serif font-bold text-slate-900 dark:text-white">Rekam Jejak & Pengalaman</h2>
-          </div>
+          <h2 class="text-xl font-serif font-bold text-white light:text-slate-900 border-b border-white/10 light:border-slate-200 pb-3">
+            Rekam Jejak & Timeline Pengalaman
+          </h2>
           <div id="aboutExperienceTimeline" class="space-y-4">
             <!-- Rendered via app.js -->
           </div>
         </div>
 
-        <!-- Keahlian & Bidang Fokus -->
         <div class="space-y-6">
-          <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-            <i data-lucide="award" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
-            <h2 class="text-xl font-serif font-bold text-slate-900 dark:text-white">Bidang Fokus & Kompetensi</h2>
-          </div>
+          <h2 class="text-xl font-serif font-bold text-white light:text-slate-900 border-b border-white/10 light:border-slate-200 pb-3">
+            Keahlian & Bidang Fokus
+          </h2>
           <div id="aboutSkillsBadges" class="flex flex-wrap gap-2">
             <!-- Rendered via app.js -->
           </div>
         </div>
-
       </div>
     </section>
 
   </main>
 
-  <!-- Footer Section -->
-  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0f172a] py-8 px-4 transition-colors">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+  <!-- Footer -->
+  <footer class="border-t border-white/10 light:border-slate-200 bg-[#090b10] light:bg-white py-8 px-4 transition-colors">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
       <div class="flex items-center gap-2">
-        <div class="w-6 h-6 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 flex items-center justify-center font-serif font-bold text-xs">
-          K
-        </div>
-        <span class="font-semibold text-slate-700 dark:text-slate-300">Karya Tulis & Kelas Terbuka</span>
+        <span class="text-white font-serif font-bold">Karya Tulis & Kelas Terbuka</span>
         <span>• Platform Literasi Publik</span>
       </div>
       <div>
-        <span>Hak Cipta © 2026. Didedikasikan untuk Pendidikan & Pembelajaran Terbuka.</span>
+        <span>Hak Cipta © 2026. Didedikasikan untuk Pembelajaran Terbuka.</span>
       </div>
     </div>
   </footer>
 
-  <!-- Admin Modal Window -->
-  <div id="adminModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6">
-      
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+  <!-- Admin Modal -->
+  <div id="adminModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-[#111522] rounded-2xl border border-white/10 w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div class="flex items-center gap-2">
-          <i data-lucide="shield" class="w-5 h-5 text-blue-600"></i>
-          <h2 class="text-lg font-bold text-slate-900 dark:text-white">Pusat Kendali — Manajemen Konten</h2>
+          <i data-lucide="shield" class="w-5 h-5 text-indigo-400"></i>
+          <h2 class="text-base font-bold text-white">Pusat Kendali — Manajemen Konten</h2>
         </div>
-        <button onclick="closeAdmin()" class="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white">
+        <button onclick="closeAdmin()" class="p-1 rounded-lg text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div id="adminAuthSection" class="space-y-4 py-4 max-w-sm mx-auto">
-        <p class="text-xs text-slate-500 text-center">Masukkan Kata Kunci Akses untuk Mengelola Konten Platform</p>
-        <input type="password" id="adminPassInput" placeholder="Password Admin..." class="w-full px-4 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600">
-        <button onclick="checkAdminAuth()" class="w-full btn-pill-primary text-xs py-2.5">
+        <input type="password" id="adminPassInput" placeholder="Password Admin..." class="w-full px-4 py-2.5 text-sm rounded-xl border border-white/10 bg-slate-900 text-white focus:outline-none focus:border-indigo-500">
+        <button onclick="checkAdminAuth()" class="w-full btn-awwwards-primary text-xs py-2.5">
           Masuk ke Dashboard
         </button>
       </div>
 
       <div id="adminDashboardSection" class="hidden space-y-6">
-        <!-- Admin management controls rendered via app.js -->
-        <div id="adminTabControls" class="flex gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
-          <button onclick="switchAdminTab('articles')" id="admin-tab-articles" class="btn-pill-primary text-xs py-1.5 px-3">Kelola Karya Tulis</button>
-          <button onclick="switchAdminTab('courses')" id="admin-tab-courses" class="btn-pill-secondary text-xs py-1.5 px-3">Kelola Kelas Terbuka</button>
-          <button onclick="switchAdminTab('profile')" id="admin-tab-profile" class="btn-pill-secondary text-xs py-1.5 px-3">Edit Profil & Rekam Jejak</button>
-        </div>
-
         <div id="adminContentContainer">
           <!-- Dynamic admin content -->
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- App Script Logic -->
-  <script src="app.js?v=5.0"></script>
+  <script src="app.js?v=7.0"></script>
 </body>
 </html>
