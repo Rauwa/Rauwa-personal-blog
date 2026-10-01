@@ -138,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDarkMode();
   renderAllViews();
   setupScrollProgress();
+  initInteractiveLiveAura();
   lucide.createIcons();
 });
 
@@ -167,6 +168,43 @@ function setupScrollProgress() {
     const scrolled = (winScroll / height) * 100;
     const bar = document.getElementById('readingProgressBar');
     if (bar) bar.style.width = (scrolled || 0) + '%';
+  });
+}
+
+/* Live Ambient Cursor & Button Spotlight Animation */
+function initInteractiveLiveAura() {
+  const aura = document.createElement('div');
+  aura.id = 'liveCursorAura';
+  aura.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 320px;
+    margin-top: -160px;
+    margin-left: -160px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.15s ease-out;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(236, 72, 153, 0.08) 50%, transparent 70%);
+  `;
+  document.body.appendChild(aura);
+
+  window.addEventListener('mousemove', (e) => {
+    const isDark = document.documentElement.classList.contains('dark');
+    if (isDark) {
+      aura.style.background = 'radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(192, 132, 252, 0.12) 45%, transparent 70%)';
+    } else {
+      aura.style.background = 'radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, rgba(236, 72, 153, 0.1) 45%, transparent 70%)';
+    }
+    aura.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    aura.style.opacity = '1';
+  });
+
+  document.addEventListener('mouseleave', () => {
+    aura.style.opacity = '0';
   });
 }
 
@@ -221,7 +259,7 @@ function renderHome() {
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-7 space-y-5">
             <div class="flex items-center gap-3">
-              <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-cyan-100 text-cyan-900 dark:bg-blue-950/80 dark:text-blue-300 border border-cyan-300 dark:border-blue-800/60 uppercase tracking-wider">
+              <span class="badge-pastel-glass">
                 ${mainArticle.categoryLabel || 'Karya Utama'}
               </span>
               <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">${mainArticle.date || ''}</span>
