@@ -142,10 +142,18 @@ async function syncFromSupabase() {
   }
 }
 
-// --- LOCAL STORAGE MANAGER ---
+// --- LOCAL STORAGE & DATA MANAGER (DEFENSIVE WITH DEFAULT FALLBACKS) ---
 function getProfile() {
   const data = localStorage.getItem('site_profile');
-  return data ? JSON.parse(data) : DEFAULT_PROFILE;
+  if (data) {
+    try {
+      const parsed = JSON.parse(data);
+      if (parsed && typeof parsed === 'object' && parsed.name) return parsed;
+    } catch (e) {
+      console.error("Error parsing profile from localStorage", e);
+    }
+  }
+  return DEFAULT_PROFILE;
 }
 
 function saveProfile(data) {
@@ -162,7 +170,10 @@ function getArticles() {
   if (data) {
     try {
       const parsed = JSON.parse(data);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed)) {
+        const valid = parsed.filter(a => a && typeof a === 'object' && a.id && a.title);
+        if (valid.length > 0) return valid;
+      }
     } catch (e) {
       console.error("Error parsing articles from localStorage", e);
     }
@@ -171,6 +182,10 @@ function getArticles() {
 }
 
 function saveArticles(data) {
+  if (!Array.isArray(data) || data.length === 0) {
+    localStorage.removeItem('site_articles');
+    return;
+  }
   localStorage.setItem('site_articles', JSON.stringify(data));
   if (supabase) {
     supabase.from('articles').upsert(data, { onConflict: 'id' }).then(({ error }) => {
@@ -181,10 +196,25 @@ function saveArticles(data) {
 
 function getCourses() {
   const data = localStorage.getItem('site_courses');
-  return data ? JSON.parse(data) : DEFAULT_COURSES;
+  if (data) {
+    try {
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed)) {
+        const valid = parsed.filter(c => c && typeof c === 'object' && c.id && c.title);
+        if (valid.length > 0) return valid;
+      }
+    } catch (e) {
+      console.error("Error parsing courses from localStorage", e);
+    }
+  }
+  return DEFAULT_COURSES;
 }
 
 function saveCourses(data) {
+  if (!Array.isArray(data) || data.length === 0) {
+    localStorage.removeItem('site_courses');
+    return;
+  }
   localStorage.setItem('site_courses', JSON.stringify(data));
   if (supabase) {
     supabase.from('courses').upsert(data, { onConflict: 'id' }).then(({ error }) => {
