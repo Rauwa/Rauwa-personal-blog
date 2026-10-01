@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Karya Tulis & Kelas Terbuka — Platform Literasi Publik</title>
-  <meta name="description" content="Platform pribadi publikasi karya tulis, riset, opini, dan kelas terbuka gratis.">
+  <meta name="description" content="Platform pribadi publikasi karya tulis, riset, sertifikasi, dan kelas terbuka gratis.">
 
   <!-- Typography & Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,14 +32,14 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Bespoke Awwwards Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=7.0">
+  <link rel="stylesheet" href="styles.css?v=8.0">
 </head>
 <body class="bg-[#090b10] text-slate-100 light:bg-[#f8fafc] light:text-slate-900 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
   <!-- Reading Progress Bar -->
   <div id="readingProgressBar" class="reading-progress-bar"></div>
 
-  <!-- Awwwards Floating Glass Header -->
+  <!-- Awwwards Floating Glass Header Navigation -->
   <header class="sticky top-0 z-40 awwwards-nav transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
       
@@ -61,7 +61,7 @@
         </div>
       </a>
 
-      <!-- Desktop Nav Pills -->
+      <!-- Desktop Focused Nav Links (Gambar 2) -->
       <nav class="hidden md:flex items-center gap-1.5">
         <button onclick="navigate('home')" id="nav-btn-home" class="nav-awwwards active">
           Beranda Utama
@@ -72,7 +72,7 @@
         <button onclick="navigate('courses')" id="nav-btn-courses" class="nav-awwwards flex items-center gap-2">
           <span>Kelas Terbuka</span>
           <span class="px-2 py-0.5 text-[9px] font-mono font-bold uppercase rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-            Gratis
+            GRATIS
           </span>
         </button>
         <button onclick="navigate('about')" id="nav-btn-about" class="nav-awwwards">
@@ -106,7 +106,7 @@
     <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 bg-[#090b10] px-4 py-3 space-y-1">
       <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Beranda Utama</button>
       <button onclick="navigate('articles'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Karya Tulis</button>
-      <button onclick="navigate('courses'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Kelas Terbuka (Gratis)</button>
+      <button onclick="navigate('courses'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Kelas Terbuka (GRATIS)</button>
       <button onclick="navigate('about'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-white/10">Tentang Saya</button>
     </div>
   </header>
@@ -114,58 +114,20 @@
   <!-- Main View Container -->
   <main class="flex-grow">
     
-    <!-- VIEW 1: HOME PAGE (Awwwards Display Showcase) -->
-    <section id="view-home" class="view-section">
-      
-      <!-- Hero Showcase Section -->
-      <div class="awwwards-hero-glow py-16 md:py-24 px-4 border-b border-white/10 light:border-slate-200">
-        <div class="max-w-5xl mx-auto text-center space-y-8 relative z-10">
-          
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-mono font-bold tracking-wider border border-indigo-500/30">
-            <span>PLATFORM PUBLIKASI & LITERASI PUBLIK</span>
-          </div>
-
-          <h1 class="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-white light:text-slate-900 tracking-tight leading-tight">
-            Ruang Publikasi Karya Tulis, Riset, & Kelas Terbuka
-          </h1>
-
-          <p class="text-base sm:text-lg text-slate-300 light:text-slate-600 max-w-2xl mx-auto font-sans leading-relaxed">
-            Didedikasikan untuk keterbukaan ilmu pengetahuan, analisis kritis, dan ruang belajar mandiri tanpa hambatan paywall.
-          </p>
-
-          <!-- Interactive Search Bar -->
-          <div class="max-w-xl mx-auto pt-2">
-            <div class="search-awwwards-box flex items-center px-5 py-3">
-              <i data-lucide="search" class="w-5 h-5 text-indigo-400 shrink-0 mr-3"></i>
-              <input type="text" id="heroSearchInput" oninput="handleGlobalSearch(this.value)" placeholder="Cari topik artikel, riset, atau kelas..." class="w-full bg-transparent text-sm text-white light:text-slate-900 placeholder-slate-400 focus:outline-none">
-            </div>
-          </div>
-
-          <!-- Category Chips -->
-          <div class="flex items-center justify-center gap-2 flex-wrap pt-2" id="categoryChipsContainer">
-            <button onclick="filterCategory('semua')" class="chip-awwwards active">Semua Topik</button>
-            <button onclick="filterCategory('teknologi')" class="chip-awwwards">Teknologi & Digital</button>
-            <button onclick="filterCategory('opini')" class="chip-awwwards">Opini & Kebijakan</button>
-            <button onclick="filterCategory('pendidikan')" class="chip-awwwards">Pendidikan & Literasi</button>
-            <button onclick="filterCategory('riset')" class="chip-awwwards">Metodologi & Riset</button>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Main Showcase Section -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+    <!-- VIEW 1: HOME PAGE (Langsung Konten - Hero Banner Dihapus Sesuai Gambar 1) -->
+    <section id="view-home" class="view-section py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          <!-- Left Column (70% - Featured Article & Articles List) -->
-          <div class="lg:col-span-8 space-y-10">
+          <!-- Left Column (70% - Featured Article & Articles Feed) -->
+          <div class="lg:col-span-8 space-y-8">
             <div class="flex items-center justify-between border-b border-white/10 light:border-slate-200 pb-4">
               <div class="flex items-center gap-2">
                 <i data-lucide="book-open" class="w-5 h-5 text-indigo-400"></i>
-                <h2 class="text-xl font-serif font-bold text-white light:text-slate-900">Karya Utama / Featured Publication</h2>
+                <h2 class="text-xl font-serif font-bold text-white light:text-slate-900">Karya Utama / Featured Article</h2>
               </div>
               <button onclick="navigate('articles')" class="text-xs font-mono text-indigo-400 hover:underline flex items-center gap-1">
-                <span>Lihat Semua Karya</span>
+                <span>Lihat Semua Karya Tulis</span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
               </button>
             </div>
@@ -175,7 +137,7 @@
               <!-- Rendered via app.js -->
             </div>
 
-            <!-- Feed List -->
+            <!-- Articles Feed List -->
             <div id="homeArticlesFeed" class="space-y-6">
               <!-- Rendered via app.js -->
             </div>
@@ -201,7 +163,7 @@
               </button>
             </div>
 
-            <!-- Author Card -->
+            <!-- Profile Sidebar Widget (Tanpa Rekam Jejak - Gambar 3) -->
             <div class="awwwards-card p-6 space-y-4">
               <div class="flex items-center gap-3">
                 <img id="sidebarProfileImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Author" class="w-14 h-14 rounded-2xl object-cover border border-white/10">
@@ -214,7 +176,7 @@
                 Pengampu platform independen untuk penyebaran ilmu pengetahuan dan pembelajaran terbuka.
               </p>
               <button onclick="navigate('about')" class="w-full btn-awwwards-secondary text-xs py-2.5">
-                Lihat Profil & Rekam Jejak
+                Lihat Profil Lengkap
               </button>
             </div>
 
@@ -222,16 +184,15 @@
 
         </div>
       </div>
-
     </section>
 
     <!-- VIEW 2: ARTICLES CATALOG PAGE -->
     <section id="view-articles" class="view-section hidden py-12 px-4">
       <div class="max-w-7xl mx-auto space-y-8">
         <div class="border-b border-white/10 light:border-slate-200 pb-6">
-          <h1 class="text-3xl font-serif font-bold text-white light:text-slate-900">Arsip Karya Tulis & Publikasi</h1>
+          <h1 class="text-3xl font-serif font-bold text-white light:text-slate-900">Katalog Karya Tulis & Publikasi</h1>
           <p class="text-sm text-slate-400 mt-1">
-            Arsip lengkap gagasan, riset, dan analisis pemikiran yang dapat diakses secara bebas.
+            Arsip lengkap karya tulis, riset, dan esai opini terpublikasi.
           </p>
         </div>
 
@@ -241,9 +202,9 @@
       </div>
     </section>
 
-    <!-- VIEW 3: ARTICLE DETAIL PAGE -->
+    <!-- VIEW 3: ARTICLE DETAIL PAGE (Gaya Medium) -->
     <section id="view-article-detail" class="view-section hidden py-12 px-4">
-      <div class="max-w-4xl mx-auto space-y-8">
+      <div class="max-w-3xl mx-auto space-y-8">
         <button onclick="navigate('articles')" class="inline-flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
           <span>Kembali ke Katalog Karya Tulis</span>
@@ -255,13 +216,13 @@
       </div>
     </section>
 
-    <!-- VIEW 4: COURSES CATALOG PAGE -->
+    <!-- VIEW 4: COURSES CATALOG PAGE (Gaya edX) -->
     <section id="view-courses" class="view-section hidden py-12 px-4">
       <div class="max-w-7xl mx-auto space-y-8">
         <div class="border-b border-white/10 light:border-slate-200 pb-6">
-          <h1 class="text-3xl font-serif font-bold text-white light:text-slate-900">Kelas Terbuka & Sesi Belajar</h1>
+          <h1 class="text-3xl font-serif font-bold text-white light:text-slate-900">Katalog Kelas Terbuka Gratis</h1>
           <p class="text-sm text-slate-400 mt-1">
-            Modul pembelajaran interaktif dan catatan materi untuk pengembangan kapasitas mandiri.
+            Modul pembelajaran interaktif multi-sesi, video materi, dan lampiran unduhan edX.
           </p>
         </div>
 
@@ -271,7 +232,7 @@
       </div>
     </section>
 
-    <!-- VIEW 5: COURSE DETAIL PAGE -->
+    <!-- VIEW 5: COURSE DETAIL PAGE (Gaya edX) -->
     <section id="view-course-detail" class="view-section hidden py-12 px-4">
       <div class="max-w-4xl mx-auto space-y-8">
         <button onclick="navigate('courses')" class="inline-flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-white transition-colors">
@@ -285,9 +246,11 @@
       </div>
     </section>
 
-    <!-- VIEW 6: ABOUT PAGE -->
+    <!-- VIEW 6: ABOUT PAGE (Dengan Sertifikasi LinkedIn & Tanpa Rekam Jejak) -->
     <section id="view-about" class="view-section hidden py-12 px-4">
       <div class="max-w-4xl mx-auto space-y-10">
+        
+        <!-- Profile Header Card -->
         <div class="awwwards-card p-8 space-y-6">
           <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
             <img id="aboutProfileAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Avatar" class="w-28 h-28 rounded-2xl object-cover border border-white/10 shrink-0">
@@ -303,7 +266,7 @@
               <div class="flex items-center justify-center md:justify-start gap-3 pt-2">
                 <a id="aboutLinkedInBtn" href="#" target="_blank" class="btn-awwwards-secondary text-xs px-4 py-2 flex items-center gap-2">
                   <i data-lucide="linkedin" class="w-4 h-4 text-indigo-400"></i>
-                  <span>LinkedIn</span>
+                  <span>Profil LinkedIn</span>
                 </a>
                 <a id="aboutEmailBtn" href="#" class="btn-awwwards-secondary text-xs px-4 py-2 flex items-center gap-2">
                   <i data-lucide="mail" class="w-4 h-4 text-emerald-400"></i>
@@ -314,23 +277,28 @@
           </div>
         </div>
 
+        <!-- Sertifikat & Lisensi (Gaya LinkedIn) -->
         <div class="space-y-6">
-          <h2 class="text-xl font-serif font-bold text-white light:text-slate-900 border-b border-white/10 light:border-slate-200 pb-3">
-            Rekam Jejak & Timeline Pengalaman
-          </h2>
-          <div id="aboutExperienceTimeline" class="space-y-4">
+          <div class="flex items-center gap-2 border-b border-white/10 light:border-slate-200 pb-3">
+            <i data-lucide="award" class="w-5 h-5 text-indigo-400"></i>
+            <h2 class="text-xl font-serif font-bold text-white light:text-slate-900">Sertifikat & Lisensi Terverifikasi</h2>
+          </div>
+          <div id="aboutCertificatesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- Rendered via app.js -->
           </div>
         </div>
 
+        <!-- Keahlian & Bidang Fokus -->
         <div class="space-y-6">
-          <h2 class="text-xl font-serif font-bold text-white light:text-slate-900 border-b border-white/10 light:border-slate-200 pb-3">
-            Keahlian & Bidang Fokus
-          </h2>
+          <div class="flex items-center gap-2 border-b border-white/10 light:border-slate-200 pb-3">
+            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+            <h2 class="text-xl font-serif font-bold text-white light:text-slate-900">Keahlian & Bidang Fokus</h2>
+          </div>
           <div id="aboutSkillsBadges" class="flex flex-wrap gap-2">
             <!-- Rendered via app.js -->
           </div>
         </div>
+
       </div>
     </section>
 
@@ -349,13 +317,13 @@
     </div>
   </footer>
 
-  <!-- Admin Modal -->
+  <!-- Admin Modal (Full Content Manager: Medium + LinkedIn + edX) -->
   <div id="adminModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="bg-[#111522] rounded-2xl border border-white/10 w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6">
+    <div class="bg-[#111522] rounded-2xl border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6">
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div class="flex items-center gap-2">
           <i data-lucide="shield" class="w-5 h-5 text-indigo-400"></i>
-          <h2 class="text-base font-bold text-white">Pusat Kendali — Manajemen Konten</h2>
+          <h2 class="text-base font-bold text-white">Pusat Kendali Admin — Manajemen Konten Lengkap</h2>
         </div>
         <button onclick="closeAdmin()" class="p-1 rounded-lg text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -370,6 +338,19 @@
       </div>
 
       <div id="adminDashboardSection" class="hidden space-y-6">
+        <!-- Admin Tab Buttons -->
+        <div class="flex flex-wrap gap-2 border-b border-white/10 pb-3">
+          <button onclick="switchAdminTab('articles')" id="admin-tab-articles" class="btn-awwwards-primary text-xs py-1.5 px-3">
+            📝 Artikel (Gaya Medium)
+          </button>
+          <button onclick="switchAdminTab('courses')" id="admin-tab-courses" class="btn-awwwards-secondary text-xs py-1.5 px-3">
+            🎓 Kelas (Gaya edX)
+          </button>
+          <button onclick="switchAdminTab('profile')" id="admin-tab-profile" class="btn-awwwards-secondary text-xs py-1.5 px-3">
+            👤 Profil & Sertifikat (Gaya LinkedIn)
+          </button>
+        </div>
+
         <div id="adminContentContainer">
           <!-- Dynamic admin content -->
         </div>
@@ -377,6 +358,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=7.0"></script>
+  <script src="app.js?v=8.0"></script>
 </body>
 </html>

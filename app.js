@@ -1,9 +1,13 @@
 /* ==========================================================================
-   AWWARDS UI DESIGN - APPLICATION LOGIC
-   Platform Literasi & Publikasi Publik Modern
+   AWWARDS UI DESIGN - COMPLETE APPLICATION LOGIC
+   Featuring:
+   1. Medium-style Article Editor (inline images with captions, formatting)
+   2. LinkedIn-style Profile & Certificate Manager (badges, issuer, upload/link)
+   3. edX-style Course & Syllabus Builder (multi-session video lectures & notes)
+   4. Complete protection of user's published articles in localStorage
    ========================================================================== */
 
-// --- DEFAULT PROFILE ---
+// --- DEFAULT PROFILE & LINKEDIN CERTIFICATES ---
 const DEFAULT_PROFILE = {
   name: "Rauwa",
   headline: "Penulis & Inisiator Literasi Publik",
@@ -12,20 +16,20 @@ const DEFAULT_PROFILE = {
   linkedin: "https://linkedin.com",
   email: "kontak@literasipublik.org",
   skills: ["Pengkajian Opini", "Literasi Digital", "Metodologi Riset", "Desain Edukasi", "Kritik Kebijakan", "Public Speaking"],
-  experiences: [
+  certificates: [
     {
-      id: "exp-1",
-      role: "Inisiator Platform Literasi Publik",
-      organization: "Program Pembelajaran Terbuka Mandiri",
-      period: "2024 - Sekarang",
-      description: "Mengembangkan kurikulum terbuka gratis, mengarsip karya ilmiah publik, serta menyelenggarakan sesi belajar berkala."
+      id: "cert-1",
+      title: "Sertifikasi Metodologi Riset & Analisis Data Publik",
+      issuer: "Institut Pengkajian & Literasi Terbuka",
+      year: "2025",
+      credentialUrl: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=600&q=80"
     },
     {
-      id: "exp-2",
-      role: "Peneliti & Penulis Independen",
-      organization: "Studi Kebijakan & Transformasi Digital",
-      period: "2021 - 2024",
-      description: "Menulis artikel riset mendalam dan esai reflektif tentang sains, budaya, dan struktur sosial."
+      id: "cert-2",
+      title: "Sertifikat Pengampu Pembelajaran Terbuka Mandiri",
+      issuer: "Konsorsium Edukasi Digital Indonesia",
+      year: "2024",
+      credentialUrl: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80"
     }
   ]
 };
@@ -33,7 +37,7 @@ const DEFAULT_PROFILE = {
 // --- DEFAULT ARTICLES ---
 const DEFAULT_ARTICLES = [
   {
-    id: "art-espresso",
+    id: "art-1",
     title: "Sains Presisi & Seni Ekstraksi Mesin Espresso",
     category: "riset",
     categoryLabel: "Metodologi & Riset",
@@ -46,35 +50,41 @@ const DEFAULT_ARTICLES = [
     content: `
 <p class="lead font-medium text-lg text-slate-200 light:text-slate-700">Seduhan espresso yang sempurna bukanlah sekadar keberuntungan barista, melainkan hasil dari interaksi fisika fluida dan kimia organik yang presisi di dalam basket portafilter.</p>
 
+<figure class="medium-inline-figure">
+  <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80" class="medium-inline-img" alt="Proses Ekstraksi Espresso">
+  <figcaption class="medium-caption">Gambar 1: Aliran ekstraksi espresso presisi pada tekanan 9 bar dan suhu 93°C.</figcaption>
+</figure>
+
 <h2>1. Peran Stabilitas Termal & Sistem PID</h2>
 <p>Fluktuasi suhu sebesar 1°C saja dapat mengubah rasio asam sitrat dan asam kuinat yang teresktraksi. Pada mesin espresso modern, penggunaan kendali logika PID (Proportional-Integral-Derivative) memastikan air yang mengalir dari boiler menuju grouphead berada pada rentang ideal 92°C hingga 94°C.</p>
 
 <h2>2. Dinamika Tekanan 9 Bar & Emulsifikasi Minyak</h2>
 <p>Tekanan 9 bar memaksa air menembus lapisan bubuk berukuran mikro (fine grind). Tekanan tinggi ini mengemulsi minyak tak jenuh bersama gas CO2 alami hasil sangrai, menciptakan busa padat berwarna cokelat keemasan (crema) yang menangkap aroma volatil.</p>
 
-<blockquote>"Channeling atau celah udara pada puck adalah musuh utama ekstraksi espresso. Teknik perataan WDT (Weiss Distribution Technique) serta tamping sejajar 15kg adalah kunci kepatuhan resistensi bubuk kopi."</blockquote>
+<blockquote class="my-6">"Channeling atau celah udara pada puck adalah musuh utama ekstraksi espresso. Teknik perataan WDT (Weiss Distribution Technique) serta tamping sejajar 15kg adalah kunci kepatuhan resistensi bubuk kopi."</blockquote>
 `
   }
 ];
 
+// --- DEFAULT EDX COURSES ---
 const DEFAULT_COURSES = [
   {
     id: "crs-1",
-    title: "Pengantar Metodologi Penulisan & Riset Kritis",
+    title: "Pengantar Metodologi Penulisan & Riset Kritis (Gaya edX)",
     category: "Riset & Penulisan",
     level: "Umum & Mandiri",
     status: "Pendaftaran Terbuka",
     thumbnail: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
-    excerpt: "Menguasai struktur argumentasi ilmiah, sintesis ide, dan artikulasi bahasa dalam publikasi karya tulis.",
+    excerpt: "Menguasai struktur argumentasi ilmiah, sintesis ide, dan artikulasi bahasa dalam publikasi karya tulis edX.",
     duration: "4 Sesi Pembelajaran",
     modules: [
-      { title: "Sesi 1: Merumuskan Pokok Pikiran Utama", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Fokus pada pembuatan thesis statement yang kuat dan terukur." },
-      { title: "Sesi 2: Penyuntingan Akhir & Publikasi", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Proses revisi mandiri sebelum menerbitkan karya." }
+      { title: "Modul 1: Merumuskan Pokok Pikiran Utama", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Fokus pada pembuatan thesis statement yang kuat dan terukur." },
+      { title: "Modul 2: Penyuntingan Akhir & Publikasi edX", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Proses revisi mandiri sebelum menerbitkan karya." }
     ]
   }
 ];
 
-// --- LOCAL STORAGE MANAGER WITH FULL DATA PROTECTION ---
+// --- LOCAL STORAGE HELPERS WITH FULL DATA PROTECTION ---
 function getProfile() {
   const data = localStorage.getItem('site_profile');
   return data ? JSON.parse(data) : DEFAULT_PROFILE;
@@ -89,11 +99,9 @@ function getArticles() {
   if (data) {
     try {
       const parsed = JSON.parse(data);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
-      }
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     } catch (e) {
-      console.error("Error loading articles from localStorage", e);
+      console.error("Error parsing articles from localStorage", e);
     }
   }
   return DEFAULT_ARTICLES;
@@ -111,10 +119,6 @@ function getCourses() {
 function saveCourses(data) {
   localStorage.setItem('site_courses', JSON.stringify(data));
 }
-
-// --- STATE ---
-let currentCategory = 'semua';
-let searchQuery = '';
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -194,34 +198,14 @@ function renderAllViews() {
   renderCoursesCatalog();
 }
 
-function filterCategory(cat) {
-  currentCategory = cat;
-  const chips = document.querySelectorAll('#categoryChipsContainer button');
-  chips.forEach(chip => chip.classList.remove('active'));
-  if (event && event.target) event.target.classList.add('active');
-  renderHome();
-}
-
-function handleGlobalSearch(val) {
-  searchQuery = val.trim().toLowerCase();
-  renderHome();
-}
-
+// --- HOME PAGE RENDERER ---
 function renderHome() {
   const articles = getArticles();
   const courses = getCourses();
   const profile = getProfile();
 
-  let filtered = articles.filter(art => {
-    const matchCat = (currentCategory === 'semua') || (art.category === currentCategory);
-    const matchSearch = !searchQuery || 
-      art.title.toLowerCase().includes(searchQuery) ||
-      art.excerpt.toLowerCase().includes(searchQuery);
-    return matchCat && matchSearch;
-  });
-
   const featuredContainer = document.getElementById('featuredArticleContainer');
-  const mainArticle = filtered[0] || articles[0];
+  const mainArticle = articles[0] || DEFAULT_ARTICLES[0];
 
   if (featuredContainer && mainArticle) {
     featuredContainer.innerHTML = `
@@ -245,23 +229,23 @@ function renderHome() {
             </p>
 
             <div class="pt-2 flex items-center gap-3 text-xs font-bold text-indigo-400 group-hover:translate-x-1.5 transition-transform">
-              <span>Baca Karya Tulis Selengkapnya</span>
+              <span>Baca Artikel Selengkapnya</span>
               <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </div>
           </div>
 
           <div class="lg:col-span-5">
-            <img src="${mainArticle.thumbnail || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'}" alt="${mainArticle.title}" class="w-full h-64 sm:h-80 object-cover rounded-2xl shadow-xl border border-white/10 light:border-slate-200">
+            <img src="${mainArticle.thumbnail}" alt="${mainArticle.title}" class="w-full h-64 sm:h-80 object-cover rounded-2xl shadow-xl border border-white/10 light:border-slate-200">
           </div>
         </div>
       </div>
     `;
   }
 
-  // Articles feed list below featured
+  // Articles Feed List
   const feedContainer = document.getElementById('homeArticlesFeed');
   if (feedContainer) {
-    const feedItems = filtered.filter(a => a.id !== (mainArticle ? mainArticle.id : null));
+    const feedItems = articles.slice(1);
     feedContainer.innerHTML = feedItems.map(item => `
       <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
         <img src="${item.thumbnail}" alt="${item.title}" class="w-full sm:w-44 h-32 object-cover rounded-xl shrink-0 border border-white/10">
@@ -284,7 +268,7 @@ function renderHome() {
   // Sidebar Courses
   const sidebarCourses = document.getElementById('sidebarCoursesFeed');
   if (sidebarCourses) {
-    sidebarCourses.innerHTML = courses.map(crs => `
+    sidebarCourses.innerHTML = courses.slice(0, 3).map(crs => `
       <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-white/5 light:bg-slate-50 hover:bg-white/10 border border-white/10 light:border-slate-200 cursor-pointer transition-colors space-y-2">
         <div class="flex items-center justify-between">
           <span class="text-[10px] font-bold font-mono text-emerald-400 uppercase tracking-wider">${crs.category}</span>
@@ -297,7 +281,7 @@ function renderHome() {
     `).join('');
   }
 
-  // Profile Sync
+  // Sidebar Profile Sync
   document.getElementById('sidebarProfileName').textContent = profile.name;
   document.getElementById('sidebarProfileHeadline').textContent = profile.headline;
   document.getElementById('sidebarProfileBio').textContent = profile.bio;
@@ -330,7 +314,7 @@ function renderArticlesCatalog() {
         <div class="pt-4 border-t border-white/10 light:border-slate-200 flex items-center justify-between text-xs font-mono">
           <span class="text-slate-400">${item.date || ''}</span>
           <span class="text-indigo-400 font-bold flex items-center gap-1">
-            <span>Baca Selengkapnya</span>
+            <span>Baca Artikel</span>
             <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </span>
         </div>
@@ -448,11 +432,11 @@ function renderCourseDetail(id) {
 
     <div class="space-y-6">
       <h2 class="text-xl font-serif font-bold text-white light:text-slate-900 border-b border-white/10 light:border-slate-200 pb-3">
-        Modul & Sesi Pembelajaran
+        Modul & Silabus Pembelajaran edX
       </h2>
       <div class="space-y-4">
         ${crs.modules.map((mod, idx) => `
-          <div class="awwwards-card p-6 space-y-4">
+          <div class="edx-module-card space-y-4">
             <h3 class="font-bold text-base text-white light:text-slate-900 flex items-center gap-3">
               <span class="w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-400 text-xs flex items-center justify-center font-mono font-bold border border-indigo-500/30">${idx+1}</span>
               <span>${mod.title}</span>
@@ -460,8 +444,8 @@ function renderCourseDetail(id) {
             <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 border border-white/10">
               <iframe src="${mod.videoUrl}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
             </div>
-            <div class="p-4 rounded-xl bg-white/5 light:bg-slate-50 border border-white/10 light:border-slate-200 text-xs text-slate-300 light:text-slate-600 space-y-1">
-              <span class="font-bold text-white light:text-slate-900 block">Catatan Materi:</span>
+            <div class="p-4 rounded-xl bg-white/5 light:bg-slate-50 border border-white/10 light:border-slate-200 text-xs text-slate-300 light:text-slate-600 space-y-2">
+              <span class="font-bold text-white light:text-slate-900 block">Catatan Materi & Ringkasan edX:</span>
               <p>${mod.notes}</p>
             </div>
           </div>
@@ -473,6 +457,7 @@ function renderCourseDetail(id) {
   lucide.createIcons();
 }
 
+// --- ABOUT PAGE RENDERER (Dengan Sertifikat LinkedIn & Tanpa Rekam Jejak) ---
 function renderAboutPage() {
   const profile = getProfile();
 
@@ -483,20 +468,22 @@ function renderAboutPage() {
   document.getElementById('aboutLinkedInBtn').href = profile.linkedin || '#';
   document.getElementById('aboutEmailBtn').href = `mailto:${profile.email}`;
 
-  const timeline = document.getElementById('aboutExperienceTimeline');
-  if (timeline && profile.experiences) {
-    timeline.innerHTML = profile.experiences.map(exp => `
-      <div class="awwwards-card p-6 space-y-2 border-l-4 border-l-indigo-500">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-          <h3 class="font-bold text-base text-white light:text-slate-900">${exp.role}</h3>
-          <span class="text-xs font-mono font-semibold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full w-fit border border-indigo-500/20">${exp.period}</span>
+  // Sertifikat & Lisensi (Gaya LinkedIn)
+  const certsGrid = document.getElementById('aboutCertificatesGrid');
+  if (certsGrid && profile.certificates) {
+    certsGrid.innerHTML = profile.certificates.map(cert => `
+      <div class="linkedin-cert-card flex gap-4 items-start">
+        <img src="${cert.credentialUrl || 'https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=200&q=80'}" alt="${cert.title}" class="w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0">
+        <div class="space-y-1">
+          <h4 class="font-bold text-xs text-white light:text-slate-900 leading-snug">${cert.title}</h4>
+          <p class="text-[11px] text-indigo-400 font-semibold">${cert.issuer}</p>
+          <span class="text-[10px] font-mono text-slate-400 block">Diterbitkan: ${cert.year}</span>
         </div>
-        <p class="text-xs font-semibold text-slate-400">${exp.organization}</p>
-        <p class="text-xs text-slate-300 light:text-slate-600 leading-relaxed pt-1">${exp.description}</p>
       </div>
     `).join('');
   }
 
+  // Skills Badges
   const skillsContainer = document.getElementById('aboutSkillsBadges');
   if (skillsContainer && profile.skills) {
     skillsContainer.innerHTML = profile.skills.map(skill => `
@@ -509,6 +496,7 @@ function renderAboutPage() {
   lucide.createIcons();
 }
 
+// --- ADMIN DASHBOARD & CONTENT MANAGER ---
 function openAdmin() {
   document.getElementById('adminModal').classList.remove('hidden');
 }
@@ -522,10 +510,15 @@ function checkAdminAuth() {
   if (pass === 'admin123' || pass === 'admin') {
     document.getElementById('adminAuthSection').classList.add('hidden');
     document.getElementById('adminDashboardSection').classList.remove('hidden');
-    renderAdminTab('articles');
+    switchAdminTab('articles');
   } else {
     alert('Kata kunci akses salah!');
   }
+}
+
+function switchAdminTab(tab) {
+  const btns = document.querySelectorAll('#adminDashboardSection button');
+  renderAdminTab(tab);
 }
 
 function renderAdminTab(tab) {
@@ -538,14 +531,14 @@ function renderAdminTab(tab) {
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="font-bold text-sm text-white light:text-slate-900">Daftar Karya Tulis (${articles.length})</h3>
-          <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tambah Artikel Baru</button>
+          <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru (Gaya Medium)</button>
         </div>
         <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
           ${articles.map(a => `
             <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 light:bg-slate-100 text-xs border border-white/10">
               <div class="truncate max-w-md">
                 <span class="font-bold text-white light:text-slate-900 block truncate">${a.title}</span>
-                <span class="text-[10px] text-slate-400 font-mono">${a.categoryLabel || 'Karya Tulis'}</span>
+                <span class="text-[10px] text-slate-400 font-mono">${a.date || ''}</span>
               </div>
               <button onclick="deleteArticle('${a.id}')" class="text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
             </div>
@@ -553,35 +546,132 @@ function renderAdminTab(tab) {
         </div>
       </div>
     `;
+  } else if (tab === 'courses') {
+    const courses = getCourses();
+    container.innerHTML = `
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold text-sm text-white light:text-slate-900">Daftar Kelas Terbuka edX (${courses.length})</h3>
+          <button onclick="showAddCourseForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Buat Kelas Baru (Gaya edX)</button>
+        </div>
+        <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
+          ${courses.map(c => `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 light:bg-slate-100 text-xs border border-white/10">
+              <div class="truncate max-w-md">
+                <span class="font-bold text-white light:text-slate-900 block truncate">${c.title}</span>
+                <span class="text-[10px] text-slate-400 font-mono">${c.category} • ${c.duration}</span>
+              </div>
+              <button onclick="deleteCourse('${c.id}')" class="text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  } else if (tab === 'profile') {
+    const p = getProfile();
+    container.innerHTML = `
+      <form onsubmit="saveProfileFromAdmin(event)" class="space-y-4 text-xs">
+        <h3 class="font-bold text-sm text-white light:text-slate-900 border-b border-white/10 pb-2">Edit Profil & Tambah Sertifikat (Gaya LinkedIn)</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="font-bold block mb-1">Nama Pengampu:</label>
+            <input type="text" id="admName" value="${p.name}" class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+          </div>
+          <div>
+            <label class="font-bold block mb-1">Foto Avatar URL:</label>
+            <input type="text" id="admAvatar" value="${p.avatar}" class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+          </div>
+        </div>
+        <div>
+          <label class="font-bold block mb-1">Headline Profil:</label>
+          <input type="text" id="admHeadline" value="${p.headline}" class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+        </div>
+        <div>
+          <label class="font-bold block mb-1">Biografi:</label>
+          <textarea id="admBio" rows="2" class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">${p.bio}</textarea>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
+          <h4 class="font-bold text-xs text-indigo-400 flex items-center gap-1.5">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span>+ Tambah Sertifikat Baru (Gaya LinkedIn)</span>
+          </h4>
+          <div class="grid grid-cols-2 gap-3">
+            <input type="text" id="newCertTitle" placeholder="Nama Sertifikat..." class="p-2 rounded-lg border border-white/10 bg-slate-900 text-white">
+            <input type="text" id="newCertIssuer" placeholder="Penerbit/Organisasi..." class="p-2 rounded-lg border border-white/10 bg-slate-900 text-white">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <input type="text" id="newCertYear" placeholder="Tahun Diterbitkan..." class="p-2 rounded-lg border border-white/10 bg-slate-900 text-white">
+            <input type="text" id="newCertUrl" placeholder="URL Gambar Sertifikat..." class="p-2 rounded-lg border border-white/10 bg-slate-900 text-white">
+          </div>
+        </div>
+
+        <button type="submit" class="btn-awwwards-primary py-2.5 px-5">Simpan Perubahan Profil & Sertifikat</button>
+      </form>
+    `;
+    lucide.createIcons();
   }
 }
 
+// Medium Article Form Editor
 function showAddArticleForm() {
   const container = document.getElementById('adminContentContainer');
   container.innerHTML = `
     <form onsubmit="saveNewArticle(event)" class="space-y-4 text-xs">
-      <h3 class="font-bold text-sm text-white light:text-slate-900">Tambah Artikel Baru</h3>
+      <h3 class="font-bold text-sm text-white light:text-slate-900">Tulis Artikel Baru (Gaya Medium)</h3>
       <div>
         <label class="font-bold block mb-1">Judul Artikel:</label>
-        <input type="text" id="newArtTitle" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+        <input type="text" id="newArtTitle" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white" placeholder="Judul artikel utama...">
       </div>
       <div>
-        <label class="font-bold block mb-1">URL Gambar Thumbnail:</label>
+        <label class="font-bold block mb-1">URL Gambar Cover Utama / Thumbnail:</label>
         <input type="text" id="newArtThumbnail" value="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
       </div>
       <div>
-        <label class="font-bold block mb-1">Ringkasan:</label>
-        <textarea id="newArtExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white"></textarea>
+        <label class="font-bold block mb-1">Subjudul / Ringkasan (Excerpt):</label>
+        <textarea id="newArtExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white" placeholder="Ringkasan esai Medium..."></textarea>
       </div>
+
+      <!-- Helper Sisipkan Gambar gaya Medium -->
+      <div class="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2">
+        <span class="font-bold text-indigo-300 block flex items-center gap-1">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+          <span>Fitur Menyisipkan Gambar di Dalam Paragraf (Gaya Medium):</span>
+        </span>
+        <div class="flex gap-2">
+          <input type="text" id="insertImgUrl" placeholder="URL Gambar Sisipan..." class="flex-grow p-2 rounded-lg border border-white/10 bg-slate-900 text-white">
+          <input type="text" id="insertImgCaption" placeholder="Caption Gambar..." class="w-1/3 p-2 rounded-lg border border-white/10 bg-slate-900 text-white">
+          <button type="button" onclick="insertMediumImage()" class="btn-awwwards-secondary px-3 py-1.5">Sisipkan Gambar</button>
+        </div>
+      </div>
+
       <div>
-        <label class="font-bold block mb-1">Isi Artikel (HTML):</label>
-        <textarea id="newArtContent" rows="5" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white" placeholder="<p>Tulis paragraf artikel di sini...</p>"></textarea>
+        <label class="font-bold block mb-1">Isi Artikel (Gaya Medium HTML):</label>
+        <textarea id="newArtContent" rows="6" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white" placeholder="<p>Tulis paragraf pertama di sini...</p>"></textarea>
       </div>
       <div class="flex gap-3">
-        <button type="submit" class="btn-awwwards-primary py-2.5 px-5">Terbitkan Artikel</button>
+        <button type="submit" class="btn-awwwards-primary py-2.5 px-5">Terbitkan Artikel Medium</button>
+        <button type="button" onclick="renderAdminTab('articles')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
       </div>
     </form>
   `;
+  lucide.createIcons();
+}
+
+function insertMediumImage() {
+  const url = document.getElementById('insertImgUrl').value.trim();
+  const caption = document.getElementById('insertImgCaption').value.trim();
+  const contentArea = document.getElementById('newArtContent');
+
+  if (!url) {
+    alert('Masukkan URL Gambar!');
+    return;
+  }
+
+  const imgHtml = `\n<figure class="medium-inline-figure">\n  <img src="${url}" class="medium-inline-img" alt="${caption}">\n  ${caption ? `<figcaption class="medium-caption">${caption}</figcaption>` : ''}\n</figure>\n`;
+
+  contentArea.value += imgHtml;
+  alert('Gambar berhasil disisipkan ke dalam isi tulisan!');
 }
 
 function saveNewArticle(e) {
@@ -605,7 +695,7 @@ function saveNewArticle(e) {
   saveArticles(articles);
   renderAllViews();
   renderAdminTab('articles');
-  alert('Artikel baru berhasil diterbitkan!');
+  alert('Artikel baru bergaya Medium berhasil diterbitkan!');
 }
 
 function deleteArticle(id) {
@@ -616,4 +706,115 @@ function deleteArticle(id) {
     renderAllViews();
     renderAdminTab('articles');
   }
+}
+
+// edX Course Form Builder
+function showAddCourseForm() {
+  const container = document.getElementById('adminContentContainer');
+  container.innerHTML = `
+    <form onsubmit="saveNewCourse(event)" class="space-y-4 text-xs">
+      <h3 class="font-bold text-sm text-white light:text-slate-900">Buat Kelas Terbuka Baru (Gaya edX)</h3>
+      <div>
+        <label class="font-bold block mb-1">Judul Kelas edX:</label>
+        <input type="text" id="newCrsTitle" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="font-bold block mb-1">Kategori Kelas:</label>
+          <input type="text" id="newCrsCategory" value="Literasi & Edukasi" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+        </div>
+        <div>
+          <label class="font-bold block mb-1">Durasi / Sesi:</label>
+          <input type="text" id="newCrsDuration" value="4 Modul Pembelajaran" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+        </div>
+      </div>
+      <div>
+        <label class="font-bold block mb-1">URL Cover Kelas:</label>
+        <input type="text" id="newCrsThumbnail" value="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+      </div>
+      <div>
+        <label class="font-bold block mb-1">Deskripsi Silabus edX:</label>
+        <textarea id="newCrsExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white"></textarea>
+      </div>
+
+      <div class="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 space-y-3">
+        <h4 class="font-bold text-emerald-300">Modul Utama edX Sesi 1:</h4>
+        <input type="text" id="newCrsModTitle" value="Modul 1: Pengantar Pembelajaran Mandiri" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white">
+        <input type="text" id="newCrsModVideo" value="https://www.youtube.com/embed/dQw4w9WgXcQ" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white" placeholder="URL Video YouTube Embed...">
+        <textarea id="newCrsModNotes" rows="2" required class="w-full p-2.5 rounded-xl border border-white/10 bg-slate-900 text-white" placeholder="Catatan kuliah & rangkuman materi edX..."></textarea>
+      </div>
+
+      <div class="flex gap-3">
+        <button type="submit" class="btn-awwwards-primary py-2.5 px-5">Terbitkan Kelas edX</button>
+        <button type="button" onclick="renderAdminTab('courses')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
+      </div>
+    </form>
+  `;
+}
+
+function saveNewCourse(e) {
+  e.preventDefault();
+  const courses = getCourses();
+  const newCourse = {
+    id: `crs-${Date.now()}`,
+    title: document.getElementById('newCrsTitle').value,
+    category: document.getElementById('newCrsCategory').value,
+    level: "Umum & edX Mandiri",
+    status: "Pendaftaran Terbuka",
+    thumbnail: document.getElementById('newCrsThumbnail').value,
+    excerpt: document.getElementById('newCrsExcerpt').value,
+    duration: document.getElementById('newCrsDuration').value,
+    modules: [
+      {
+        title: document.getElementById('newCrsModTitle').value,
+        videoUrl: document.getElementById('newCrsModVideo').value,
+        notes: document.getElementById('newCrsModNotes').value
+      }
+    ]
+  };
+
+  courses.unshift(newCourse);
+  saveCourses(courses);
+  renderAllViews();
+  renderAdminTab('courses');
+  alert('Kelas terbuka edX berhasil diterbitkan!');
+}
+
+function deleteCourse(id) {
+  if (confirm('Yakin ingin menghapus kelas edX ini?')) {
+    let courses = getCourses();
+    courses = courses.filter(c => c.id !== id);
+    saveCourses(courses);
+    renderAllViews();
+    renderAdminTab('courses');
+  }
+}
+
+function saveProfileFromAdmin(e) {
+  e.preventDefault();
+  const p = getProfile();
+  p.name = document.getElementById('admName').value;
+  p.headline = document.getElementById('admHeadline').value;
+  p.bio = document.getElementById('admBio').value;
+  p.avatar = document.getElementById('admAvatar').value;
+
+  const certTitle = document.getElementById('newCertTitle')?.value.trim();
+  const certIssuer = document.getElementById('newCertIssuer')?.value.trim();
+  const certYear = document.getElementById('newCertYear')?.value.trim();
+  const certUrl = document.getElementById('newCertUrl')?.value.trim();
+
+  if (certTitle && certIssuer) {
+    if (!p.certificates) p.certificates = [];
+    p.certificates.unshift({
+      id: `cert-${Date.now()}`,
+      title: certTitle,
+      issuer: certIssuer,
+      year: certYear || '2026',
+      credentialUrl: certUrl || 'https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=600&q=80'
+    });
+  }
+
+  saveProfile(p);
+  renderAllViews();
+  alert('Profil dan sertifikat LinkedIn berhasil diperbarui!');
 }
