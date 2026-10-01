@@ -48,34 +48,34 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Bespoke Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4.0">
 </head>
-<body class="bg-[#faf9f6] text-neutral-800 dark:bg-surface-dark dark:text-neutral-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+<body class="bg-[#faf9f6] text-neutral-900 dark:bg-surface-dark dark:text-neutral-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
 
   <!-- Medium-style Reading Progress Bar -->
   <div id="readingProgressBar" class="reading-progress-bar"></div>
 
   <!-- Top Navigation Header -->
-  <header class="sticky top-0 z-40 bg-white/90 dark:bg-[#0e1117]/90 backdrop-blur-md border-b border-neutral-200/80 dark:border-surface-borderDark transition-colors">
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-[#0e1117]/90 backdrop-blur-md border-b border-neutral-200/60 dark:border-surface-borderDark transition-colors">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       
       <!-- Brand / Site Title -->
       <a href="#home" onclick="navigate('home')" class="group flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
-          <i data-lucide="book-open" class="w-4 h-4"></i>
+        <div class="w-8 h-8 rounded-lg bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 flex items-center justify-center font-serif font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
+          K
         </div>
         <div class="flex flex-col">
-          <span class="font-bold text-base tracking-tight text-neutral-900 dark:text-white group-hover:text-brand-600 transition-colors">
+          <span class="font-bold text-sm sm:text-base tracking-tight text-neutral-900 dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">
             Karya Tulis & Kelas Terbuka
           </span>
-          <span class="text-[10px] text-neutral-500 dark:text-neutral-400 font-medium tracking-wider uppercase">
-            Platform Literasi Digital
+          <span class="text-[10px] text-neutral-400 font-medium tracking-widest uppercase -mt-0.5">
+            Platform Literasi Publik
           </span>
         </div>
       </a>
 
       <!-- Desktop Navigation Links -->
-      <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+      <nav class="hidden md:flex items-center gap-1">
         <button onclick="navigate('home')" id="nav-btn-home" class="nav-link active">
           Beranda
         </button>
@@ -84,7 +84,7 @@
         </button>
         <button onclick="navigate('courses')" id="nav-btn-courses" class="nav-link flex items-center gap-1.5">
           <span>Kelas Terbuka</span>
-          <span class="px-1.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+          <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
             Gratis
           </span>
         </button>
@@ -96,19 +96,19 @@
       <!-- Action Buttons -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Dark Mode Toggle -->
-        <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" title="Toggle Tema Gelap/Terang" aria-label="Toggle Theme">
+        <button onclick="toggleDarkMode()" class="p-2 rounded-full text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors" title="Toggle Tema Gelap/Terang" aria-label="Toggle Theme">
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
           <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
         </button>
 
         <!-- Admin Dashboard Access Button -->
-        <button onclick="openAdmin()" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-90 transition-opacity shadow-sm">
+        <button onclick="openAdmin()" class="btn-secondary text-xs px-3.5 py-1.5 rounded-full">
           <i data-lucide="shield" class="w-3.5 h-3.5"></i>
           <span>Kelola / Admin</span>
         </button>
 
         <!-- Mobile Menu Toggle Button -->
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
       </div>
@@ -132,51 +132,48 @@
     <!-- ========================================== -->
     <section id="view-home" class="page-view animate-fade-in">
       
-      <!-- Clean Platform Banner / Hero -->
-      <div class="border-b border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-10">
+      <!-- Clean Editorial Platform Hero -->
+      <div class="border-b border-neutral-200/60 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 pt-12 pb-14">
           
-          <div class="space-y-4 text-center sm:text-left">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 dark:bg-brand-950/60 dark:text-brand-300 border border-brand-200 dark:border-brand-800 text-xs font-semibold">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-600"></i>
-              <span>Platform Literasi & Kelas Terbuka Gratis</span>
+          <div class="space-y-6 text-center sm:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800/80 text-neutral-600 dark:text-neutral-300 border border-neutral-200/60 dark:border-neutral-700/60 text-xs font-medium tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>Platform Pembelajaran Terbuka & Esai Publik</span>
             </div>
 
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white leading-tight">
-              Karya Tulis & Pembelajaran Terbuka
+            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-neutral-900 dark:text-white leading-[1.12] tracking-tight">
+              Ruang Pembelajaran Terbuka & Pemikiran Kritis
             </h1>
 
-            <p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed">
-              Ruang mandiri tempat membagikan pemikiran kritis, esai reflektif, serta rangkaian materi kelas terbuka 100% gratis tanpa biaya guna memperluas akses pengetahuan bagi masyarakat luas.
+            <p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed max-w-2xl">
+              Platform independen tempat menerbitkan karya tulis, catatan refleksi kebijakan, serta modul kelas online bersesi tanpa dikenakan biaya paywall.
             </p>
 
             <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2">
-              <button onclick="navigate('courses')" class="btn-tactile-emerald inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-500 transition-colors shadow-sm">
-                <i data-lucide="play-circle" class="w-4 h-4"></i>
+              <button onclick="navigate('courses')" class="btn-primary">
                 <span>Jelajahi Kelas Gratis</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
               </button>
-              <button onclick="navigate('articles')" class="btn-tactile-neutral inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 hover:opacity-95 transition-opacity shadow-sm">
-                <i data-lucide="book-open" class="w-4 h-4"></i>
+              <button onclick="navigate('articles')" class="btn-secondary">
                 <span>Baca Karya Tulis</span>
               </button>
-              <button onclick="navigate('about')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all active:scale-95">
-                <i data-lucide="user" class="w-4 h-4"></i>
-                <span>Tentang Saya</span>
+              <button onclick="navigate('about')" class="px-4 py-2 rounded-full text-sm font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors">
+                Tentang Saya
               </button>
             </div>
           </div>
 
-          <!-- Public Service Mission Pledge Card -->
-          <div class="mt-8 p-4 rounded-xl border border-brand-100 dark:border-brand-900/50 bg-gradient-to-r from-brand-50/60 to-transparent dark:from-brand-950/30 flex items-start gap-3.5">
-            <div class="p-2 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-300 flex-shrink-0">
-              <i data-lucide="globe" class="w-5 h-5"></i>
+          <!-- Platform Mission Stat Counter Bar -->
+          <div class="mt-10 pt-6 border-t border-neutral-200/60 dark:border-neutral-800 flex flex-wrap items-center gap-6 text-xs text-neutral-500 dark:text-neutral-400 font-mono">
+            <div class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span>100% Akses Terbuka</span>
             </div>
-            <div>
-              <h4 class="text-xs font-bold uppercase tracking-wider text-brand-700 dark:text-brand-300">Prinsip Akses Pengetahuan Terbuka</h4>
-              <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5 leading-relaxed">
-                Seluruh materi kelas online, video panduan, dan karya tulis di platform ini disediakan secara cuma-cuma (100% Gratis) sebagai bentuk dedikasi dan literasi untuk masyarakat luas.
-              </p>
-            </div>
+            <span>•</span>
+            <div>Bebas Biaya & Tanpa Paywall</div>
+            <span>•</span>
+            <div>Dedikasi Literasi Publik</div>
           </div>
 
         </div>

@@ -533,23 +533,23 @@ function renderHome() {
   coursesContainer.innerHTML = "";
   state.courses.slice(0, 2).forEach(c => {
     const card = document.createElement("div");
-    card.className = "card-interactive p-5 sm:p-6 rounded-2xl border border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark hover:border-emerald-400 dark:hover:border-emerald-600 transition-all flex flex-col justify-between group";
+    card.className = "card-expert p-6 sm:p-7 flex flex-col justify-between group";
     card.innerHTML = `
       <div>
         <div class="flex items-center justify-between text-xs mb-3">
-          <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 font-bold uppercase tracking-wider text-[10px]">
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 font-bold uppercase tracking-wider text-[10px] border border-emerald-200/60 dark:border-emerald-800/60">
             100% Gratis
           </span>
           <span class="text-neutral-500 dark:text-neutral-400 font-medium text-[11px]">${c.category}</span>
         </div>
-        <h3 class="font-bold text-base sm:text-lg text-neutral-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-2">
+        <h3 class="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors mb-2">
           ${c.title}
         </h3>
-        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed mb-4">
+        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed mb-5">
           ${c.description}
         </p>
       </div>
-      <button onclick="navigate('classroom', { courseId: '${c.id}', sessionIndex: 0 })" class="btn-tactile-emerald w-full py-2.5 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-500 flex items-center justify-center gap-1.5 transition-colors">
+      <button onclick="navigate('classroom', { courseId: '${c.id}', sessionIndex: 0 })" class="btn-primary w-full py-2.5 text-xs">
         <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
         <span>Mulai Belajar Sekarang</span>
       </button>
@@ -562,21 +562,21 @@ function renderHome() {
   articlesContainer.innerHTML = "";
   state.articles.slice(0, 3).forEach(art => {
     const item = document.createElement("article");
-    item.className = "card-interactive p-5 sm:p-6 rounded-2xl border border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark hover:border-brand-300 dark:hover:border-brand-700 transition-all flex items-start justify-between gap-4 sm:gap-6 cursor-pointer group mb-4";
+    item.className = "card-expert p-6 sm:p-7 flex items-start justify-between gap-4 sm:gap-6 cursor-pointer group mb-5";
     item.onclick = () => navigate("article-detail", art.id);
     item.innerHTML = `
       <div class="flex-1 min-w-0">
-        <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-2">
-          <span class="font-semibold text-brand-600 dark:text-brand-400">${art.category}</span>
+        <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-2 font-mono">
+          <span class="font-semibold text-neutral-900 dark:text-neutral-200">${art.category}</span>
           <span>•</span>
           <span>${art.readTime}</span>
           <span>•</span>
           <span>${art.date}</span>
         </div>
-        <h3 class="font-serif text-lg sm:text-xl font-medium text-neutral-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-snug mb-1.5 line-clamp-2">
+        <h3 class="font-serif text-xl sm:text-2xl font-medium text-neutral-900 dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors leading-snug mb-2 line-clamp-2">
           ${art.title}
         </h3>
-        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed font-serif">
+        <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed font-sans">
           ${art.subtitle}
         </p>
       </div>
@@ -609,29 +609,29 @@ function renderArticlesList(filtered = null) {
 
   list.forEach(art => {
     const item = document.createElement("article");
-    item.className = "card-interactive p-6 sm:p-7 rounded-2xl border border-neutral-200/80 dark:border-surface-borderDark bg-white dark:bg-surface-cardDark hover:border-brand-300 dark:hover:border-brand-700 transition-all flex items-start justify-between gap-4 sm:gap-8 cursor-pointer group mb-6";
+    item.className = "card-expert p-6 sm:p-8 flex items-start justify-between gap-4 sm:gap-8 cursor-pointer group mb-6";
     item.onclick = () => navigate("article-detail", art.id);
     item.innerHTML = `
       <div class="flex-1 min-w-0">
-        <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-2">
-          <span class="font-semibold px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">${art.category}</span>
+        <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mb-2 font-mono">
+          <span class="font-semibold px-2.5 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">${art.category}</span>
           <span>•</span>
           <span>${art.readTime}</span>
           <span>•</span>
           <span>${art.date}</span>
         </div>
-        <h2 class="font-serif text-xl sm:text-2xl font-normal text-neutral-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors leading-tight mb-2">
+        <h2 class="font-serif text-2xl sm:text-3xl font-normal text-neutral-900 dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors leading-tight mb-2">
           ${art.title}
         </h2>
-        <p class="text-sm font-serif text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-3 mb-4">
+        <p class="text-sm font-sans text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-3 mb-4">
           ${art.subtitle}
         </p>
-        <div class="flex items-center justify-between text-xs text-neutral-400 pt-1">
+        <div class="flex items-center justify-between text-xs text-neutral-400 pt-1 font-sans">
           <div class="flex items-center gap-1.5">
             <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500"></i>
             <span>${art.claps || 0} apresiasi</span>
           </div>
-          <span class="font-sans font-semibold text-brand-600 dark:text-brand-400 group-hover:underline flex items-center gap-1">
+          <span class="font-semibold text-neutral-900 dark:text-white group-hover:underline flex items-center gap-1">
             Baca selengkapnya <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
           </span>
         </div>
