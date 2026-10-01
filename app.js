@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDarkMode();
   renderAllViews();
   setupScrollProgress();
-  initInteractiveLiveAura();
+  initPastelInteractiveParticles();
   lucide.createIcons();
 });
 
@@ -171,41 +171,118 @@ function setupScrollProgress() {
   });
 }
 
-/* Live Ambient Cursor & Button Spotlight Animation */
-function initInteractiveLiveAura() {
-  const aura = document.createElement('div');
-  aura.id = 'liveCursorAura';
-  aura.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 320px;
-    height: 320px;
-    margin-top: -160px;
-    margin-left: -160px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.4s ease, transform 0.15s ease-out;
-    background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(236, 72, 153, 0.08) 50%, transparent 70%);
-  `;
-  document.body.appendChild(aura);
+/* Interactive Random Pastel Doodle & Sparkle Animation (Miku Reference) */
+function initPastelInteractiveParticles() {
+  const symbols = ['✦', '★', '♥', '◆', '✿', '🫧', '✨', '🌸', '💖', '⭐'];
+  const colors = ['#06b6d4', '#ec4899', '#f59e0b', '#a855f7', '#38bdf8', '#f472b6', '#34d399', '#fbbf24'];
 
-  window.addEventListener('mousemove', (e) => {
-    const isDark = document.documentElement.classList.contains('dark');
-    if (isDark) {
-      aura.style.background = 'radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, rgba(192, 132, 252, 0.12) 45%, transparent 70%)';
-    } else {
-      aura.style.background = 'radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, rgba(236, 72, 153, 0.1) 45%, transparent 70%)';
+  function createParticle(x, y) {
+    const el = document.createElement('span');
+    el.className = 'pastel-doodle-particle';
+    const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const size = Math.floor(Math.random() * 12) + 14; // 14px to 26px
+    const vx = (Math.random() - 0.5) * 65; // horizontal drift
+    const vy = -(Math.random() * 55 + 35); // upward float
+    const rot = (Math.random() - 0.5) * 100; // rotation
+
+    el.textContent = symbol;
+    el.style.cssText = `
+      position: fixed;
+      left: ${x}px;
+      top: ${y}px;
+      font-size: ${size}px;
+      color: ${color};
+      pointer-events: none;
+      z-index: 9999;
+      user-select: none;
+      transform: translate(-50%, -50%) scale(0.4);
+      opacity: 1;
+      transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.95s ease-out;
+      text-shadow: 0 0 12px ${color}aa;
+    `;
+
+    document.body.appendChild(el);
+
+    requestAnimationFrame(() => {
+      el.style.transform = `translate(calc(-50% + ${vx}px), calc(-50% + ${vy}px)) scale(1.25) rotate(${rot}deg)`;
+      el.style.opacity = '0';
+    });
+
+    setTimeout(() => {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    }, 980);
+  }
+
+  // Spawn doodle particles on click anywhere or on interactive elements
+  document.addEventListener('click', (e) => {
+    for (let i = 0; i < 4; i++) {
+      setTimeout(() => {
+        createParticle(e.clientX + (Math.random() - 0.5) * 24, e.clientY + (Math.random() - 0.5) * 24);
+      }, i * 50);
     }
-    aura.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-    aura.style.opacity = '1';
   });
 
-  document.addEventListener('mouseleave', () => {
-    aura.style.opacity = '0';
+  // Spawn gentle doodle particles when hovering on buttons, cards, or nav items
+  let lastHoverTime = 0;
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('button, a, .awwwards-card, .linkedin-cert-card, .edx-module-card, input, select');
+    if (target) {
+      const now = Date.now();
+      if (now - lastHoverTime > 160) {
+        lastHoverTime = now;
+        const rect = target.getBoundingClientRect();
+        const x = rect.left + Math.random() * rect.width;
+        const y = rect.top + Math.random() * rect.height;
+        createParticle(x, y);
+      }
+    }
   });
+
+  // Create ambient background drifting elements
+  createAmbientFloatingDoodles();
+}
+
+function createAmbientFloatingDoodles() {
+  if (document.getElementById('ambientDoodleBg')) return;
+
+  const bgContainer = document.createElement('div');
+  bgContainer.id = 'ambientDoodleBg';
+  bgContainer.style.cssText = `
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  `;
+  document.body.appendChild(bgContainer);
+
+  const ambientSymbols = ['✦', '★', '♥', '◆', '✿', '🌸', '✨', '🫧'];
+  const colors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#c084fc', '#f472b6'];
+
+  for (let i = 0; i < 16; i++) {
+    const item = document.createElement('span');
+    const symbol = ambientSymbols[Math.floor(Math.random() * ambientSymbols.length)];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const top = Math.random() * 100;
+    const duration = Math.floor(Math.random() * 10) + 12; // 12s - 22s
+    const delay = Math.floor(Math.random() * 6);
+
+    item.textContent = symbol;
+    item.className = 'ambient-float-doodle';
+    item.style.cssText = `
+      position: absolute;
+      left: ${left}vw;
+      top: ${top}vh;
+      font-size: ${Math.floor(Math.random() * 14) + 14}px;
+      color: ${color};
+      opacity: 0.25;
+      animation: floatDoodleAnim ${duration}s ease-in-out ${delay}s infinite alternate;
+      user-select: none;
+    `;
+    bgContainer.appendChild(item);
+  }
 }
 
 function navigate(pageId, itemId = null) {
