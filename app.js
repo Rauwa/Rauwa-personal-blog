@@ -172,14 +172,33 @@ function setupScrollProgress() {
   });
 }
 
-/* Interactive Random Pastel Doodle & Sparkle Animation (Miku Reference) */
+/* Authentic SVG Graphic Micro-Stickers (Inspired by Hatsune Miku Artwork Reference) */
+const SVG_LIGHT_GRAPHICS = [
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-3-7-4-9-2s-1 6 2 6 5-2.5 7-4zm0 0c2.5-3 7-4 9-2s1 6-2 6-5-2.5-7-4z" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`, // Ribbon Bow
+  `<svg class="w-8 h-4 inline-block" viewBox="0 0 32 16"><rect x="1" y="1" width="30" height="14" rx="7" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/><circle cx="16" cy="8" r="3.5" fill="#f472b6"/><path d="M16 6l.6 1.2h1.4l-1 1 .4 1.4-1.4-.8-1.4.8.4-1.4-1-1h1.4z" fill="#ffffff"/></svg>`, // Plaster with Heart
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`, // Star Hairpin
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1"/></svg>`, // 8-Pointed Crystal
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ec4899" stroke="#be185d" stroke-width="1.5"/></svg>`, // Heart Pin
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(165,243,252,0.5)" stroke="#06b6d4" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.95)"/></svg>` // Glossy Bubble
+];
+
+const SVG_DARK_GRAPHICS = [
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1"/></svg>`, // Crystal
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#f59e0b" stroke-width="1"/></svg>`, // Star Hairpin
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="#c084fc" stroke="#a855f7" stroke-width="1"/></svg>`, // Neon Starburst
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(30,58,138,0.4)" stroke="#38bdf8" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.9)"/></svg>` // Neon Bubble
+];
+
+/* Interactive Random Pastel Graphic Sticker Animation */
 function initPastelInteractiveParticles() {
   function createParticle(x, y) {
     const isDark = document.documentElement.classList.contains('dark');
-    // Dark mode strictly uses star symbols only (✦, ★, ⭐, ✨, 💫, ✧, ✸, ✶)
     const lightSymbols = ['✦', '★', '♥', '◆', '✿', '🫧', '✨', '🌸', '💖', '⭐'];
     const darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧', '✸', '✶'];
-    const symbols = isDark ? darkStarSymbols : lightSymbols;
+    const textSymbols = isDark ? darkStarSymbols : lightSymbols;
+
+    const useSvgGraphics = Math.random() > 0.45;
+    const svgGraphics = isDark ? SVG_DARK_GRAPHICS : SVG_LIGHT_GRAPHICS;
 
     const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#a855f7', '#38bdf8', '#f472b6', '#34d399', '#fbbf24'];
     const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#a855f7', '#38bdf8', '#fde047'];
@@ -187,14 +206,18 @@ function initPastelInteractiveParticles() {
 
     const el = document.createElement('span');
     el.className = 'pastel-doodle-particle';
-    const symbol = symbols[Math.floor(Math.random() * symbols.length)];
     const color = colors[Math.floor(Math.random() * colors.length)];
-    const size = Math.floor(Math.random() * 12) + 14; // 14px to 26px
-    const vx = (Math.random() - 0.5) * 65; // horizontal drift
-    const vy = -(Math.random() * 55 + 35); // upward float
-    const rot = (Math.random() - 0.5) * 100; // rotation
+    const size = Math.floor(Math.random() * 12) + 16; // 16px to 28px
+    const vx = (Math.random() - 0.5) * 70; // horizontal drift
+    const vy = -(Math.random() * 60 + 35); // upward float
+    const rot = (Math.random() - 0.5) * 120; // rotation
 
-    el.textContent = symbol;
+    if (useSvgGraphics) {
+      el.innerHTML = svgGraphics[Math.floor(Math.random() * svgGraphics.length)];
+    } else {
+      el.textContent = textSymbols[Math.floor(Math.random() * textSymbols.length)];
+    }
+
     el.style.cssText = `
       position: fixed;
       left: ${x}px;
@@ -207,13 +230,13 @@ function initPastelInteractiveParticles() {
       transform: translate(-50%, -50%) scale(0.4);
       opacity: 1;
       transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.95s ease-out;
-      text-shadow: 0 0 12px ${color}aa;
+      filter: drop-shadow(0 0 8px ${color}aa);
     `;
 
     document.body.appendChild(el);
 
     requestAnimationFrame(() => {
-      el.style.transform = `translate(calc(-50% + ${vx}px), calc(-50% + ${vy}px)) scale(1.25) rotate(${rot}deg)`;
+      el.style.transform = `translate(calc(-50% + ${vx}px), calc(-50% + ${vy}px)) scale(1.3) rotate(${rot}deg)`;
       el.style.opacity = '0';
     });
 
@@ -269,33 +292,38 @@ function createAmbientFloatingDoodles() {
   }
 
   const isDark = document.documentElement.classList.contains('dark');
-  // Dark mode ambient doodles strictly use star symbols only
   const lightSymbols = ['✦', '★', '♥', '◆', '✿', '🌸', '✨', '🫧'];
   const darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧', '✸', '✶'];
-  const ambientSymbols = isDark ? darkStarSymbols : lightSymbols;
+  const textSymbols = isDark ? darkStarSymbols : lightSymbols;
+  const svgGraphics = isDark ? SVG_DARK_GRAPHICS : SVG_LIGHT_GRAPHICS;
 
   const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#c084fc', '#f472b6'];
   const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#a855f7', '#38bdf8', '#fde047'];
   const colors = isDark ? darkColors : lightColors;
 
-  for (let i = 0; i < 18; i++) {
+  for (let i = 0; i < 22; i++) {
     const item = document.createElement('span');
-    const symbol = ambientSymbols[Math.floor(Math.random() * ambientSymbols.length)];
+    const isSvg = Math.random() > 0.4;
     const color = colors[Math.floor(Math.random() * colors.length)];
     const left = Math.random() * 100;
     const top = Math.random() * 100;
-    const duration = Math.floor(Math.random() * 10) + 12; // 12s - 22s
+    const duration = Math.floor(Math.random() * 12) + 14; // 14s - 26s
     const delay = Math.floor(Math.random() * 6);
 
-    item.textContent = symbol;
+    if (isSvg) {
+      item.innerHTML = svgGraphics[Math.floor(Math.random() * svgGraphics.length)];
+    } else {
+      item.textContent = textSymbols[Math.floor(Math.random() * textSymbols.length)];
+    }
+
     item.className = 'ambient-float-doodle';
     item.style.cssText = `
       position: absolute;
       left: ${left}vw;
       top: ${top}vh;
-      font-size: ${Math.floor(Math.random() * 14) + 14}px;
+      font-size: ${Math.floor(Math.random() * 14) + 16}px;
       color: ${color};
-      opacity: ${isDark ? '0.35' : '0.25'};
+      opacity: ${isDark ? '0.35' : '0.28'};
       animation: floatDoodleAnim ${duration}s ease-in-out ${delay}s infinite alternate;
       user-select: none;
     `;
@@ -350,12 +378,12 @@ function renderHome() {
 
   if (featuredContainer && mainArticle) {
     featuredContainer.innerHTML = `
-      <div onclick="navigate('article-detail', '${mainArticle.id}')" class="awwwards-card group cursor-pointer p-6 sm:p-10 relative overflow-hidden">
+      <div onclick="navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-7 space-y-5">
-            <div class="flex items-center gap-3">
-              <span class="badge-pastel-glass">
-                ${mainArticle.categoryLabel || 'Karya Utama'}
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="badge-pastel-glass font-bold">
+                ✦ ${mainArticle.categoryLabel || 'Karya Utama'} ✨
               </span>
               <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">${mainArticle.date || ''}</span>
               <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">• ${mainArticle.readTime || ''}</span>
@@ -370,13 +398,15 @@ function renderHome() {
             </p>
 
             <div class="pt-2 flex items-center gap-3 text-xs font-bold text-cyan-600 dark:text-blue-400 group-hover:translate-x-1.5 transition-transform">
-              <span>Baca Artikel Selengkapnya</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              <span class="btn-awwwards-primary text-xs px-4 py-2">Baca Karya Selengkapnya ✦</span>
             </div>
           </div>
 
           <div class="lg:col-span-5">
-            <img src="${mainArticle.thumbnail || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'}" alt="${mainArticle.title}" class="w-full h-64 sm:h-80 object-cover rounded-2xl shadow-xl border border-cyan-200 dark:border-blue-900/60">
+            <div class="polaroid-frame">
+              <span class="polaroid-pin">✦ ESSAY PILIHAN ✨</span>
+              <img src="${mainArticle.thumbnail || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'}" alt="${mainArticle.title}" class="w-full h-60 sm:h-72 object-cover rounded-xl">
+            </div>
           </div>
         </div>
       </div>
@@ -388,11 +418,13 @@ function renderHome() {
   if (feedContainer) {
     const feedItems = articles.slice(1);
     feedContainer.innerHTML = feedItems.map(item => `
-      <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
-        <img src="${item.thumbnail}" alt="${item.title}" class="w-full sm:w-44 h-32 object-cover rounded-xl shrink-0 border border-cyan-200 dark:border-blue-900/60">
+      <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
+        <div class="w-full sm:w-44 shrink-0">
+          <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-32 object-cover rounded-xl border border-cyan-200 dark:border-blue-900/60 shadow-sm">
+        </div>
         <div class="space-y-2 flex-grow">
           <div class="flex items-center gap-2">
-            <span class="text-[11px] font-mono text-cyan-600 dark:text-blue-400 font-bold">${item.categoryLabel || 'Karya Tulis'}</span>
+            <span class="badge-pink-glass text-[10px]">${item.categoryLabel || 'Karya Tulis'}</span>
             <span class="text-[11px] text-slate-500 dark:text-blue-300/70 font-mono">${item.date || ''}</span>
           </div>
           <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
@@ -410,9 +442,9 @@ function renderHome() {
   const sidebarCourses = document.getElementById('sidebarCoursesFeed');
   if (sidebarCourses) {
     sidebarCourses.innerHTML = courses.slice(0, 3).map(crs => `
-      <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/60 dark:bg-blue-950/40 hover:bg-cyan-100/70 dark:hover:bg-blue-900/50 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2">
+      <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
         <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold font-mono text-pink-600 dark:text-blue-400 uppercase tracking-wider">${crs.category}</span>
+          <span class="badge-pink-glass text-[9px]">${crs.category}</span>
           <span class="text-[10px] font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
         </div>
         <h4 class="text-xs font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors line-clamp-2">
@@ -437,12 +469,15 @@ function renderArticlesCatalog() {
   if (!grid) return;
 
   grid.innerHTML = articles.map(item => `
-    <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card cursor-pointer overflow-hidden flex flex-col justify-between">
-      <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-52 object-cover border-b border-cyan-200 dark:border-blue-900/60">
-      <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+    <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
+      <div class="polaroid-frame mb-3">
+        <span class="polaroid-pin">✦ KARYA TULIS ✨</span>
+        <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-48 object-cover rounded-lg">
+      </div>
+      <div class="p-4 space-y-4 flex-grow flex flex-col justify-between">
         <div class="space-y-3">
           <div class="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-blue-300/70">
-            <span class="text-cyan-600 dark:text-blue-400 font-bold">${item.categoryLabel || 'Karya Tulis'}</span>
+            <span class="badge-pastel-glass text-[9px]">${item.categoryLabel || 'Karya Tulis'}</span>
             <span>${item.readTime || ''}</span>
           </div>
           <h3 class="text-xl font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
@@ -455,7 +490,7 @@ function renderArticlesCatalog() {
         <div class="pt-4 border-t border-cyan-200 dark:border-blue-900/60 flex items-center justify-between text-xs font-mono">
           <span class="text-slate-500 dark:text-blue-300/70">${item.date || ''}</span>
           <span class="text-cyan-600 dark:text-blue-400 font-bold flex items-center gap-1">
-            <span>Baca Selengkapnya</span>
+            <span>Baca Artikel</span>
             <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </span>
         </div>
@@ -529,12 +564,15 @@ function renderCoursesCatalog() {
   if (!grid) return;
 
   grid.innerHTML = courses.map(crs => `
-    <div onclick="navigate('course-detail', '${crs.id}')" class="awwwards-card cursor-pointer overflow-hidden flex flex-col justify-between">
-      <img src="${crs.thumbnail}" alt="${crs.title}" class="w-full h-52 object-cover border-b border-cyan-200 dark:border-blue-900/60">
-      <div class="p-6 space-y-4 flex-grow flex flex-col justify-between">
+    <div onclick="navigate('course-detail', '${crs.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
+      <div class="polaroid-frame mb-3">
+        <span class="polaroid-pin">🌸 edX KELAS TERBUKA 🎓</span>
+        <img src="${crs.thumbnail}" alt="${crs.title}" class="w-full h-48 object-cover rounded-lg">
+      </div>
+      <div class="p-4 space-y-4 flex-grow flex flex-col justify-between">
         <div class="space-y-2">
           <div class="flex items-center justify-between text-[11px]">
-            <span class="text-pink-600 dark:text-blue-400 font-mono font-bold">${crs.category}</span>
+            <span class="badge-pink-glass text-[9px]">${crs.category}</span>
             <span class="font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
           </div>
           <h3 class="text-xl font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
@@ -545,8 +583,8 @@ function renderCoursesCatalog() {
           </p>
         </div>
         <div class="pt-4 border-t border-cyan-200 dark:border-blue-900/60 flex items-center justify-between text-xs">
-          <span class="font-bold text-cyan-700 dark:text-blue-400">${crs.status}</span>
-          <span class="btn-awwwards-primary text-[11px] px-3.5 py-1.5">Mulai Belajar</span>
+          <span class="font-bold text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">⭐ ${crs.status}</span>
+          <span class="btn-awwwards-primary text-[11px] px-4 py-2">Mulai Belajar ✦</span>
         </div>
       </div>
     </div>
