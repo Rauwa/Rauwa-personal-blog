@@ -2,6 +2,23 @@
    AWWARDS UI DESIGN - APPLICATION LOGIC WITH PERFECT LIGHT/DARK MODE & EDITING
    ========================================================================== */
 
+// --- AUTHENTIC SVG GRAPHIC MICRO-STICKERS (MUST BE DECLARED FIRST BEFORE initApp) ---
+const SVG_LIGHT_GRAPHICS = [
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-3-7-4-9-2s-1 6 2 6 5-2.5 7-4zm0 0c2.5-3 7-4 9-2s1 6-2 6-5-2.5-7-4z" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`, // Ribbon Bow
+  `<svg class="w-8 h-4 inline-block" viewBox="0 0 32 16"><rect x="1" y="1" width="30" height="14" rx="7" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/><circle cx="16" cy="8" r="3.5" fill="#f472b6"/><path d="M16 6l.6 1.2h1.4l-1 1 .4 1.4-1.4-.8-1.4.8.4-1.4-1-1h1.4z" fill="#ffffff"/></svg>`, // Plaster with Heart
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`, // Star Hairpin
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1"/></svg>`, // 8-Pointed Crystal
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ec4899" stroke="#be185d" stroke-width="1.5"/></svg>`, // Heart Pin
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(165,243,252,0.5)" stroke="#06b6d4" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.95)"/></svg>` // Glossy Bubble
+];
+
+const SVG_DARK_GRAPHICS = [
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1"/></svg>`, // Crystal
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#f59e0b" stroke-width="1"/></svg>`, // Star Hairpin
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="#c084fc" stroke="#a855f7" stroke-width="1"/></svg>`, // Neon Starburst
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(30,58,138,0.4)" stroke="#38bdf8" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.9)"/></svg>` // Neon Bubble
+];
+
 // --- DEFAULT PROFILE & REKAM JEJAK ---
 const DEFAULT_PROFILE = {
   name: "Rauwa",
@@ -72,8 +89,34 @@ const DEFAULT_ARTICLES = [
 <h2>2. Dinamika Tekanan 9 Bar & Emulsifikasi Minyak</h2>
 <p>Tekanan 9 bar memaksa air menembus lapisan bubuk berukuran mikro (fine grind). Tekanan tinggi ini mengemulsi minyak tak jenuh bersama gas CO2 alami hasil sangrai, menciptakan busa padat berwarna cokelat keemasan (crema) yang menangkap aroma volatil.</p>
 
-<blockquote class="my-6">"Channeling atau celah udara pada puck adalah musuh utama ekstraksi espresso. Teknik perataan WDT (Weiss Distribution Technique) serta tamping sejajar 15kg adalah kunci kepatuhan resistensi bubuk kopi."</blockquote>
+<blockquote class="my-6">"Channeling atau celah udara pada puck adalah musuh utama ekstraksi espresso. Teknik perataan WDT (Weiss Distribution Technique) serta tamping sejajar 15kg adalah kunci kepatuhan resistensi bubuk."</blockquote>
 `
+  },
+  {
+    id: "art-2",
+    title: "Metodologi Riset Terbuka: Membangun Komunitas Pembelajar Mandiri",
+    category: "literasi",
+    categoryLabel: "Edukasi & Riset",
+    date: "28 September 2026",
+    readTime: "5 min dibaca",
+    views: 1820,
+    isFeatured: false,
+    thumbnail: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Bagaimana paradigma pembelajaran terbuka mengikis batas aksesibilitas ilmu pengetahuan dan memberdayakan inovasi lokal melalui riset partisipatif.",
+    content: `<p>Pembelajaran terbuka bukan sekadar membagikan file PDF secara bebas, melainkan sebuah gerakan kultural untuk demokratisasi ilmu pengetahuan.</p>`
+  },
+  {
+    id: "art-3",
+    title: "Etika Opini Publik & Literasi Digital di Era Informasi Fast-Paced",
+    category: "opini",
+    categoryLabel: "Studi Opini Publik",
+    date: "20 September 2026",
+    readTime: "6 min dibaca",
+    views: 1430,
+    isFeatured: false,
+    thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Menelaah polarisasi narasi digital dan membangun kerangka berpikir kritis dalam menyikapi derasnya arus informasi di media sosial.",
+    content: `<p>Dalam lanskap komunikasi modern, pemikiran kritis dan verifikasi berbasis bukti adalah perlindungan utama dari manipulasi opini publik.</p>`
   }
 ];
 
@@ -91,6 +134,19 @@ const DEFAULT_COURSES = [
       { title: "Modul 1: Merumuskan Pokok Pikiran Utama", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Fokus pada pembuatan thesis statement yang kuat dan terukur." },
       { title: "Modul 2: Penyuntingan Akhir & Publikasi edX", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Proses revisi mandiri sebelum menerbitkan karya." }
     ]
+  },
+  {
+    id: "crs-2",
+    title: "Analisis Opini Publik & Literasi Informasi Digital",
+    category: "Opini & Sains Terbuka",
+    level: "Tingkat Menengah",
+    status: "Pendaftaran Terbuka",
+    thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Modul praktis pengumpulan data kualitatif dan pemetaan narasi publik dalam media massa.",
+    duration: "3 Sesi Pembelajaran",
+    modules: [
+      { title: "Modul 1: Teknik Pemetaan Narasi Media", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Memahami bias media dan struktur sentimen publik." }
+    ]
   }
 ];
 
@@ -99,11 +155,12 @@ let editingArticleId = null;
 
 // --- SUPABASE CLOUD SYNC ENGINE ---
 const SUPABASE_PROJECT_URL = "https://ccsrakdoumhvfoqgupve.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_YMYksbZJv0zj1ogYL0-_AQ_GFuRp";
 let supabase = null;
 
 function initSupabaseClient() {
-  const anonKey = localStorage.getItem('supabase_anon_key');
-  if (anonKey && window.supabase && window.supabase.createClient) {
+  const anonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
+  if (anonKey && window.supabase && typeof window.supabase.createClient === 'function') {
     try {
       supabase = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
       console.log("Supabase Client initialized successfully!");
@@ -120,20 +177,28 @@ function initSupabaseClient() {
 async function syncFromSupabase() {
   if (!supabase) return;
   try {
-    const { data: articles, error: artError } = await supabase.from('articles').select('*').order('created_at', { ascending: false });
-    if (!artError && articles && articles.length > 0) {
-      localStorage.setItem('site_articles', JSON.stringify(articles));
+    const { data: articles, error: artError } = await supabase.from('articles').select('*');
+    if (!artError && Array.isArray(articles) && articles.length > 0) {
+      const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title);
+      if (validArticles.length > 0) {
+        localStorage.setItem('site_articles', JSON.stringify(validArticles));
+      }
     }
 
     const { data: courses, error: crsError } = await supabase.from('courses').select('*');
-    if (!crsError && courses && courses.length > 0) {
-      localStorage.setItem('site_courses', JSON.stringify(courses));
+    if (!crsError && Array.isArray(courses) && courses.length > 0) {
+      const validCourses = courses.filter(c => c && typeof c === 'object' && c.id && c.title);
+      if (validCourses.length > 0) {
+        localStorage.setItem('site_courses', JSON.stringify(validCourses));
+      }
     }
 
     const { data: profileData, error: profError } = await supabase.from('profile').select('*').limit(1);
-    if (!profError && profileData && profileData.length > 0) {
+    if (!profError && Array.isArray(profileData) && profileData.length > 0) {
       const prof = profileData[0].data || profileData[0];
-      localStorage.setItem('site_profile', JSON.stringify(prof));
+      if (prof && typeof prof === 'object' && prof.name) {
+        localStorage.setItem('site_profile', JSON.stringify(prof));
+      }
     }
 
     renderAllViews();
@@ -223,23 +288,18 @@ function saveCourses(data) {
   }
 }
 
-// --- INITIALIZATION ---
-function initApp() {
-  initDarkMode();
-  renderAllViews();
-  setupScrollProgress();
-  initPastelInteractiveParticles();
-  initSupabaseClient();
-  syncFromSupabase();
-  lucide.createIcons();
+// --- SAFE LUCIDE ICON HELPER ---
+function safeCreateIcons() {
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    try {
+      window.lucide.createIcons();
+    } catch (e) {
+      console.warn("Lucide icons render warning", e);
+    }
+  }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  initApp();
-}
-
+// --- DARK MODE TOGGLE ---
 function initDarkMode() {
   if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
@@ -256,7 +316,7 @@ function toggleDarkMode() {
     document.documentElement.classList.add('dark');
     localStorage.theme = 'dark';
   }
-  lucide.createIcons();
+  safeCreateIcons();
   createAmbientFloatingDoodles();
 }
 
@@ -270,24 +330,7 @@ function setupScrollProgress() {
   });
 }
 
-/* Authentic SVG Graphic Micro-Stickers (Inspired by Hatsune Miku Artwork Reference) */
-const SVG_LIGHT_GRAPHICS = [
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-3-7-4-9-2s-1 6 2 6 5-2.5 7-4zm0 0c2.5-3 7-4 9-2s1 6-2 6-5-2.5-7-4z" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`, // Ribbon Bow
-  `<svg class="w-8 h-4 inline-block" viewBox="0 0 32 16"><rect x="1" y="1" width="30" height="14" rx="7" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/><circle cx="16" cy="8" r="3.5" fill="#f472b6"/><path d="M16 6l.6 1.2h1.4l-1 1 .4 1.4-1.4-.8-1.4.8.4-1.4-1-1h1.4z" fill="#ffffff"/></svg>`, // Plaster with Heart
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`, // Star Hairpin
-  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1"/></svg>`, // 8-Pointed Crystal
-  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ec4899" stroke="#be185d" stroke-width="1.5"/></svg>`, // Heart Pin
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(165,243,252,0.5)" stroke="#06b6d4" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.95)"/></svg>` // Glossy Bubble
-];
-
-const SVG_DARK_GRAPHICS = [
-  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1"/></svg>`, // Crystal
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#f59e0b" stroke-width="1"/></svg>`, // Star Hairpin
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="#c084fc" stroke="#a855f7" stroke-width="1"/></svg>`, // Neon Starburst
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(30,58,138,0.4)" stroke="#38bdf8" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.9)"/></svg>` // Neon Bubble
-];
-
-/* Interactive Subtle Pastel Graphic Sparkle Animation (Reader-Friendly & Non-Intrusive) */
+// --- INTERACTIVE PARTICLES & AMBIENT DOODLES ---
 function initPastelInteractiveParticles() {
   function createParticle(x, y) {
     const isDark = document.documentElement.classList.contains('dark');
@@ -305,10 +348,10 @@ function initPastelInteractiveParticles() {
     const el = document.createElement('span');
     el.className = 'pastel-doodle-particle';
     const color = colors[Math.floor(Math.random() * colors.length)];
-    const size = Math.floor(Math.random() * 6) + 11; // Delicate 11px to 17px
-    const vx = (Math.random() - 0.5) * 45; // subtle horizontal drift
-    const vy = -(Math.random() * 35 + 20); // subtle upward float
-    const rot = (Math.random() - 0.5) * 60; // subtle rotation
+    const size = Math.floor(Math.random() * 6) + 11;
+    const vx = (Math.random() - 0.5) * 45;
+    const vy = -(Math.random() * 35 + 20);
+    const rot = (Math.random() - 0.5) * 60;
 
     if (useSvgGraphics) {
       el.innerHTML = svgGraphics[Math.floor(Math.random() * svgGraphics.length)];
@@ -343,7 +386,6 @@ function initPastelInteractiveParticles() {
     }, 780);
   }
 
-  // Spawn subtle mini particles ONLY on explicit click
   document.addEventListener('click', (e) => {
     for (let i = 0; i < 2; i++) {
       setTimeout(() => {
@@ -352,7 +394,6 @@ function initPastelInteractiveParticles() {
     }
   });
 
-  // Spawn delicate micro particles ONLY when hovering over primary action buttons (NEVER on reading cards/text)
   let lastHoverTime = 0;
   document.addEventListener('mouseover', (e) => {
     const target = e.target.closest('.btn-awwwards-primary, .btn-awwwards-secondary');
@@ -368,7 +409,6 @@ function initPastelInteractiveParticles() {
     }
   });
 
-  // Create ambient background drifting elements
   createAmbientFloatingDoodles();
 }
 
@@ -380,8 +420,8 @@ function createAmbientFloatingDoodles() {
     bgContainer.style.cssText = `
       position: fixed;
       inset: 0;
-      pointer-events: none;
-      z-index: -5;
+      pointer-events: none !important;
+      z-index: -5 !important;
       overflow: hidden;
     `;
     document.body.appendChild(bgContainer);
@@ -408,7 +448,7 @@ function createAmbientFloatingDoodles() {
     const color = colors[Math.floor(Math.random() * colors.length)];
     const left = Math.random() * 100;
     const top = Math.random() * 100;
-    const duration = Math.floor(Math.random() * 12) + 14; // 14s - 26s
+    const duration = Math.floor(Math.random() * 12) + 14;
     const delay = Math.floor(Math.random() * 6);
 
     if (isSvg) {
@@ -427,11 +467,13 @@ function createAmbientFloatingDoodles() {
       opacity: ${isDark ? (isMobile ? '0.2' : '0.28') : (isMobile ? '0.15' : '0.22')};
       animation: floatDoodleAnim ${duration}s ease-in-out ${delay}s infinite alternate;
       user-select: none;
+      pointer-events: none;
     `;
     bgContainer.appendChild(item);
   }
 }
 
+// --- NAVIGATION & ROUTING ENGINE ---
 function navigate(pageId, itemId = null) {
   const sections = document.querySelectorAll('.view-section');
   sections.forEach(sec => sec.classList.add('hidden'));
@@ -454,7 +496,7 @@ function navigate(pageId, itemId = null) {
   else if (pageId === 'course-detail' && itemId) renderCourseDetail(itemId);
   else if (pageId === 'about') renderAboutPage();
 
-  lucide.createIcons();
+  safeCreateIcons();
 }
 
 function toggleMobileMenu() {
@@ -469,6 +511,7 @@ function renderAllViews() {
   renderCoursesCatalog();
 }
 
+// --- RENDER HOME PAGE ---
 function renderHome() {
   const articles = getArticles();
   const courses = getCourses();
@@ -517,7 +560,7 @@ function renderHome() {
   // Articles Feed List
   const feedContainer = document.getElementById('homeArticlesFeed');
   if (feedContainer) {
-    const feedItems = articles.slice(1);
+    const feedItems = articles.length > 1 ? articles.slice(1) : DEFAULT_ARTICLES.slice(1);
     feedContainer.innerHTML = feedItems.map(item => `
       <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
         <div class="w-full sm:w-44 shrink-0">
@@ -542,7 +585,8 @@ function renderHome() {
   // Sidebar Courses
   const sidebarCourses = document.getElementById('sidebarCoursesFeed');
   if (sidebarCourses) {
-    sidebarCourses.innerHTML = courses.slice(0, 3).map(crs => `
+    const displayCourses = courses.length > 0 ? courses.slice(0, 3) : DEFAULT_COURSES.slice(0, 3);
+    sidebarCourses.innerHTML = displayCourses.map(crs => `
       <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
         <div class="flex items-center justify-between">
           <span class="badge-pink-glass text-[9px]">${crs.category}</span>
@@ -556,12 +600,17 @@ function renderHome() {
   }
 
   // Profile Sync
-  document.getElementById('sidebarProfileName').textContent = profile.name;
-  document.getElementById('sidebarProfileHeadline').textContent = profile.headline;
-  document.getElementById('sidebarProfileBio').textContent = profile.bio;
-  document.getElementById('sidebarProfileImg').src = profile.avatar;
+  const nameEl = document.getElementById('sidebarProfileName');
+  const headlineEl = document.getElementById('sidebarProfileHeadline');
+  const bioEl = document.getElementById('sidebarProfileBio');
+  const imgEl = document.getElementById('sidebarProfileImg');
 
-  lucide.createIcons();
+  if (nameEl) nameEl.textContent = profile.name;
+  if (headlineEl) headlineEl.textContent = profile.headline;
+  if (bioEl) bioEl.textContent = profile.bio;
+  if (imgEl) imgEl.src = profile.avatar;
+
+  safeCreateIcons();
 }
 
 function renderArticlesCatalog() {
@@ -599,7 +648,7 @@ function renderArticlesCatalog() {
     </div>
   `).join('');
 
-  lucide.createIcons();
+  safeCreateIcons();
 }
 
 function renderArticleDetail(id) {
@@ -647,7 +696,7 @@ function renderArticleDetail(id) {
     </div>
   `;
 
-  lucide.createIcons();
+  safeCreateIcons();
 }
 
 function shareArticle(title) {
@@ -691,7 +740,7 @@ function renderCoursesCatalog() {
     </div>
   `).join('');
 
-  lucide.createIcons();
+  safeCreateIcons();
 }
 
 function renderCourseDetail(id) {
@@ -715,7 +764,7 @@ function renderCourseDetail(id) {
         Modul & Silabus Pembelajaran edX
       </h2>
       <div class="space-y-4">
-        ${crs.modules.map((mod, idx) => `
+        ${(crs.modules || []).map((mod, idx) => `
           <div class="edx-module-card space-y-4">
             <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-3">
               <span class="w-7 h-7 rounded-full bg-cyan-100 text-cyan-900 dark:bg-blue-900/60 dark:text-blue-300 text-xs flex items-center justify-center font-mono font-bold border border-cyan-300 dark:border-blue-700/60">${idx+1}</span>
@@ -734,20 +783,26 @@ function renderCourseDetail(id) {
     </div>
   `;
 
-  lucide.createIcons();
+  safeCreateIcons();
 }
 
 function renderAboutPage() {
   const profile = getProfile();
 
-  document.getElementById('aboutProfileName').textContent = profile.name;
-  document.getElementById('aboutProfileHeadline').textContent = profile.headline;
-  document.getElementById('aboutProfileBio').textContent = profile.bio;
-  document.getElementById('aboutProfileAvatar').src = profile.avatar;
-  document.getElementById('aboutLinkedInBtn').href = profile.linkedin || '#';
-  document.getElementById('aboutEmailBtn').href = `mailto:${profile.email}`;
+  const nameEl = document.getElementById('aboutProfileName');
+  const headlineEl = document.getElementById('aboutProfileHeadline');
+  const bioEl = document.getElementById('aboutProfileBio');
+  const avatarEl = document.getElementById('aboutProfileAvatar');
+  const linkedinEl = document.getElementById('aboutLinkedInBtn');
+  const emailEl = document.getElementById('aboutEmailBtn');
 
-  // Sertifikat LinkedIn
+  if (nameEl) nameEl.textContent = profile.name;
+  if (headlineEl) headlineEl.textContent = profile.headline;
+  if (bioEl) bioEl.textContent = profile.bio;
+  if (avatarEl) avatarEl.src = profile.avatar;
+  if (linkedinEl) linkedinEl.href = profile.linkedin || '#';
+  if (emailEl) emailEl.href = `mailto:${profile.email}`;
+
   const certsGrid = document.getElementById('aboutCertificatesGrid');
   if (certsGrid) {
     if (profile.certificates && profile.certificates.length > 0) {
@@ -762,11 +817,10 @@ function renderAboutPage() {
         </div>
       `).join('');
     } else {
-      certsGrid.innerHTML = `<p class="text-xs text-slate-500 dark:text-slate-400 italic col-span-2">Belum ada sertifikat. Anda dapat menambahkannya dari Pusat Kendali Admin.</p>`;
+      certsGrid.innerHTML = `<p class="text-xs text-slate-500 dark:text-slate-400 italic col-span-2">Belum ada sertifikat.</p>`;
     }
   }
 
-  // Rekam Jejak Timeline
   const timeline = document.getElementById('aboutExperienceTimeline');
   if (timeline) {
     if (profile.experiences && profile.experiences.length > 0) {
@@ -781,11 +835,10 @@ function renderAboutPage() {
         </div>
       `).join('');
     } else {
-      timeline.innerHTML = `<p class="text-xs text-slate-500 dark:text-slate-400 italic">Belum ada item rekam jejak. Anda dapat menambahkannya dari Pusat Kendali Admin.</p>`;
+      timeline.innerHTML = `<p class="text-xs text-slate-500 dark:text-slate-400 italic">Belum ada item rekam jejak.</p>`;
     }
   }
 
-  // Skills Badges
   const skillsContainer = document.getElementById('aboutSkillsBadges');
   if (skillsContainer && profile.skills) {
     skillsContainer.innerHTML = profile.skills.map(skill => `
@@ -795,16 +848,18 @@ function renderAboutPage() {
     `).join('');
   }
 
-  lucide.createIcons();
+  safeCreateIcons();
 }
 
-// --- ADMIN DASHBOARD & CONTENT MANAGER ---
+// --- ADMIN DASHBOARD ---
 function openAdmin() {
-  document.getElementById('adminModal').classList.remove('hidden');
+  const modal = document.getElementById('adminModal');
+  if (modal) modal.classList.remove('hidden');
 }
 
 function closeAdmin() {
-  document.getElementById('adminModal').classList.add('hidden');
+  const modal = document.getElementById('adminModal');
+  if (modal) modal.classList.add('hidden');
 }
 
 function checkAdminAuth() {
@@ -832,7 +887,7 @@ function renderAdminTab(tab) {
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Karya Tulis (${articles.length})</h3>
-          <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru (Gaya Medium)</button>
+          <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru</button>
         </div>
         <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
           ${articles.map(a => `
@@ -878,8 +933,6 @@ function renderAdminTab(tab) {
 
     container.innerHTML = `
       <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
-        
-        <!-- Form Profil Utama -->
         <form onsubmit="saveProfileFromAdmin(event)" class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Edit Profil Utama & Kontak</h3>
           <div class="grid grid-cols-2 gap-4">
@@ -898,39 +951,31 @@ function renderAdminTab(tab) {
           </div>
           <div>
             <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Biografi:</label>
-            <textarea id="admBio" rows="2" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">${p.bio}</textarea>
+            <textarea id="admBio" rows="3" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">${p.bio}</textarea>
           </div>
-          <button type="submit" class="btn-awwwards-primary py-2 px-4">Simpan Profil Utama</button>
+          <button type="submit" class="btn-awwwards-primary py-2 px-4">Simpan Perubahan Profil</button>
         </form>
 
-        <!-- Manager Sertifikat LinkedIn -->
         <div class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-sm text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
-              <i data-lucide="award" class="w-4 h-4"></i>
-              <span>Sertifikat & Lisensi (Gaya LinkedIn)</span>
-            </h3>
-          </div>
-          
+          <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kelola Sertifikat (${certs.length})</h3>
           <form onsubmit="addCertificateFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
             <span class="font-bold block text-slate-900 dark:text-white">+ Tambah Sertifikat Baru</span>
             <div class="grid grid-cols-2 gap-3">
-              <input type="text" id="newCertTitle" required placeholder="Nama Sertifikat..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
-              <input type="text" id="newCertIssuer" required placeholder="Penerbit/Organisasi..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+              <input type="text" id="newCertTitle" required placeholder="Judul Sertifikat..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+              <input type="text" id="newCertIssuer" required placeholder="Penerbit / Instansi..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <input type="text" id="newCertYear" placeholder="Tahun (misal: 2025)..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
-              <input type="text" id="newCertUrl" placeholder="URL Gambar Sertifikat..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+              <input type="text" id="newCertYear" placeholder="Tahun (misal: 2026)..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+              <input type="text" id="newCertUrl" placeholder="URL Bukti Sertifikat / Gambar..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
             </div>
             <button type="submit" class="btn-awwwards-secondary text-xs py-1.5 px-3">+ Tambahkan Sertifikat</button>
           </form>
-
           <div class="space-y-2">
             ${certs.map(c => `
               <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10">
                 <div>
                   <span class="font-bold text-slate-900 dark:text-white block">${c.title}</span>
-                  <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${c.issuer} (${c.year})</span>
+                  <span class="text-[10px] text-cyan-600 dark:text-blue-400 font-mono">${c.issuer} (${c.year})</span>
                 </div>
                 <button onclick="deleteCertificate('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
               </div>
@@ -938,15 +983,8 @@ function renderAdminTab(tab) {
           </div>
         </div>
 
-        <!-- Manager Rekam Jejak (Timeline Pengalaman) -->
         <div class="space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-sm text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
-              <i data-lucide="briefcase" class="w-4 h-4"></i>
-              <span>Rekam Jejak & Timeline Pengalaman</span>
-            </h3>
-          </div>
-
+          <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kelola Rekam Jejak / Pengalaman (${exps.length})</h3>
           <form onsubmit="addExperienceFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
             <span class="font-bold block text-slate-900 dark:text-white">+ Tambah Item Rekam Jejak Baru</span>
             <div class="grid grid-cols-2 gap-3">
@@ -957,11 +995,10 @@ function renderAdminTab(tab) {
               <input type="text" id="newExpPeriod" required placeholder="Periode (misal: 2024 - Sekarang)..." class="w-full p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
             </div>
             <div>
-              <textarea id="newExpDesc" rows="2" required placeholder="Deskripsi singkat kegiatan/pencapaian..." class="w-full p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"></textarea>
+              <textarea id="newExpDesc" rows="2" required placeholder="Deskripsi singkat..." class="w-full p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"></textarea>
             </div>
             <button type="submit" class="btn-awwwards-secondary text-xs py-1.5 px-3">+ Tambahkan Rekam Jejak</button>
           </form>
-
           <div class="space-y-2">
             ${exps.map(e => `
               <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10">
@@ -974,13 +1011,12 @@ function renderAdminTab(tab) {
             `).join('')}
           </div>
         </div>
-
-    </div>
+      </div>
     `;
-    lucide.createIcons();
+    safeCreateIcons();
   } else if (tab === 'supabase') {
     const isConnected = !!supabase;
-    const currentAnonKey = localStorage.getItem('supabase_anon_key') || '';
+    const currentAnonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
     
     container.innerHTML = `
       <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
@@ -1002,10 +1038,10 @@ function renderAdminTab(tab) {
             </div>
 
             <div>
-              <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Anon Public Key (`eyJ...`):</label>
+              <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Anon Public Key (`sb_publishable_...`):</label>
               <input type="password" id="supabaseAnonKeyInput" value="${currentAnonKey}" placeholder="Tempelkan kunci anon public Supabase di sini..." class="w-full px-3 py-2 rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs focus:outline-none focus:border-cyan-500">
               <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-                💡 <b>Petunjuk Mengambil Kunci:</b> Di Dashboard Supabase Anda (seperti screenshot yang Anda kirimkan), klik tombol <b>API Keys</b> di bagian kanan bawah, lalu salin kunci <code>anon</code> public.
+                💡 Kunci publishable default telah terpasang otomatis. Anda dapat memperbaruinya kapan saja.
               </p>
             </div>
 
@@ -1028,7 +1064,7 @@ function renderAdminTab(tab) {
             <button onclick="copySupabaseSQL()" class="text-xs font-mono text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
           </div>
           <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
-            Jika tabel di Supabase Anda belum dibuat, salin skrip SQL di bawah ini dan tempel di menu <b>SQL Editor</b> pada Dashboard Supabase Anda:
+            Salin skrip SQL di bawah ini dan tempel di menu <b>SQL Editor</b> pada Dashboard Supabase Anda:
           </p>
           <pre id="supabaseSqlCode" class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-48 border border-slate-800 leading-relaxed">
 CREATE TABLE IF NOT EXISTS articles (
@@ -1077,7 +1113,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         </div>
       </div>
     `;
-    lucide.createIcons();
+    safeCreateIcons();
   }
 }
 
@@ -1137,7 +1173,6 @@ function copySupabaseSQL() {
   alert('Kode SQL Schema berhasil disalin ke clipboard!');
 }
 
-// Show Article Form (New or Edit Existing Published Article)
 function showAddArticleForm(artToEdit = null) {
   editingArticleId = artToEdit ? artToEdit.id : null;
   const container = document.getElementById('adminContentContainer');
@@ -1145,11 +1180,11 @@ function showAddArticleForm(artToEdit = null) {
   container.innerHTML = `
     <form onsubmit="saveNewArticle(event)" class="space-y-4 text-xs">
       <h3 class="font-bold text-sm text-slate-900 dark:text-white">
-        ${artToEdit ? '✏️ Edit Artikel Terpublikasi' : '📝 Tulis Artikel Baru (Gaya Medium)'}
+        ${artToEdit ? '✏️ Edit Artikel Terpublikasi' : '📝 Tulis Artikel Baru'}
       </h3>
       <div>
         <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Judul Artikel:</label>
-        <input type="text" id="newArtTitle" value="${artToEdit ? artToEdit.title : ''}" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" placeholder="Judul artikel utama...">
+        <input type="text" id="newArtTitle" value="${artToEdit ? artToEdit.title : ''}" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" placeholder="Judul artikel...">
       </div>
       <div>
         <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">URL Gambar Cover Utama / Thumbnail:</label>
@@ -1157,10 +1192,9 @@ function showAddArticleForm(artToEdit = null) {
       </div>
       <div>
         <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Subjudul / Ringkasan (Excerpt):</label>
-        <textarea id="newArtExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" placeholder="Ringkasan esai Medium...">${artToEdit ? artToEdit.excerpt : ''}</textarea>
+        <textarea id="newArtExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" placeholder="Ringkasan esai...">${artToEdit ? artToEdit.excerpt : ''}</textarea>
       </div>
 
-      <!-- Toolbar Formatting Visual Gaya Medium -->
       <div class="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30 space-y-2">
         <span class="font-bold text-indigo-700 dark:text-indigo-300 block flex items-center gap-1">
           <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
@@ -1186,13 +1220,13 @@ function showAddArticleForm(artToEdit = null) {
 
       <div class="flex gap-3">
         <button type="submit" class="btn-awwwards-primary py-2.5 px-5">
-          ${artToEdit ? 'Simpan Perubahan Artikel' : 'Terbitkan Artikel Medium'}
+          ${artToEdit ? 'Simpan Perubahan Artikel' : 'Terbitkan Artikel'}
         </button>
         <button type="button" onclick="renderAdminTab('articles')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
       </div>
     </form>
   `;
-  lucide.createIcons();
+  safeCreateIcons();
 }
 
 function editArticle(id) {
@@ -1203,7 +1237,6 @@ function editArticle(id) {
   }
 }
 
-// Medium Visual Formatting Helpers
 function applyMediumFormat(type) {
   const textarea = document.getElementById('newArtContent');
   if (!textarea) return;
@@ -1275,7 +1308,7 @@ function saveNewArticle(e) {
       content: content
     };
     articles.unshift(newArticle);
-    alert('Artikel baru bergaya Medium berhasil diterbitkan!');
+    alert('Artikel baru berhasil diterbitkan!');
   }
 
   saveArticles(articles);
@@ -1293,7 +1326,6 @@ function deleteArticle(id) {
   }
 }
 
-// Admin Experience & Certificate CRUD Handlers
 function addCertificateFromAdmin(e) {
   e.preventDefault();
   const p = getProfile();
@@ -1361,7 +1393,6 @@ function saveProfileFromAdmin(e) {
   alert('Profil utama berhasil diperbarui!');
 }
 
-// edX Course Form Builder
 function showAddCourseForm() {
   const container = document.getElementById('adminContentContainer');
   container.innerHTML = `
@@ -1443,5 +1474,19 @@ function deleteCourse(id) {
   }
 }
 
-// Guaranteed Immediate Render Invocation
-renderAllViews();
+// --- INITIALIZATION ENTRY POINT ---
+function initApp() {
+  initDarkMode();
+  renderAllViews();
+  setupScrollProgress();
+  initPastelInteractiveParticles();
+  initSupabaseClient();
+  syncFromSupabase();
+  safeCreateIcons();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
