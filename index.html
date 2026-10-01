@@ -157,12 +157,77 @@
 
             <!-- Featured Article Box -->
             <div id="featuredArticleContainer">
-              <!-- Rendered via app.js -->
+              <div onclick="navigate('article-detail', 'art-1')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div class="lg:col-span-7 space-y-5">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="badge-pastel-glass font-bold">
+                        ✦ Metodologi & Riset ✨
+                      </span>
+                      <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">1 Oktober 2026</span>
+                      <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">• 7 min dibaca</span>
+                    </div>
+                    
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
+                      Sains Presisi & Seni Ekstraksi Mesin Espresso
+                    </h2>
+
+                    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+                      Eksplorasi ilmiah mengenai pengaruh variabel termal (92°C–94°C), rasio seduh (1:2), kehalusan penggilingan (grind size), serta tekanan pompa terhadap emulsifikasi minyak, pembentukan crema, dan keseimbangan rasa espresso.
+                    </p>
+
+                    <div class="pt-2 flex items-center gap-3 text-xs font-bold text-cyan-600 dark:text-blue-400 group-hover:translate-x-1.5 transition-transform">
+                      <span class="btn-awwwards-primary text-xs px-4 py-2">Baca Karya Selengkapnya ✦</span>
+                    </div>
+                  </div>
+
+                  <div class="lg:col-span-5">
+                    <div class="polaroid-frame">
+                      <span class="polaroid-pin">✦ ESSAY PILIHAN ✨</span>
+                      <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80" alt="Sains Presisi & Seni Ekstraksi Mesin Espresso" class="w-full h-60 sm:h-72 object-cover rounded-xl">
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Articles Feed List -->
             <div id="homeArticlesFeed" class="space-y-6">
-              <!-- Rendered via app.js -->
+              <div onclick="navigate('article-detail', 'art-2')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
+                <div class="w-full sm:w-44 shrink-0">
+                  <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80" alt="Metodologi Riset Terbuka" class="w-full h-32 object-cover rounded-xl border border-cyan-200 dark:border-blue-900/60 shadow-sm">
+                </div>
+                <div class="space-y-2 flex-grow">
+                  <div class="flex items-center gap-2">
+                    <span class="badge-pink-glass text-[10px]">Edukasi & Riset</span>
+                    <span class="text-[11px] text-slate-500 dark:text-blue-300/70 font-mono">28 September 2026</span>
+                  </div>
+                  <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
+                    Metodologi Riset Terbuka: Membangun Komunitas Pembelajar Mandiri
+                  </h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
+                    Bagaimana paradigma pembelajaran terbuka mengikis batas aksesibilitas ilmu pengetahuan dan memberdayakan inovasi lokal melalui riset partisipatif.
+                  </p>
+                </div>
+              </div>
+
+              <div onclick="navigate('article-detail', 'art-3')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
+                <div class="w-full sm:w-44 shrink-0">
+                  <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Etika Opini Publik" class="w-full h-32 object-cover rounded-xl border border-cyan-200 dark:border-blue-900/60 shadow-sm">
+                </div>
+                <div class="space-y-2 flex-grow">
+                  <div class="flex items-center gap-2">
+                    <span class="badge-pink-glass text-[10px]">Studi Opini Publik</span>
+                    <span class="text-[11px] text-slate-500 dark:text-blue-300/70 font-mono">20 September 2026</span>
+                  </div>
+                  <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
+                    Etika Opini Publik & Literasi Digital di Era Informasi Fast-Paced
+                  </h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
+                    Menelaah polarisasi narasi digital dan membangun kerangka berpikir kritis dalam menyikapi derasnya arus informasi di media sosial.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -179,7 +244,15 @@
                 <span class="text-[10px] font-mono font-bold text-emerald-700 dark:text-emerald-400">100% BEBAS BIAYA</span>
               </div>
               <div id="sidebarCoursesFeed" class="space-y-3">
-                <!-- Rendered via app.js -->
+                <div onclick="navigate('course-detail', 'crs-1')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
+                  <div class="flex items-center justify-between">
+                    <span class="badge-pink-glass text-[9px]">Riset & Penulisan</span>
+                    <span class="text-[10px] font-mono text-slate-500 dark:text-blue-300/70">4 Sesi Pembelajaran</span>
+                  </div>
+                  <h4 class="text-xs font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors line-clamp-2">
+                    Pengantar Metodologi Penulisan & Riset Kritis (Gaya edX)
+                  </h4>
+                </div>
               </div>
               <button onclick="navigate('courses')" class="w-full btn-awwwards-secondary text-xs py-2.5">
                 Jelajahi Semua Kelas
@@ -220,7 +293,33 @@
         </div>
 
         <div id="fullArticlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Rendered via app.js -->
+          <div onclick="navigate('article-detail', 'art-1')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
+            <div class="polaroid-frame mb-3">
+              <span class="polaroid-pin">✦ KARYA TULIS ✨</span>
+              <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80" alt="Sains Presisi" class="w-full h-48 object-cover rounded-lg">
+            </div>
+            <div class="p-4 space-y-4 flex-grow flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-blue-300/70">
+                  <span class="badge-pastel-glass text-[9px]">Metodologi & Riset</span>
+                  <span>7 min dibaca</span>
+                </div>
+                <h3 class="text-xl font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
+                  Sains Presisi & Seni Ekstraksi Mesin Espresso
+                </h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+                  Eksplorasi ilmiah mengenai pengaruh variabel termal (92°C–94°C), rasio seduh (1:2), kehalusan penggilingan (grind size), serta tekanan pompa terhadap emulsifikasi minyak.
+                </p>
+              </div>
+              <div class="pt-4 border-t border-cyan-200 dark:border-blue-900/60 flex items-center justify-between text-xs font-mono">
+                <span class="text-slate-500 dark:text-blue-300/70">1 Oktober 2026</span>
+                <span class="text-cyan-600 dark:text-blue-400 font-bold flex items-center gap-1">
+                  <span>Baca Artikel</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
