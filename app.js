@@ -159,6 +159,7 @@ function toggleDarkMode() {
     localStorage.theme = 'dark';
   }
   lucide.createIcons();
+  createAmbientFloatingDoodles();
 }
 
 function setupScrollProgress() {
@@ -173,10 +174,17 @@ function setupScrollProgress() {
 
 /* Interactive Random Pastel Doodle & Sparkle Animation (Miku Reference) */
 function initPastelInteractiveParticles() {
-  const symbols = ['✦', '★', '♥', '◆', '✿', '🫧', '✨', '🌸', '💖', '⭐'];
-  const colors = ['#06b6d4', '#ec4899', '#f59e0b', '#a855f7', '#38bdf8', '#f472b6', '#34d399', '#fbbf24'];
-
   function createParticle(x, y) {
+    const isDark = document.documentElement.classList.contains('dark');
+    // Dark mode strictly uses star symbols only (✦, ★, ⭐, ✨, 💫, ✧, ✸, ✶)
+    const lightSymbols = ['✦', '★', '♥', '◆', '✿', '🫧', '✨', '🌸', '💖', '⭐'];
+    const darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧', '✸', '✶'];
+    const symbols = isDark ? darkStarSymbols : lightSymbols;
+
+    const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#a855f7', '#38bdf8', '#f472b6', '#34d399', '#fbbf24'];
+    const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#a855f7', '#38bdf8', '#fde047'];
+    const colors = isDark ? darkColors : lightColors;
+
     const el = document.createElement('span');
     el.className = 'pastel-doodle-particle';
     const symbol = symbols[Math.floor(Math.random() * symbols.length)];
@@ -244,23 +252,33 @@ function initPastelInteractiveParticles() {
 }
 
 function createAmbientFloatingDoodles() {
-  if (document.getElementById('ambientDoodleBg')) return;
+  let bgContainer = document.getElementById('ambientDoodleBg');
+  if (!bgContainer) {
+    bgContainer = document.createElement('div');
+    bgContainer.id = 'ambientDoodleBg';
+    bgContainer.style.cssText = `
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    `;
+    document.body.appendChild(bgContainer);
+  } else {
+    bgContainer.innerHTML = '';
+  }
 
-  const bgContainer = document.createElement('div');
-  bgContainer.id = 'ambientDoodleBg';
-  bgContainer.style.cssText = `
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  `;
-  document.body.appendChild(bgContainer);
+  const isDark = document.documentElement.classList.contains('dark');
+  // Dark mode ambient doodles strictly use star symbols only
+  const lightSymbols = ['✦', '★', '♥', '◆', '✿', '🌸', '✨', '🫧'];
+  const darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧', '✸', '✶'];
+  const ambientSymbols = isDark ? darkStarSymbols : lightSymbols;
 
-  const ambientSymbols = ['✦', '★', '♥', '◆', '✿', '🌸', '✨', '🫧'];
-  const colors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#c084fc', '#f472b6'];
+  const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#c084fc', '#f472b6'];
+  const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#a855f7', '#38bdf8', '#fde047'];
+  const colors = isDark ? darkColors : lightColors;
 
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 18; i++) {
     const item = document.createElement('span');
     const symbol = ambientSymbols[Math.floor(Math.random() * ambientSymbols.length)];
     const color = colors[Math.floor(Math.random() * colors.length)];
@@ -277,7 +295,7 @@ function createAmbientFloatingDoodles() {
       top: ${top}vh;
       font-size: ${Math.floor(Math.random() * 14) + 14}px;
       color: ${color};
-      opacity: 0.25;
+      opacity: ${isDark ? '0.35' : '0.25'};
       animation: floatDoodleAnim ${duration}s ease-in-out ${delay}s infinite alternate;
       user-select: none;
     `;
