@@ -537,6 +537,19 @@
       }
     }
 
+    function toggleDarkMode() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        try { window.lucide.createIcons(); } catch(e){}
+      }
+    }
+
     function toggleMobileMenu() {
       var menu = document.getElementById('mobileMenu');
       if (menu) menu.classList.toggle('hidden');
@@ -550,6 +563,26 @@
     function closeAdmin() {
       var modal = document.getElementById('adminModal');
       if (modal) modal.classList.add('hidden');
+    }
+
+    function checkAdminAuth() {
+      if (typeof window.checkAdminAuth === 'function' && window.checkAdminAuth !== checkAdminAuth) {
+        window.checkAdminAuth();
+        return;
+      }
+      var passInput = document.getElementById('adminPassInput');
+      var pass = passInput ? passInput.value : '';
+      if (pass === 'admin123' || pass === 'admin') {
+        document.getElementById('adminAuthSection').classList.add('hidden');
+        document.getElementById('adminDashboardSection').classList.remove('hidden');
+        if (typeof window.renderAdminTab === 'function') window.renderAdminTab('articles');
+      } else {
+        alert('Kata kunci akses salah!');
+      }
+    }
+
+    function switchAdminTab(tab) {
+      if (typeof window.renderAdminTab === 'function') window.renderAdminTab(tab);
     }
 
     function initInlineParticles() {

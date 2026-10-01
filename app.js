@@ -2,25 +2,25 @@
    AWWARDS UI DESIGN - APPLICATION LOGIC WITH PERFECT LIGHT/DARK MODE & EDITING
    ========================================================================== */
 
-// --- AUTHENTIC SVG GRAPHIC MICRO-STICKERS (MUST BE DECLARED FIRST BEFORE initApp) ---
-const SVG_LIGHT_GRAPHICS = [
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-3-7-4-9-2s-1 6 2 6 5-2.5 7-4zm0 0c2.5-3 7-4 9-2s1 6-2 6-5-2.5-7-4z" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`, // Ribbon Bow
-  `<svg class="w-8 h-4 inline-block" viewBox="0 0 32 16"><rect x="1" y="1" width="30" height="14" rx="7" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/><circle cx="16" cy="8" r="3.5" fill="#f472b6"/><path d="M16 6l.6 1.2h1.4l-1 1 .4 1.4-1.4-.8-1.4.8.4-1.4-1-1h1.4z" fill="#ffffff"/></svg>`, // Plaster with Heart
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`, // Star Hairpin
-  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1"/></svg>`, // 8-Pointed Crystal
-  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ec4899" stroke="#be185d" stroke-width="1.5"/></svg>`, // Heart Pin
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(165,243,252,0.5)" stroke="#06b6d4" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.95)"/></svg>` // Glossy Bubble
+// --- AUTHENTIC SVG GRAPHIC MICRO-STICKERS ---
+window.SVG_LIGHT_GRAPHICS = [
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-3-7-4-9-2s-1 6 2 6 5-2.5 7-4zm0 0c2.5-3 7-4 9-2s1 6-2 6-5-2.5-7-4z" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`,
+  `<svg class="w-8 h-4 inline-block" viewBox="0 0 32 16"><rect x="1" y="1" width="30" height="14" rx="7" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/><circle cx="16" cy="8" r="3.5" fill="#f472b6"/><path d="M16 6l.6 1.2h1.4l-1 1 .4 1.4-1.4-.8-1.4.8.4-1.4-1-1h1.4z" fill="#ffffff"/></svg>`,
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`,
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1"/></svg>`,
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ec4899" stroke="#be185d" stroke-width="1.5"/></svg>`,
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(165,243,252,0.5)" stroke="#06b6d4" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.95)"/></svg>`
 ];
 
-const SVG_DARK_GRAPHICS = [
-  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1"/></svg>`, // Crystal
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#f59e0b" stroke-width="1"/></svg>`, // Star Hairpin
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="#c084fc" stroke="#a855f7" stroke-width="1"/></svg>`, // Neon Starburst
-  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(30,58,138,0.4)" stroke="#38bdf8" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.9)"/></svg>` // Neon Bubble
+window.SVG_DARK_GRAPHICS = [
+  `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1"/></svg>`,
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#f59e0b" stroke-width="1"/></svg>`,
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="#c084fc" stroke="#a855f7" stroke-width="1"/></svg>`,
+  `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(30,58,138,0.4)" stroke="#38bdf8" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.9)"/></svg>`
 ];
 
-// --- DEFAULT PROFILE & REKAM JEJAK ---
-const DEFAULT_PROFILE = {
+// --- DEFAULT PROFILE ---
+window.DEFAULT_PROFILE = {
   name: "Rauwa",
   headline: "Penulis & Inisiator Literasi Publik",
   bio: "Berpengalaman dalam pengembangan materi edukasi terbuka, pengkajian opini publik, dan pembangunan jaringan pembelajar mandiri secara berkelanjutan.",
@@ -63,7 +63,7 @@ const DEFAULT_PROFILE = {
 };
 
 // --- DEFAULT ARTICLES ---
-const DEFAULT_ARTICLES = [
+window.DEFAULT_ARTICLES = [
   {
     id: "art-1",
     title: "Sains Presisi & Seni Ekstraksi Mesin Espresso",
@@ -103,7 +103,7 @@ const DEFAULT_ARTICLES = [
     isFeatured: false,
     thumbnail: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
     excerpt: "Bagaimana paradigma pembelajaran terbuka mengikis batas aksesibilitas ilmu pengetahuan dan memberdayakan inovasi lokal melalui riset partisipatif.",
-    content: `<p>Pembelajaran terbuka bukan sekadar membagikan file PDF secara bebas, melainkan sebuah gerakan kultural untuk demokratisasi ilmu pengetahuan.</p>`
+    content: `<p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">Pembelajaran terbuka bukan sekadar membagikan file PDF secara bebas, melainkan sebuah gerakan kultural untuk demokratisasi ilmu pengetahuan.</p><p>Dengan mengadopsi standar lisensi terbuka dan kurikulum modular, setiap individu dapat mengakses materi pembelajaran berkualitas tinggi secara mandiri tanpa terhalang kendala finansial maupun geografis.</p>`
   },
   {
     id: "art-3",
@@ -116,11 +116,11 @@ const DEFAULT_ARTICLES = [
     isFeatured: false,
     thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
     excerpt: "Menelaah polarisasi narasi digital dan membangun kerangka berpikir kritis dalam menyikapi derasnya arus informasi di media sosial.",
-    content: `<p>Dalam lanskap komunikasi modern, pemikiran kritis dan verifikasi berbasis bukti adalah perlindungan utama dari manipulasi opini publik.</p>`
+    content: `<p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">Dalam lanskap komunikasi modern, pemikiran kritis dan verifikasi berbasis bukti adalah perlindungan utama dari manipulasi opini publik.</p><p>Esai ini mengurai pentingnya skeptisisme metodologis saat mengonsumsi informasi digital dan menyajikan langkah praktis mengevaluasi klaim ilmiah di ruang publik.</p>`
   }
 ];
 
-const DEFAULT_COURSES = [
+window.DEFAULT_COURSES = [
   {
     id: "crs-1",
     title: "Pengantar Metodologi Penulisan & Riset Kritis (Gaya edX)",
@@ -150,34 +150,42 @@ const DEFAULT_COURSES = [
   }
 ];
 
-// --- EDITING STATE ---
-let editingArticleId = null;
+window.editingArticleId = null;
 
-// --- SUPABASE CLOUD SYNC ENGINE ---
-const SUPABASE_PROJECT_URL = "https://ccsrakdoumhvfoqgupve.supabase.co";
-const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_YMYksbZJv0zj1ogYL0-_AQ_GFuRp";
-let supabase = null;
+// --- SUPABASE ENGINE ---
+window.SUPABASE_PROJECT_URL = "https://ccsrakdoumhvfoqgupve.supabase.co";
+window.DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_YMYksbZJv0zj1ogYL0-_AQ_GFuRp";
+window.supabase = null;
 
-function initSupabaseClient() {
-  const anonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
-  if (anonKey && window.supabase && typeof window.supabase.createClient === 'function') {
+window.initSupabaseClient = function() {
+  const anonKey = localStorage.getItem('supabase_anon_key') || window.DEFAULT_SUPABASE_ANON_KEY;
+  if (anonKey && window.supabaseClient && typeof window.supabaseClient.createClient === 'function') {
     try {
-      supabase = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
+      window.supabase = window.supabaseClient.createClient(window.SUPABASE_PROJECT_URL, anonKey);
       console.log("Supabase Client initialized successfully!");
       return true;
     } catch (e) {
       console.error("Failed to initialize Supabase client", e);
-      supabase = null;
+      window.supabase = null;
+      return false;
+    }
+  } else if (anonKey && window.supabase && typeof window.supabase.createClient === 'function') {
+    try {
+      window.supabase = window.supabase.createClient(window.SUPABASE_PROJECT_URL, anonKey);
+      console.log("Supabase Client initialized successfully!");
+      return true;
+    } catch (e) {
+      console.error("Failed to initialize Supabase client", e);
       return false;
     }
   }
   return false;
-}
+};
 
-async function syncFromSupabase() {
-  if (!supabase) return;
+window.syncFromSupabase = async function() {
+  if (!window.supabase) return;
   try {
-    const { data: articles, error: artError } = await supabase.from('articles').select('*');
+    const { data: articles, error: artError } = await window.supabase.from('articles').select('*');
     if (!artError && Array.isArray(articles) && articles.length > 0) {
       const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title);
       if (validArticles.length > 0) {
@@ -185,7 +193,7 @@ async function syncFromSupabase() {
       }
     }
 
-    const { data: courses, error: crsError } = await supabase.from('courses').select('*');
+    const { data: courses, error: crsError } = await window.supabase.from('courses').select('*');
     if (!crsError && Array.isArray(courses) && courses.length > 0) {
       const validCourses = courses.filter(c => c && typeof c === 'object' && c.id && c.title);
       if (validCourses.length > 0) {
@@ -193,7 +201,7 @@ async function syncFromSupabase() {
       }
     }
 
-    const { data: profileData, error: profError } = await supabase.from('profile').select('*').limit(1);
+    const { data: profileData, error: profError } = await window.supabase.from('profile').select('*').limit(1);
     if (!profError && Array.isArray(profileData) && profileData.length > 0) {
       const prof = profileData[0].data || profileData[0];
       if (prof && typeof prof === 'object' && prof.name) {
@@ -201,36 +209,34 @@ async function syncFromSupabase() {
       }
     }
 
-    renderAllViews();
+    window.renderAllViews();
   } catch (e) {
     console.warn("Supabase sync warning, fallback to local storage", e);
   }
-}
+};
 
-// --- LOCAL STORAGE & DATA MANAGER (DEFENSIVE WITH DEFAULT FALLBACKS) ---
-function getProfile() {
+// --- DATA ACCESSORS ---
+window.getProfile = function() {
   const data = localStorage.getItem('site_profile');
   if (data) {
     try {
       const parsed = JSON.parse(data);
       if (parsed && typeof parsed === 'object' && parsed.name) return parsed;
-    } catch (e) {
-      console.error("Error parsing profile from localStorage", e);
-    }
+    } catch (e) {}
   }
-  return DEFAULT_PROFILE;
-}
+  return window.DEFAULT_PROFILE;
+};
 
-function saveProfile(data) {
+window.saveProfile = function(data) {
   localStorage.setItem('site_profile', JSON.stringify(data));
-  if (supabase) {
-    supabase.from('profile').upsert([{ id: 'default', data: data }], { onConflict: 'id' }).then(({ error }) => {
+  if (window.supabase) {
+    window.supabase.from('profile').upsert([{ id: 'default', data: data }], { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert profile error", error);
     });
   }
-}
+};
 
-function getArticles() {
+window.getArticles = function() {
   const data = localStorage.getItem('site_articles');
   if (data) {
     try {
@@ -239,27 +245,25 @@ function getArticles() {
         const valid = parsed.filter(a => a && typeof a === 'object' && a.id && a.title);
         if (valid.length > 0) return valid;
       }
-    } catch (e) {
-      console.error("Error parsing articles from localStorage", e);
-    }
+    } catch (e) {}
   }
-  return DEFAULT_ARTICLES;
-}
+  return window.DEFAULT_ARTICLES;
+};
 
-function saveArticles(data) {
+window.saveArticles = function(data) {
   if (!Array.isArray(data) || data.length === 0) {
     localStorage.removeItem('site_articles');
     return;
   }
   localStorage.setItem('site_articles', JSON.stringify(data));
-  if (supabase) {
-    supabase.from('articles').upsert(data, { onConflict: 'id' }).then(({ error }) => {
+  if (window.supabase) {
+    window.supabase.from('articles').upsert(data, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert articles error", error);
     });
   }
-}
+};
 
-function getCourses() {
+window.getCourses = function() {
   const data = localStorage.getItem('site_courses');
   if (data) {
     try {
@@ -268,47 +272,42 @@ function getCourses() {
         const valid = parsed.filter(c => c && typeof c === 'object' && c.id && c.title);
         if (valid.length > 0) return valid;
       }
-    } catch (e) {
-      console.error("Error parsing courses from localStorage", e);
-    }
+    } catch (e) {}
   }
-  return DEFAULT_COURSES;
-}
+  return window.DEFAULT_COURSES;
+};
 
-function saveCourses(data) {
+window.saveCourses = function(data) {
   if (!Array.isArray(data) || data.length === 0) {
     localStorage.removeItem('site_courses');
     return;
   }
   localStorage.setItem('site_courses', JSON.stringify(data));
-  if (supabase) {
-    supabase.from('courses').upsert(data, { onConflict: 'id' }).then(({ error }) => {
+  if (window.supabase) {
+    window.supabase.from('courses').upsert(data, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert courses error", error);
     });
   }
-}
+};
 
-// --- SAFE LUCIDE ICON HELPER ---
-function safeCreateIcons() {
+window.safeCreateIcons = function() {
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     try {
       window.lucide.createIcons();
-    } catch (e) {
-      console.warn("Lucide icons render warning", e);
-    }
+    } catch (e) {}
   }
-}
+};
 
-// --- DARK MODE TOGGLE ---
-function initDarkMode() {
+// --- DARK MODE ---
+window.initDarkMode = function() {
   if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
   } else {
     document.documentElement.classList.remove('dark');
   }
-}
+};
 
-function toggleDarkMode() {
+window.toggleDarkMode = function() {
   if (document.documentElement.classList.contains('dark')) {
     document.documentElement.classList.remove('dark');
     localStorage.theme = 'light';
@@ -316,11 +315,11 @@ function toggleDarkMode() {
     document.documentElement.classList.add('dark');
     localStorage.theme = 'dark';
   }
-  safeCreateIcons();
-  createAmbientFloatingDoodles();
-}
+  window.safeCreateIcons();
+  window.createAmbientFloatingDoodles();
+};
 
-function setupScrollProgress() {
+window.setupScrollProgress = function() {
   window.addEventListener('scroll', () => {
     const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -328,91 +327,10 @@ function setupScrollProgress() {
     const bar = document.getElementById('readingProgressBar');
     if (bar) bar.style.width = (scrolled || 0) + '%';
   });
-}
+};
 
-// --- INTERACTIVE PARTICLES & AMBIENT DOODLES ---
-function initPastelInteractiveParticles() {
-  function createParticle(x, y) {
-    const isDark = document.documentElement.classList.contains('dark');
-    const lightSymbols = ['✦', '★', '◆', '✨', '⭐'];
-    const darkStarSymbols = ['✦', '★', '⭐', '✨', '✧'];
-    const textSymbols = isDark ? darkStarSymbols : lightSymbols;
-
-    const useSvgGraphics = Math.random() > 0.6;
-    const svgGraphics = isDark ? SVG_DARK_GRAPHICS : SVG_LIGHT_GRAPHICS;
-
-    const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#f472b6'];
-    const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#fde047'];
-    const colors = isDark ? darkColors : lightColors;
-
-    const el = document.createElement('span');
-    el.className = 'pastel-doodle-particle';
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const size = Math.floor(Math.random() * 6) + 11;
-    const vx = (Math.random() - 0.5) * 45;
-    const vy = -(Math.random() * 35 + 20);
-    const rot = (Math.random() - 0.5) * 60;
-
-    if (useSvgGraphics) {
-      el.innerHTML = svgGraphics[Math.floor(Math.random() * svgGraphics.length)];
-    } else {
-      el.textContent = textSymbols[Math.floor(Math.random() * textSymbols.length)];
-    }
-
-    el.style.cssText = `
-      position: fixed;
-      left: ${x}px;
-      top: ${y}px;
-      font-size: ${size}px;
-      color: ${color};
-      pointer-events: none;
-      z-index: 10;
-      user-select: none;
-      transform: translate(-50%, -50%) scale(0.3);
-      opacity: 0.65;
-      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out;
-      filter: drop-shadow(0 0 4px ${color}66);
-    `;
-
-    document.body.appendChild(el);
-
-    requestAnimationFrame(() => {
-      el.style.transform = `translate(calc(-50% + ${vx}px), calc(-50% + ${vy}px)) scale(1.1) rotate(${rot}deg)`;
-      el.style.opacity = '0';
-    });
-
-    setTimeout(() => {
-      if (el.parentNode) el.parentNode.removeChild(el);
-    }, 780);
-  }
-
-  document.addEventListener('click', (e) => {
-    for (let i = 0; i < 2; i++) {
-      setTimeout(() => {
-        createParticle(e.clientX + (Math.random() - 0.5) * 16, e.clientY + (Math.random() - 0.5) * 16);
-      }, i * 40);
-    }
-  });
-
-  let lastHoverTime = 0;
-  document.addEventListener('mouseover', (e) => {
-    const target = e.target.closest('.btn-awwwards-primary, .btn-awwwards-secondary');
-    if (target) {
-      const now = Date.now();
-      if (now - lastHoverTime > 450) {
-        lastHoverTime = now;
-        const rect = target.getBoundingClientRect();
-        const x = rect.left + Math.random() * rect.width;
-        const y = rect.top + Math.random() * rect.height;
-        createParticle(x, y);
-      }
-    }
-  });
-
-  createAmbientFloatingDoodles();
-}
-
-function createAmbientFloatingDoodles() {
+// --- AMBIENT DOODLES ---
+window.createAmbientFloatingDoodles = function() {
   let bgContainer = document.getElementById('ambientDoodleBg');
   if (!bgContainer) {
     bgContainer = document.createElement('div');
@@ -433,7 +351,7 @@ function createAmbientFloatingDoodles() {
   const lightSymbols = ['✦', '★', '♥', '◆', '✿', '🌸', '✨', '🫧'];
   const darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧', '✸', '✶'];
   const textSymbols = isDark ? darkStarSymbols : lightSymbols;
-  const svgGraphics = isDark ? SVG_DARK_GRAPHICS : SVG_LIGHT_GRAPHICS;
+  const svgGraphics = isDark ? window.SVG_DARK_GRAPHICS : window.SVG_LIGHT_GRAPHICS;
 
   const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#c084fc', '#f472b6'];
   const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#a855f7', '#38bdf8', '#fde047'];
@@ -471,10 +389,10 @@ function createAmbientFloatingDoodles() {
     `;
     bgContainer.appendChild(item);
   }
-}
+};
 
-// --- NAVIGATION & ROUTING ENGINE ---
-function navigate(pageId, itemId = null) {
+// --- NAVIGATION ENGINE ---
+window.navigate = function(pageId, itemId = null) {
   const sections = document.querySelectorAll('.view-section');
   sections.forEach(sec => sec.classList.add('hidden'));
 
@@ -489,40 +407,40 @@ function navigate(pageId, itemId = null) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  if (pageId === 'home') renderHome();
-  else if (pageId === 'articles') renderArticlesCatalog();
-  else if (pageId === 'article-detail' && itemId) renderArticleDetail(itemId);
-  else if (pageId === 'courses') renderCoursesCatalog();
-  else if (pageId === 'course-detail' && itemId) renderCourseDetail(itemId);
-  else if (pageId === 'about') renderAboutPage();
+  if (pageId === 'home') window.renderHome();
+  else if (pageId === 'articles') window.renderArticlesCatalog();
+  else if (pageId === 'article-detail' && itemId) window.renderArticleDetail(itemId);
+  else if (pageId === 'courses') window.renderCoursesCatalog();
+  else if (pageId === 'course-detail' && itemId) window.renderCourseDetail(itemId);
+  else if (pageId === 'about') window.renderAboutPage();
 
-  safeCreateIcons();
-}
+  window.safeCreateIcons();
+};
 
-function toggleMobileMenu() {
+window.toggleMobileMenu = function() {
   const menu = document.getElementById('mobileMenu');
   if (menu) menu.classList.toggle('hidden');
-}
+};
 
-function renderAllViews() {
-  renderHome();
-  renderAboutPage();
-  renderArticlesCatalog();
-  renderCoursesCatalog();
-}
+window.renderAllViews = function() {
+  window.renderHome();
+  window.renderAboutPage();
+  window.renderArticlesCatalog();
+  window.renderCoursesCatalog();
+};
 
-// --- RENDER HOME PAGE ---
-function renderHome() {
-  const articles = getArticles();
-  const courses = getCourses();
-  const profile = getProfile();
+// --- RENDER VIEWS ---
+window.renderHome = function() {
+  const articles = window.getArticles();
+  const courses = window.getCourses();
+  const profile = window.getProfile();
 
   const featuredContainer = document.getElementById('featuredArticleContainer');
-  const mainArticle = articles[0] || DEFAULT_ARTICLES[0];
+  const mainArticle = articles[0] || window.DEFAULT_ARTICLES[0];
 
   if (featuredContainer && mainArticle) {
     featuredContainer.innerHTML = `
-      <div onclick="navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
+      <div onclick="window.navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-7 space-y-5">
             <div class="flex flex-wrap items-center gap-2">
@@ -557,12 +475,11 @@ function renderHome() {
     `;
   }
 
-  // Articles Feed List
   const feedContainer = document.getElementById('homeArticlesFeed');
   if (feedContainer) {
-    const feedItems = articles.length > 1 ? articles.slice(1) : DEFAULT_ARTICLES.slice(1);
+    const feedItems = articles.length > 1 ? articles.slice(1) : window.DEFAULT_ARTICLES.slice(1);
     feedContainer.innerHTML = feedItems.map(item => `
-      <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
+      <div onclick="window.navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
         <div class="w-full sm:w-44 shrink-0">
           <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-32 object-cover rounded-xl border border-cyan-200 dark:border-blue-900/60 shadow-sm">
         </div>
@@ -582,12 +499,11 @@ function renderHome() {
     `).join('');
   }
 
-  // Sidebar Courses
   const sidebarCourses = document.getElementById('sidebarCoursesFeed');
   if (sidebarCourses) {
-    const displayCourses = courses.length > 0 ? courses.slice(0, 3) : DEFAULT_COURSES.slice(0, 3);
+    const displayCourses = courses.length > 0 ? courses.slice(0, 3) : window.DEFAULT_COURSES.slice(0, 3);
     sidebarCourses.innerHTML = displayCourses.map(crs => `
-      <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
+      <div onclick="window.navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
         <div class="flex items-center justify-between">
           <span class="badge-pink-glass text-[9px]">${crs.category}</span>
           <span class="text-[10px] font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
@@ -599,7 +515,6 @@ function renderHome() {
     `).join('');
   }
 
-  // Profile Sync
   const nameEl = document.getElementById('sidebarProfileName');
   const headlineEl = document.getElementById('sidebarProfileHeadline');
   const bioEl = document.getElementById('sidebarProfileBio');
@@ -610,16 +525,16 @@ function renderHome() {
   if (bioEl) bioEl.textContent = profile.bio;
   if (imgEl) imgEl.src = profile.avatar;
 
-  safeCreateIcons();
-}
+  window.safeCreateIcons();
+};
 
-function renderArticlesCatalog() {
-  const articles = getArticles();
+window.renderArticlesCatalog = function() {
+  const articles = window.getArticles();
   const grid = document.getElementById('fullArticlesGrid');
   if (!grid) return;
 
   grid.innerHTML = articles.map(item => `
-    <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
+    <div onclick="window.navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
       <div class="polaroid-frame mb-3">
         <span class="polaroid-pin">✦ KARYA TULIS ✨</span>
         <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-48 object-cover rounded-lg">
@@ -648,17 +563,17 @@ function renderArticlesCatalog() {
     </div>
   `).join('');
 
-  safeCreateIcons();
-}
+  window.safeCreateIcons();
+};
 
-function renderArticleDetail(id) {
-  const articles = getArticles();
+window.renderArticleDetail = function(id) {
+  const articles = window.getArticles();
   const article = articles.find(a => a.id === id) || articles[0];
   const container = document.getElementById('articleDetailContent');
   if (!container || !article) return;
 
   article.views = (article.views || 0) + 1;
-  saveArticles(articles);
+  window.saveArticles(articles);
 
   container.innerHTML = `
     <div class="space-y-4 border-b border-cyan-200 dark:border-blue-900/60 pb-6">
@@ -682,7 +597,7 @@ function renderArticleDetail(id) {
             <span class="text-[10px] text-slate-500 dark:text-blue-300/70">Penulis & Inisiator</span>
           </div>
         </div>
-        <button onclick="shareArticle('${article.title}')" class="btn-awwwards-secondary text-xs px-3.5 py-1.5 flex items-center gap-1.5">
+        <button onclick="window.shareArticle('${article.title}')" class="btn-awwwards-secondary text-xs px-3.5 py-1.5 flex items-center gap-1.5">
           <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
           <span>Bagikan</span>
         </button>
@@ -696,25 +611,25 @@ function renderArticleDetail(id) {
     </div>
   `;
 
-  safeCreateIcons();
-}
+  window.safeCreateIcons();
+};
 
-function shareArticle(title) {
+window.shareArticle = function(title) {
   if (navigator.share) {
     navigator.share({ title: title, url: window.location.href });
   } else {
     navigator.clipboard.writeText(window.location.href);
     alert('Tautan artikel berhasil disalin ke clipboard!');
   }
-}
+};
 
-function renderCoursesCatalog() {
-  const courses = getCourses();
+window.renderCoursesCatalog = function() {
+  const courses = window.getCourses();
   const grid = document.getElementById('fullCoursesGrid');
   if (!grid) return;
 
   grid.innerHTML = courses.map(crs => `
-    <div onclick="navigate('course-detail', '${crs.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
+    <div onclick="window.navigate('course-detail', '${crs.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
       <div class="polaroid-frame mb-3">
         <span class="polaroid-pin">🌸 edX KELAS TERBUKA 🎓</span>
         <img src="${crs.thumbnail}" alt="${crs.title}" class="w-full h-48 object-cover rounded-lg">
@@ -740,11 +655,11 @@ function renderCoursesCatalog() {
     </div>
   `).join('');
 
-  safeCreateIcons();
-}
+  window.safeCreateIcons();
+};
 
-function renderCourseDetail(id) {
-  const courses = getCourses();
+window.renderCourseDetail = function(id) {
+  const courses = window.getCourses();
   const crs = courses.find(c => c.id === id) || courses[0];
   const container = document.getElementById('courseDetailContent');
   if (!container || !crs) return;
@@ -783,11 +698,11 @@ function renderCourseDetail(id) {
     </div>
   `;
 
-  safeCreateIcons();
-}
+  window.safeCreateIcons();
+};
 
-function renderAboutPage() {
-  const profile = getProfile();
+window.renderAboutPage = function() {
+  const profile = window.getProfile();
 
   const nameEl = document.getElementById('aboutProfileName');
   const headlineEl = document.getElementById('aboutProfileHeadline');
@@ -848,46 +763,46 @@ function renderAboutPage() {
     `).join('');
   }
 
-  safeCreateIcons();
-}
+  window.safeCreateIcons();
+};
 
-// --- ADMIN DASHBOARD ---
-function openAdmin() {
+// --- ADMIN CONTROL PANEL ---
+window.openAdmin = function() {
   const modal = document.getElementById('adminModal');
   if (modal) modal.classList.remove('hidden');
-}
+};
 
-function closeAdmin() {
+window.closeAdmin = function() {
   const modal = document.getElementById('adminModal');
   if (modal) modal.classList.add('hidden');
-}
+};
 
-function checkAdminAuth() {
+window.checkAdminAuth = function() {
   const pass = document.getElementById('adminPassInput').value;
   if (pass === 'admin123' || pass === 'admin') {
     document.getElementById('adminAuthSection').classList.add('hidden');
     document.getElementById('adminDashboardSection').classList.remove('hidden');
-    renderAdminTab('articles');
+    window.renderAdminTab('articles');
   } else {
     alert('Kata kunci akses salah!');
   }
-}
+};
 
-function switchAdminTab(tab) {
-  renderAdminTab(tab);
-}
+window.switchAdminTab = function(tab) {
+  window.renderAdminTab(tab);
+};
 
-function renderAdminTab(tab) {
+window.renderAdminTab = function(tab) {
   const container = document.getElementById('adminContentContainer');
   if (!container) return;
 
   if (tab === 'articles') {
-    const articles = getArticles();
+    const articles = window.getArticles();
     container.innerHTML = `
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Karya Tulis (${articles.length})</h3>
-          <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru</button>
+          <button onclick="window.showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru</button>
         </div>
         <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
           ${articles.map(a => `
@@ -897,8 +812,8 @@ function renderAdminTab(tab) {
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${a.date || ''}</span>
               </div>
               <div class="flex items-center gap-2">
-                <button onclick="editArticle('${a.id}')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold px-2 py-1">Edit</button>
-                <button onclick="deleteArticle('${a.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
+                <button onclick="window.editArticle('${a.id}')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold px-2 py-1">Edit</button>
+                <button onclick="window.deleteArticle('${a.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
               </div>
             </div>
           `).join('')}
@@ -906,12 +821,12 @@ function renderAdminTab(tab) {
       </div>
     `;
   } else if (tab === 'courses') {
-    const courses = getCourses();
+    const courses = window.getCourses();
     container.innerHTML = `
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Kelas Terbuka edX (${courses.length})</h3>
-          <button onclick="showAddCourseForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Buat Kelas Baru (Gaya edX)</button>
+          <button onclick="window.showAddCourseForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Buat Kelas Baru (Gaya edX)</button>
         </div>
         <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
           ${courses.map(c => `
@@ -920,20 +835,20 @@ function renderAdminTab(tab) {
                 <span class="font-bold text-slate-900 dark:text-white block truncate">${c.title}</span>
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${c.category} • ${c.duration}</span>
               </div>
-              <button onclick="deleteCourse('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
+              <button onclick="window.deleteCourse('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
             </div>
           `).join('')}
         </div>
       </div>
     `;
   } else if (tab === 'profile') {
-    const p = getProfile();
+    const p = window.getProfile();
     const certs = p.certificates || [];
     const exps = p.experiences || [];
 
     container.innerHTML = `
       <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
-        <form onsubmit="saveProfileFromAdmin(event)" class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
+        <form onsubmit="window.saveProfileFromAdmin(event)" class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Edit Profil Utama & Kontak</h3>
           <div class="grid grid-cols-2 gap-4">
             <div>
@@ -958,7 +873,7 @@ function renderAdminTab(tab) {
 
         <div class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kelola Sertifikat (${certs.length})</h3>
-          <form onsubmit="addCertificateFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
+          <form onsubmit="window.addCertificateFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
             <span class="font-bold block text-slate-900 dark:text-white">+ Tambah Sertifikat Baru</span>
             <div class="grid grid-cols-2 gap-3">
               <input type="text" id="newCertTitle" required placeholder="Judul Sertifikat..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
@@ -977,7 +892,7 @@ function renderAdminTab(tab) {
                   <span class="font-bold text-slate-900 dark:text-white block">${c.title}</span>
                   <span class="text-[10px] text-cyan-600 dark:text-blue-400 font-mono">${c.issuer} (${c.year})</span>
                 </div>
-                <button onclick="deleteCertificate('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
+                <button onclick="window.deleteCertificate('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
               </div>
             `).join('')}
           </div>
@@ -985,7 +900,7 @@ function renderAdminTab(tab) {
 
         <div class="space-y-4">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kelola Rekam Jejak / Pengalaman (${exps.length})</h3>
-          <form onsubmit="addExperienceFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
+          <form onsubmit="window.addExperienceFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
             <span class="font-bold block text-slate-900 dark:text-white">+ Tambah Item Rekam Jejak Baru</span>
             <div class="grid grid-cols-2 gap-3">
               <input type="text" id="newExpRole" required placeholder="Peran / Jabatan..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
@@ -1006,17 +921,17 @@ function renderAdminTab(tab) {
                   <span class="font-bold text-slate-900 dark:text-white block">${e.role} — ${e.organization}</span>
                   <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-mono">${e.period}</span>
                 </div>
-                <button onclick="deleteExperience('${e.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
+                <button onclick="window.deleteExperience('${e.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
               </div>
             `).join('')}
           </div>
         </div>
       </div>
     `;
-    safeCreateIcons();
+    window.safeCreateIcons();
   } else if (tab === 'supabase') {
-    const isConnected = !!supabase;
-    const currentAnonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
+    const isConnected = !!window.supabase;
+    const currentAnonKey = localStorage.getItem('supabase_anon_key') || window.DEFAULT_SUPABASE_ANON_KEY;
     
     container.innerHTML = `
       <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
@@ -1034,23 +949,20 @@ function renderAdminTab(tab) {
           <div class="space-y-3">
             <div>
               <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Project URL:</label>
-              <input type="text" value="${SUPABASE_PROJECT_URL}" readonly class="w-full px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-xs border border-slate-300 dark:border-slate-700">
+              <input type="text" value="${window.SUPABASE_PROJECT_URL}" readonly class="w-full px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-xs border border-slate-300 dark:border-slate-700">
             </div>
 
             <div>
               <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Anon Public Key (`sb_publishable_...`):</label>
-              <input type="password" id="supabaseAnonKeyInput" value="${currentAnonKey}" placeholder="Tempelkan kunci anon public Supabase di sini..." class="w-full px-3 py-2 rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs focus:outline-none focus:border-cyan-500">
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-                💡 Kunci publishable default telah terpasang otomatis. Anda dapat memperbaruinya kapan saja.
-              </p>
+              <input type="password" id="supabaseAnonKeyInput" value="${currentAnonKey}" placeholder="Tempelkan kunci anon public Supabase..." class="w-full px-3 py-2 rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs focus:outline-none focus:border-cyan-500">
             </div>
 
             <div class="pt-2 flex flex-wrap items-center gap-3">
-              <button onclick="saveSupabaseConfig()" class="btn-awwwards-primary text-xs py-2 px-4">
+              <button onclick="window.saveSupabaseConfig()" class="btn-awwwards-primary text-xs py-2 px-4">
                 <span>💾 Simpan & Hubungkan Supabase</span>
               </button>
               ${isConnected ? `
-                <button onclick="pushAllLocalDataToSupabase()" class="btn-awwwards-secondary text-xs py-2 px-4 font-bold text-cyan-600 dark:text-blue-400">
+                <button onclick="window.pushAllLocalDataToSupabase()" class="btn-awwwards-secondary text-xs py-2 px-4 font-bold text-cyan-600 dark:text-blue-400">
                   <span>📤 Push Semua Artikel & Data ke Cloud Supabase</span>
                 </button>
               ` : ''}
@@ -1061,11 +973,8 @@ function renderAdminTab(tab) {
         <div class="p-5 rounded-2xl bg-cyan-50/60 dark:bg-blue-950/40 border border-cyan-200 dark:border-blue-900/60 space-y-3">
           <div class="flex items-center justify-between">
             <h4 class="font-bold text-slate-900 dark:text-white">🛠️ Tabel SQL Supabase (Skrip Setup 1-Klik)</h4>
-            <button onclick="copySupabaseSQL()" class="text-xs font-mono text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
+            <button onclick="window.copySupabaseSQL()" class="text-xs font-mono text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
           </div>
-          <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
-            Salin skrip SQL di bawah ini dan tempel di menu <b>SQL Editor</b> pada Dashboard Supabase Anda:
-          </p>
           <pre id="supabaseSqlCode" class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-48 border border-slate-800 leading-relaxed">
 CREATE TABLE IF NOT EXISTS articles (
   id TEXT PRIMARY KEY,
@@ -1113,43 +1022,43 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         </div>
       </div>
     `;
-    safeCreateIcons();
+    window.safeCreateIcons();
   }
-}
+};
 
-async function pushAllLocalDataToSupabase() {
-  if (!supabase) {
-    alert("Supabase belum dikonfigurasi! Masukkan anon public key terlebih dahulu.");
+window.pushAllLocalDataToSupabase = async function() {
+  if (!window.supabase) {
+    alert("Supabase belum dikonfigurasi!");
     return;
   }
 
-  const articles = getArticles();
-  const courses = getCourses();
-  const profile = getProfile();
+  const articles = window.getArticles();
+  const courses = window.getCourses();
+  const profile = window.getProfile();
 
   let articleSuccess = 0;
   let courseSuccess = 0;
 
   try {
     if (articles.length > 0) {
-      const { error } = await supabase.from('articles').upsert(articles, { onConflict: 'id' });
+      const { error } = await window.supabase.from('articles').upsert(articles, { onConflict: 'id' });
       if (!error) articleSuccess = articles.length;
     }
 
     if (courses.length > 0) {
-      const { error } = await supabase.from('courses').upsert(courses, { onConflict: 'id' });
+      const { error } = await window.supabase.from('courses').upsert(courses, { onConflict: 'id' });
       if (!error) courseSuccess = courses.length;
     }
 
-    await supabase.from('profile').upsert([{ id: 'default', data: profile }], { onConflict: 'id' });
+    await window.supabase.from('profile').upsert([{ id: 'default', data: profile }], { onConflict: 'id' });
 
     alert(`✅ Berhasil melakukan sinkronisasi cloud!\n• ${articleSuccess} artikel telah diunggah ke Supabase.\n• ${courseSuccess} kelas edX telah diunggah ke Supabase.`);
   } catch (e) {
     alert(`Gagal mengunggah data ke Supabase: ${e.message}`);
   }
-}
+};
 
-function saveSupabaseConfig() {
+window.saveSupabaseConfig = function() {
   const anonKey = document.getElementById('supabaseAnonKeyInput').value.trim();
   if (!anonKey) {
     alert('Harap masukkan Supabase anon public key!');
@@ -1157,34 +1066,34 @@ function saveSupabaseConfig() {
   }
 
   localStorage.setItem('supabase_anon_key', anonKey);
-  const success = initSupabaseClient();
+  const success = window.initSupabaseClient();
   if (success) {
     alert('✅ Konfigurasi Kunci Supabase Berhasil Disimpan & Terhubung!');
-    syncFromSupabase();
-    renderAdminTab('supabase');
+    window.syncFromSupabase();
+    window.renderAdminTab('supabase');
   } else {
-    alert('Gagal menginisialisasi Kunci Supabase. Pastikan format anon key benar.');
+    alert('Gagal menginisialisasi Kunci Supabase.');
   }
-}
+};
 
-function copySupabaseSQL() {
+window.copySupabaseSQL = function() {
   const code = document.getElementById('supabaseSqlCode').innerText;
   navigator.clipboard.writeText(code);
   alert('Kode SQL Schema berhasil disalin ke clipboard!');
-}
+};
 
-function showAddArticleForm(artToEdit = null) {
-  editingArticleId = artToEdit ? artToEdit.id : null;
+window.showAddArticleForm = function(artToEdit = null) {
+  window.editingArticleId = artToEdit ? artToEdit.id : null;
   const container = document.getElementById('adminContentContainer');
   
   container.innerHTML = `
-    <form onsubmit="saveNewArticle(event)" class="space-y-4 text-xs">
+    <form onsubmit="window.saveNewArticle(event)" class="space-y-4 text-xs">
       <h3 class="font-bold text-sm text-slate-900 dark:text-white">
         ${artToEdit ? '✏️ Edit Artikel Terpublikasi' : '📝 Tulis Artikel Baru'}
       </h3>
       <div>
         <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Judul Artikel:</label>
-        <input type="text" id="newArtTitle" value="${artToEdit ? artToEdit.title : ''}" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" placeholder="Judul artikel...">
+        <input type="text" id="newArtTitle" value="${artToEdit ? artToEdit.title : ''}" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
       </div>
       <div>
         <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">URL Gambar Cover Utama / Thumbnail:</label>
@@ -1192,7 +1101,7 @@ function showAddArticleForm(artToEdit = null) {
       </div>
       <div>
         <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Subjudul / Ringkasan (Excerpt):</label>
-        <textarea id="newArtExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" placeholder="Ringkasan esai...">${artToEdit ? artToEdit.excerpt : ''}</textarea>
+        <textarea id="newArtExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">${artToEdit ? artToEdit.excerpt : ''}</textarea>
       </div>
 
       <div class="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30 space-y-2">
@@ -1202,42 +1111,42 @@ function showAddArticleForm(artToEdit = null) {
         </span>
 
         <div class="flex flex-wrap gap-1.5 pt-1">
-          <button type="button" onclick="applyMediumFormat('bold')" class="medium-toolbar-btn"><b>B</b> Bold</button>
-          <button type="button" onclick="applyMediumFormat('italic')" class="medium-toolbar-btn"><i>I</i> Italic</button>
-          <button type="button" onclick="applyMediumFormat('h2')" class="medium-toolbar-btn">H2 Judul</button>
-          <button type="button" onclick="applyMediumFormat('h3')" class="medium-toolbar-btn">H3 Subjudul</button>
-          <button type="button" onclick="applyMediumFormat('quote')" class="medium-toolbar-btn">“ Quote</button>
-          <button type="button" onclick="applyMediumFormat('lead')" class="medium-toolbar-btn">Paragraph Lead</button>
-          <button type="button" onclick="applyMediumFormat('link')" class="medium-toolbar-btn">🔗 Link</button>
-          <button type="button" onclick="applyMediumFormat('image')" class="medium-toolbar-btn">🖼️ Sisipkan Gambar + Caption</button>
+          <button type="button" onclick="window.applyMediumFormat('bold')" class="medium-toolbar-btn"><b>B</b> Bold</button>
+          <button type="button" onclick="window.applyMediumFormat('italic')" class="medium-toolbar-btn"><i>I</i> Italic</button>
+          <button type="button" onclick="window.applyMediumFormat('h2')" class="medium-toolbar-btn">H2 Judul</button>
+          <button type="button" onclick="window.applyMediumFormat('h3')" class="medium-toolbar-btn">H3 Subjudul</button>
+          <button type="button" onclick="window.applyMediumFormat('quote')" class="medium-toolbar-btn">“ Quote</button>
+          <button type="button" onclick="window.applyMediumFormat('lead')" class="medium-toolbar-btn">Paragraph Lead</button>
+          <button type="button" onclick="window.applyMediumFormat('link')" class="medium-toolbar-btn">🔗 Link</button>
+          <button type="button" onclick="window.applyMediumFormat('image')" class="medium-toolbar-btn">🖼️ Sisipkan Gambar</button>
         </div>
       </div>
 
       <div>
-        <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Isi Artikel (Gaya Medium Rich HTML):</label>
-        <textarea id="newArtContent" rows="8" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs leading-relaxed" placeholder="<p>Tulis paragraf pertama di sini...</p>">${artToEdit ? artToEdit.content : ''}</textarea>
+        <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Isi Artikel (HTML):</label>
+        <textarea id="newArtContent" rows="8" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs leading-relaxed">${artToEdit ? artToEdit.content : ''}</textarea>
       </div>
 
       <div class="flex gap-3">
         <button type="submit" class="btn-awwwards-primary py-2.5 px-5">
           ${artToEdit ? 'Simpan Perubahan Artikel' : 'Terbitkan Artikel'}
         </button>
-        <button type="button" onclick="renderAdminTab('articles')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
+        <button type="button" onclick="window.renderAdminTab('articles')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
       </div>
     </form>
   `;
-  safeCreateIcons();
-}
+  window.safeCreateIcons();
+};
 
-function editArticle(id) {
-  const articles = getArticles();
+window.editArticle = function(id) {
+  const articles = window.getArticles();
   const art = articles.find(a => a.id === id);
   if (art) {
-    showAddArticleForm(art);
+    window.showAddArticleForm(art);
   }
-}
+};
 
-function applyMediumFormat(type) {
+window.applyMediumFormat = function(type) {
   const textarea = document.getElementById('newArtContent');
   if (!textarea) return;
 
@@ -1256,9 +1165,9 @@ function applyMediumFormat(type) {
   } else if (type === 'h3') {
     formatted = `\n<h3>${selectedText || 'Sub-judul Bagian'}</h3>\n`;
   } else if (type === 'quote') {
-    formatted = `\n<blockquote class="my-6">"${selectedText || 'Kutipan esai publikasi...'}"</blockquote>\n`;
+    formatted = `\n<blockquote class="my-6">"${selectedText || 'Kutipan esai...'}"</blockquote>\n`;
   } else if (type === 'lead') {
-    formatted = `\n<p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">${selectedText || 'Paragraf pembuka lead...'}</p>\n`;
+    formatted = `\n<p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">${selectedText || 'Paragraf pembuka...'}</p>\n`;
   } else if (type === 'link') {
     const url = prompt('Masukkan URL Link:', 'https://');
     if (url) formatted = `<a href="${url}" target="_blank" class="text-indigo-600 dark:text-indigo-400 underline">${selectedText || 'Tautan Link'}</a>`;
@@ -1272,27 +1181,27 @@ function applyMediumFormat(type) {
 
   textarea.value = textarea.value.substring(0, start) + formatted + textarea.value.substring(end);
   textarea.focus();
-}
+};
 
-function saveNewArticle(e) {
+window.saveNewArticle = function(e) {
   e.preventDefault();
-  let articles = getArticles();
+  let articles = window.getArticles();
 
   const title = document.getElementById('newArtTitle').value;
   const thumbnail = document.getElementById('newArtThumbnail').value;
   const excerpt = document.getElementById('newArtExcerpt').value;
   const content = document.getElementById('newArtContent').value;
 
-  if (editingArticleId) {
-    const artIndex = articles.findIndex(a => a.id === editingArticleId);
+  if (window.editingArticleId) {
+    const artIndex = articles.findIndex(a => a.id === window.editingArticleId);
     if (artIndex !== -1) {
       articles[artIndex].title = title;
       articles[artIndex].thumbnail = thumbnail;
       articles[artIndex].excerpt = excerpt;
       articles[artIndex].content = content;
-      alert('Artikel terpublikasi berhasil diperbarui!');
+      alert('Artikel berhasil diperbarui!');
     }
-    editingArticleId = null;
+    window.editingArticleId = null;
   } else {
     const newArticle = {
       id: `art-${Date.now()}`,
@@ -1311,24 +1220,24 @@ function saveNewArticle(e) {
     alert('Artikel baru berhasil diterbitkan!');
   }
 
-  saveArticles(articles);
-  renderAllViews();
-  renderAdminTab('articles');
-}
+  window.saveArticles(articles);
+  window.renderAllViews();
+  window.renderAdminTab('articles');
+};
 
-function deleteArticle(id) {
+window.deleteArticle = function(id) {
   if (confirm('Yakin ingin menghapus artikel ini?')) {
-    let articles = getArticles();
+    let articles = window.getArticles();
     articles = articles.filter(a => a.id !== id);
-    saveArticles(articles);
-    renderAllViews();
-    renderAdminTab('articles');
+    window.saveArticles(articles);
+    window.renderAllViews();
+    window.renderAdminTab('articles');
   }
-}
+};
 
-function addCertificateFromAdmin(e) {
+window.addCertificateFromAdmin = function(e) {
   e.preventDefault();
-  const p = getProfile();
+  const p = window.getProfile();
   const title = document.getElementById('newCertTitle').value.trim();
   const issuer = document.getElementById('newCertIssuer').value.trim();
   const year = document.getElementById('newCertYear').value.trim() || '2026';
@@ -1337,25 +1246,25 @@ function addCertificateFromAdmin(e) {
   if (!p.certificates) p.certificates = [];
   p.certificates.unshift({ id: `cert-${Date.now()}`, title, issuer, year, credentialUrl: url });
 
-  saveProfile(p);
-  renderAllViews();
-  renderAdminTab('profile');
+  window.saveProfile(p);
+  window.renderAllViews();
+  window.renderAdminTab('profile');
   alert('Sertifikat berhasil ditambahkan!');
-}
+};
 
-function deleteCertificate(id) {
+window.deleteCertificate = function(id) {
   if (confirm('Yakin ingin menghapus sertifikat ini?')) {
-    const p = getProfile();
+    const p = window.getProfile();
     p.certificates = (p.certificates || []).filter(c => c.id !== id);
-    saveProfile(p);
-    renderAllViews();
-    renderAdminTab('profile');
+    window.saveProfile(p);
+    window.renderAllViews();
+    window.renderAdminTab('profile');
   }
-}
+};
 
-function addExperienceFromAdmin(e) {
+window.addExperienceFromAdmin = function(e) {
   e.preventDefault();
-  const p = getProfile();
+  const p = window.getProfile();
   const role = document.getElementById('newExpRole').value.trim();
   const org = document.getElementById('newExpOrg').value.trim();
   const period = document.getElementById('newExpPeriod').value.trim();
@@ -1364,39 +1273,39 @@ function addExperienceFromAdmin(e) {
   if (!p.experiences) p.experiences = [];
   p.experiences.unshift({ id: `exp-${Date.now()}`, role, organization: org, period, description: desc });
 
-  saveProfile(p);
-  renderAllViews();
-  renderAdminTab('profile');
+  window.saveProfile(p);
+  window.renderAllViews();
+  window.renderAdminTab('profile');
   alert('Item Rekam Jejak berhasil ditambahkan!');
-}
+};
 
-function deleteExperience(id) {
+window.deleteExperience = function(id) {
   if (confirm('Yakin ingin menghapus item rekam jejak ini?')) {
-    const p = getProfile();
+    const p = window.getProfile();
     p.experiences = (p.experiences || []).filter(e => e.id !== id);
-    saveProfile(p);
-    renderAllViews();
-    renderAdminTab('profile');
+    window.saveProfile(p);
+    window.renderAllViews();
+    window.renderAdminTab('profile');
   }
-}
+};
 
-function saveProfileFromAdmin(e) {
+window.saveProfileFromAdmin = function(e) {
   e.preventDefault();
-  const p = getProfile();
+  const p = window.getProfile();
   p.name = document.getElementById('admName').value;
   p.headline = document.getElementById('admHeadline').value;
   p.bio = document.getElementById('admBio').value;
   p.avatar = document.getElementById('admAvatar').value;
 
-  saveProfile(p);
-  renderAllViews();
+  window.saveProfile(p);
+  window.renderAllViews();
   alert('Profil utama berhasil diperbarui!');
-}
+};
 
-function showAddCourseForm() {
+window.showAddCourseForm = function() {
   const container = document.getElementById('adminContentContainer');
   container.innerHTML = `
-    <form onsubmit="saveNewCourse(event)" class="space-y-4 text-xs">
+    <form onsubmit="window.saveNewCourse(event)" class="space-y-4 text-xs">
       <h3 class="font-bold text-sm text-slate-900 dark:text-white">Buat Kelas Terbuka Baru (Gaya edX)</h3>
       <div>
         <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Judul Kelas edX:</label>
@@ -1430,15 +1339,15 @@ function showAddCourseForm() {
 
       <div class="flex gap-3">
         <button type="submit" class="btn-awwwards-primary py-2.5 px-5">Terbitkan Kelas edX</button>
-        <button type="button" onclick="renderAdminTab('courses')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
+        <button type="button" onclick="window.renderAdminTab('courses')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
       </div>
     </form>
   `;
-}
+};
 
-function saveNewCourse(e) {
+window.saveNewCourse = function(e) {
   e.preventDefault();
-  const courses = getCourses();
+  const courses = window.getCourses();
   const newCourse = {
     id: `crs-${Date.now()}`,
     title: document.getElementById('newCrsTitle').value,
@@ -1458,35 +1367,33 @@ function saveNewCourse(e) {
   };
 
   courses.unshift(newCourse);
-  saveCourses(courses);
-  renderAllViews();
-  renderAdminTab('courses');
+  window.saveCourses(courses);
+  window.renderAllViews();
+  window.renderAdminTab('courses');
   alert('Kelas terbuka edX berhasil diterbitkan!');
-}
+};
 
-function deleteCourse(id) {
+window.deleteCourse = function(id) {
   if (confirm('Yakin ingin menghapus kelas edX ini?')) {
-    let courses = getCourses();
+    let courses = window.getCourses();
     courses = courses.filter(c => c.id !== id);
-    saveCourses(courses);
-    renderAllViews();
-    renderAdminTab('courses');
+    window.saveCourses(courses);
+    window.renderAllViews();
+    window.renderAdminTab('courses');
   }
-}
+};
 
-// --- INITIALIZATION ENTRY POINT ---
-function initApp() {
-  initDarkMode();
-  renderAllViews();
-  setupScrollProgress();
-  initPastelInteractiveParticles();
-  initSupabaseClient();
-  syncFromSupabase();
-  safeCreateIcons();
-}
+window.initApp = function() {
+  window.initDarkMode();
+  window.renderAllViews();
+  window.setupScrollProgress();
+  window.initSupabaseClient();
+  window.syncFromSupabase();
+  window.safeCreateIcons();
+};
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
+  document.addEventListener('DOMContentLoaded', window.initApp);
 } else {
-  initApp();
+  window.initApp();
 }
