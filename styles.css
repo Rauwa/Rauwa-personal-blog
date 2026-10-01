@@ -518,6 +518,17 @@ h1, h2, h3, h4, h5, h6 {
   filter: drop-shadow(0 0 8px currentColor);
 }
 
+/* Background Layers & Content Elevation */
+#ambientDoodleBg {
+  z-index: -5 !important;
+  pointer-events: none !important;
+}
+
+main, section, header, .awwwards-card, .linkedin-cert-card, .edx-module-card, article {
+  position: relative;
+  z-index: 1;
+}
+
 /* ==========================================================================
    Large Animated Fluid Gradient Mesh Background (Strictly Behind All UI Elements)
    ========================================================================== */
@@ -638,20 +649,13 @@ h1, h2, h3, h4, h5, h6 {
    FUN & WHIMSICAL POP PASTEL EXTENSIONS (MIKU ARTWORK INSPIRATION)
    ========================================================================== */
 
-/* Wiggle & Bounce Micro-Interactions */
-@keyframes wiggleBounce {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  25% { transform: rotate(-4deg) scale(1.06); }
-  50% { transform: rotate(3deg) scale(1.06); }
-  75% { transform: rotate(-2deg) scale(1.03); }
-}
-
+/* Smooth Subtle Micro-Interactions (Reader-Friendly, Zero Text Distraction) */
 .hover-wiggle {
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
 }
 
 .hover-wiggle:hover {
-  animation: wiggleBounce 0.45s ease-in-out;
+  transform: translateY(-3px);
 }
 
 /* Floating Sticker Pills / Badges */

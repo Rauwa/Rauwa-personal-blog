@@ -189,28 +189,28 @@ const SVG_DARK_GRAPHICS = [
   `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(30,58,138,0.4)" stroke="#38bdf8" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.9)"/></svg>` // Neon Bubble
 ];
 
-/* Interactive Random Pastel Graphic Sticker Animation */
+/* Interactive Subtle Pastel Graphic Sparkle Animation (Reader-Friendly & Non-Intrusive) */
 function initPastelInteractiveParticles() {
   function createParticle(x, y) {
     const isDark = document.documentElement.classList.contains('dark');
-    const lightSymbols = ['✦', '★', '♥', '◆', '✿', '🫧', '✨', '🌸', '💖', '⭐'];
-    const darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧', '✸', '✶'];
+    const lightSymbols = ['✦', '★', '◆', '✨', '⭐'];
+    const darkStarSymbols = ['✦', '★', '⭐', '✨', '✧'];
     const textSymbols = isDark ? darkStarSymbols : lightSymbols;
 
-    const useSvgGraphics = Math.random() > 0.45;
+    const useSvgGraphics = Math.random() > 0.6;
     const svgGraphics = isDark ? SVG_DARK_GRAPHICS : SVG_LIGHT_GRAPHICS;
 
-    const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#a855f7', '#38bdf8', '#f472b6', '#34d399', '#fbbf24'];
-    const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#a855f7', '#38bdf8', '#fde047'];
+    const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#f472b6'];
+    const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#fde047'];
     const colors = isDark ? darkColors : lightColors;
 
     const el = document.createElement('span');
     el.className = 'pastel-doodle-particle';
     const color = colors[Math.floor(Math.random() * colors.length)];
-    const size = Math.floor(Math.random() * 12) + 16; // 16px to 28px
-    const vx = (Math.random() - 0.5) * 70; // horizontal drift
-    const vy = -(Math.random() * 60 + 35); // upward float
-    const rot = (Math.random() - 0.5) * 120; // rotation
+    const size = Math.floor(Math.random() * 6) + 11; // Delicate 11px to 17px
+    const vx = (Math.random() - 0.5) * 45; // subtle horizontal drift
+    const vy = -(Math.random() * 35 + 20); // subtle upward float
+    const rot = (Math.random() - 0.5) * 60; // subtle rotation
 
     if (useSvgGraphics) {
       el.innerHTML = svgGraphics[Math.floor(Math.random() * svgGraphics.length)];
@@ -225,42 +225,42 @@ function initPastelInteractiveParticles() {
       font-size: ${size}px;
       color: ${color};
       pointer-events: none;
-      z-index: 9999;
+      z-index: 10;
       user-select: none;
-      transform: translate(-50%, -50%) scale(0.4);
-      opacity: 1;
-      transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.95s ease-out;
-      filter: drop-shadow(0 0 8px ${color}aa);
+      transform: translate(-50%, -50%) scale(0.3);
+      opacity: 0.65;
+      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out;
+      filter: drop-shadow(0 0 4px ${color}66);
     `;
 
     document.body.appendChild(el);
 
     requestAnimationFrame(() => {
-      el.style.transform = `translate(calc(-50% + ${vx}px), calc(-50% + ${vy}px)) scale(1.3) rotate(${rot}deg)`;
+      el.style.transform = `translate(calc(-50% + ${vx}px), calc(-50% + ${vy}px)) scale(1.1) rotate(${rot}deg)`;
       el.style.opacity = '0';
     });
 
     setTimeout(() => {
       if (el.parentNode) el.parentNode.removeChild(el);
-    }, 980);
+    }, 780);
   }
 
-  // Spawn doodle particles on click anywhere or on interactive elements
+  // Spawn subtle mini particles ONLY on explicit click
   document.addEventListener('click', (e) => {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 2; i++) {
       setTimeout(() => {
-        createParticle(e.clientX + (Math.random() - 0.5) * 24, e.clientY + (Math.random() - 0.5) * 24);
-      }, i * 50);
+        createParticle(e.clientX + (Math.random() - 0.5) * 16, e.clientY + (Math.random() - 0.5) * 16);
+      }, i * 40);
     }
   });
 
-  // Spawn gentle doodle particles when hovering on buttons, cards, or nav items
+  // Spawn delicate micro particles ONLY when hovering over primary action buttons (NEVER on reading cards/text)
   let lastHoverTime = 0;
   document.addEventListener('mouseover', (e) => {
-    const target = e.target.closest('button, a, .awwwards-card, .linkedin-cert-card, .edx-module-card, input, select');
+    const target = e.target.closest('.btn-awwwards-primary, .btn-awwwards-secondary');
     if (target) {
       const now = Date.now();
-      if (now - lastHoverTime > 160) {
+      if (now - lastHoverTime > 450) {
         lastHoverTime = now;
         const rect = target.getBoundingClientRect();
         const x = rect.left + Math.random() * rect.width;
@@ -283,7 +283,7 @@ function createAmbientFloatingDoodles() {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 0;
+      z-index: -5;
       overflow: hidden;
     `;
     document.body.appendChild(bgContainer);
@@ -301,7 +301,10 @@ function createAmbientFloatingDoodles() {
   const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#a855f7', '#38bdf8', '#fde047'];
   const colors = isDark ? darkColors : lightColors;
 
-  for (let i = 0; i < 22; i++) {
+  const isMobile = window.innerWidth < 768;
+  const doodleCount = isMobile ? 10 : 20;
+
+  for (let i = 0; i < doodleCount; i++) {
     const item = document.createElement('span');
     const isSvg = Math.random() > 0.4;
     const color = colors[Math.floor(Math.random() * colors.length)];
@@ -321,9 +324,9 @@ function createAmbientFloatingDoodles() {
       position: absolute;
       left: ${left}vw;
       top: ${top}vh;
-      font-size: ${Math.floor(Math.random() * 14) + 16}px;
+      font-size: ${isMobile ? '12px' : Math.floor(Math.random() * 8) + 14 + 'px'};
       color: ${color};
-      opacity: ${isDark ? '0.35' : '0.28'};
+      opacity: ${isDark ? (isMobile ? '0.2' : '0.28') : (isMobile ? '0.15' : '0.22')};
       animation: floatDoodleAnim ${duration}s ease-in-out ${delay}s infinite alternate;
       user-select: none;
     `;
