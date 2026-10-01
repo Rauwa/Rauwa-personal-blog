@@ -2,8 +2,8 @@
    AWWARDS UI DESIGN - APPLICATION LOGIC WITH PERFECT LIGHT/DARK MODE & EDITING
    ========================================================================== */
 
-// --- AUTHENTIC SVG GRAPHIC MICRO-STICKERS ---
-window.SVG_LIGHT_GRAPHICS = [
+// --- GLOBAL GRAPHIC ASSETS ---
+const SVG_LIGHT_GRAPHICS = [
   `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-3-7-4-9-2s-1 6 2 6 5-2.5 7-4zm0 0c2.5-3 7-4 9-2s1 6-2 6-5-2.5-7-4z" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`,
   `<svg class="w-8 h-4 inline-block" viewBox="0 0 32 16"><rect x="1" y="1" width="30" height="14" rx="7" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/><circle cx="16" cy="8" r="3.5" fill="#f472b6"/><path d="M16 6l.6 1.2h1.4l-1 1 .4 1.4-1.4-.8-1.4.8.4-1.4-1-1h1.4z" fill="#ffffff"/></svg>`,
   `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`,
@@ -12,7 +12,7 @@ window.SVG_LIGHT_GRAPHICS = [
   `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="rgba(165,243,252,0.5)" stroke="#06b6d4" stroke-width="1.5"/><circle cx="9" cy="9" r="2.5" fill="rgba(255,255,255,0.95)"/></svg>`
 ];
 
-window.SVG_DARK_GRAPHICS = [
+const SVG_DARK_GRAPHICS = [
   `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1"/></svg>`,
   `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#f59e0b" stroke-width="1"/></svg>`,
   `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="#c084fc" stroke="#a855f7" stroke-width="1"/></svg>`,
@@ -20,7 +20,7 @@ window.SVG_DARK_GRAPHICS = [
 ];
 
 // --- DEFAULT PROFILE ---
-window.DEFAULT_PROFILE = {
+const DEFAULT_PROFILE = {
   name: "Rauwa",
   headline: "Penulis & Inisiator Literasi Publik",
   bio: "Berpengalaman dalam pengembangan materi edukasi terbuka, pengkajian opini publik, dan pembangunan jaringan pembelajar mandiri secara berkelanjutan.",
@@ -63,7 +63,7 @@ window.DEFAULT_PROFILE = {
 };
 
 // --- DEFAULT ARTICLES ---
-window.DEFAULT_ARTICLES = [
+const DEFAULT_ARTICLES = [
   {
     id: "art-1",
     title: "Sains Presisi & Seni Ekstraksi Mesin Espresso",
@@ -120,7 +120,7 @@ window.DEFAULT_ARTICLES = [
   }
 ];
 
-window.DEFAULT_COURSES = [
+const DEFAULT_COURSES = [
   {
     id: "crs-1",
     title: "Pengantar Metodologi Penulisan & Riset Kritis (Gaya edX)",
@@ -150,73 +150,13 @@ window.DEFAULT_COURSES = [
   }
 ];
 
-window.editingArticleId = null;
+let editingArticleId = null;
+const SUPABASE_PROJECT_URL = "https://ccsrakdoumhvfoqgupve.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_YMYksbZJv0zj1ogYL0-_AQ_GFuRp";
+let supabase = null;
 
-// --- SUPABASE ENGINE ---
-window.SUPABASE_PROJECT_URL = "https://ccsrakdoumhvfoqgupve.supabase.co";
-window.DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_YMYksbZJv0zj1ogYL0-_AQ_GFuRp";
-window.supabase = null;
-
-window.initSupabaseClient = function() {
-  const anonKey = localStorage.getItem('supabase_anon_key') || window.DEFAULT_SUPABASE_ANON_KEY;
-  if (anonKey && window.supabaseClient && typeof window.supabaseClient.createClient === 'function') {
-    try {
-      window.supabase = window.supabaseClient.createClient(window.SUPABASE_PROJECT_URL, anonKey);
-      console.log("Supabase Client initialized successfully!");
-      return true;
-    } catch (e) {
-      console.error("Failed to initialize Supabase client", e);
-      window.supabase = null;
-      return false;
-    }
-  } else if (anonKey && window.supabase && typeof window.supabase.createClient === 'function') {
-    try {
-      window.supabase = window.supabase.createClient(window.SUPABASE_PROJECT_URL, anonKey);
-      console.log("Supabase Client initialized successfully!");
-      return true;
-    } catch (e) {
-      console.error("Failed to initialize Supabase client", e);
-      return false;
-    }
-  }
-  return false;
-};
-
-window.syncFromSupabase = async function() {
-  if (!window.supabase) return;
-  try {
-    const { data: articles, error: artError } = await window.supabase.from('articles').select('*');
-    if (!artError && Array.isArray(articles) && articles.length > 0) {
-      const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title);
-      if (validArticles.length > 0) {
-        localStorage.setItem('site_articles', JSON.stringify(validArticles));
-      }
-    }
-
-    const { data: courses, error: crsError } = await window.supabase.from('courses').select('*');
-    if (!crsError && Array.isArray(courses) && courses.length > 0) {
-      const validCourses = courses.filter(c => c && typeof c === 'object' && c.id && c.title);
-      if (validCourses.length > 0) {
-        localStorage.setItem('site_courses', JSON.stringify(validCourses));
-      }
-    }
-
-    const { data: profileData, error: profError } = await window.supabase.from('profile').select('*').limit(1);
-    if (!profError && Array.isArray(profileData) && profileData.length > 0) {
-      const prof = profileData[0].data || profileData[0];
-      if (prof && typeof prof === 'object' && prof.name) {
-        localStorage.setItem('site_profile', JSON.stringify(prof));
-      }
-    }
-
-    window.renderAllViews();
-  } catch (e) {
-    console.warn("Supabase sync warning, fallback to local storage", e);
-  }
-};
-
-// --- DATA ACCESSORS ---
-window.getProfile = function() {
+// --- EXPLICIT GLOBAL FUNCTIONS ENGINE ---
+function getProfile() {
   const data = localStorage.getItem('site_profile');
   if (data) {
     try {
@@ -224,19 +164,19 @@ window.getProfile = function() {
       if (parsed && typeof parsed === 'object' && parsed.name) return parsed;
     } catch (e) {}
   }
-  return window.DEFAULT_PROFILE;
-};
+  return DEFAULT_PROFILE;
+}
 
-window.saveProfile = function(data) {
+function saveProfile(data) {
   localStorage.setItem('site_profile', JSON.stringify(data));
-  if (window.supabase) {
-    window.supabase.from('profile').upsert([{ id: 'default', data: data }], { onConflict: 'id' }).then(({ error }) => {
+  if (supabase) {
+    supabase.from('profile').upsert([{ id: 'default', data: data }], { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert profile error", error);
     });
   }
-};
+}
 
-window.getArticles = function() {
+function getArticles() {
   const data = localStorage.getItem('site_articles');
   if (data) {
     try {
@@ -247,23 +187,23 @@ window.getArticles = function() {
       }
     } catch (e) {}
   }
-  return window.DEFAULT_ARTICLES;
-};
+  return DEFAULT_ARTICLES;
+}
 
-window.saveArticles = function(data) {
+function saveArticles(data) {
   if (!Array.isArray(data) || data.length === 0) {
     localStorage.removeItem('site_articles');
     return;
   }
   localStorage.setItem('site_articles', JSON.stringify(data));
-  if (window.supabase) {
-    window.supabase.from('articles').upsert(data, { onConflict: 'id' }).then(({ error }) => {
+  if (supabase) {
+    supabase.from('articles').upsert(data, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert articles error", error);
     });
   }
-};
+}
 
-window.getCourses = function() {
+function getCourses() {
   const data = localStorage.getItem('site_courses');
   if (data) {
     try {
@@ -274,40 +214,37 @@ window.getCourses = function() {
       }
     } catch (e) {}
   }
-  return window.DEFAULT_COURSES;
-};
+  return DEFAULT_COURSES;
+}
 
-window.saveCourses = function(data) {
+function saveCourses(data) {
   if (!Array.isArray(data) || data.length === 0) {
     localStorage.removeItem('site_courses');
     return;
   }
   localStorage.setItem('site_courses', JSON.stringify(data));
-  if (window.supabase) {
-    window.supabase.from('courses').upsert(data, { onConflict: 'id' }).then(({ error }) => {
+  if (supabase) {
+    supabase.from('courses').upsert(data, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert courses error", error);
     });
   }
-};
+}
 
-window.safeCreateIcons = function() {
+function safeCreateIcons() {
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
-    try {
-      window.lucide.createIcons();
-    } catch (e) {}
+    try { window.lucide.createIcons(); } catch (e) {}
   }
-};
+}
 
-// --- DARK MODE ---
-window.initDarkMode = function() {
+function initDarkMode() {
   if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
   } else {
     document.documentElement.classList.remove('dark');
   }
-};
+}
 
-window.toggleDarkMode = function() {
+function toggleDarkMode() {
   if (document.documentElement.classList.contains('dark')) {
     document.documentElement.classList.remove('dark');
     localStorage.theme = 'light';
@@ -315,11 +252,11 @@ window.toggleDarkMode = function() {
     document.documentElement.classList.add('dark');
     localStorage.theme = 'dark';
   }
-  window.safeCreateIcons();
-  window.createAmbientFloatingDoodles();
-};
+  safeCreateIcons();
+  createAmbientFloatingDoodles();
+}
 
-window.setupScrollProgress = function() {
+function setupScrollProgress() {
   window.addEventListener('scroll', () => {
     const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -327,10 +264,9 @@ window.setupScrollProgress = function() {
     const bar = document.getElementById('readingProgressBar');
     if (bar) bar.style.width = (scrolled || 0) + '%';
   });
-};
+}
 
-// --- AMBIENT DOODLES ---
-window.createAmbientFloatingDoodles = function() {
+function createAmbientFloatingDoodles() {
   let bgContainer = document.getElementById('ambientDoodleBg');
   if (!bgContainer) {
     bgContainer = document.createElement('div');
@@ -351,7 +287,7 @@ window.createAmbientFloatingDoodles = function() {
   const lightSymbols = ['✦', '★', '♥', '◆', '✿', '🌸', '✨', '🫧'];
   const darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧', '✸', '✶'];
   const textSymbols = isDark ? darkStarSymbols : lightSymbols;
-  const svgGraphics = isDark ? window.SVG_DARK_GRAPHICS : window.SVG_LIGHT_GRAPHICS;
+  const svgGraphics = isDark ? SVG_DARK_GRAPHICS : SVG_LIGHT_GRAPHICS;
 
   const lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#c084fc', '#f472b6'];
   const darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#a855f7', '#38bdf8', '#fde047'];
@@ -369,7 +305,7 @@ window.createAmbientFloatingDoodles = function() {
     const duration = Math.floor(Math.random() * 12) + 14;
     const delay = Math.floor(Math.random() * 6);
 
-    if (isSvg) {
+    if (isSvg && svgGraphics && svgGraphics.length > 0) {
       item.innerHTML = svgGraphics[Math.floor(Math.random() * svgGraphics.length)];
     } else {
       item.textContent = textSymbols[Math.floor(Math.random() * textSymbols.length)];
@@ -389,10 +325,9 @@ window.createAmbientFloatingDoodles = function() {
     `;
     bgContainer.appendChild(item);
   }
-};
+}
 
-// --- NAVIGATION ENGINE ---
-window.navigate = function(pageId, itemId = null) {
+function navigate(pageId, itemId = null) {
   const sections = document.querySelectorAll('.view-section');
   sections.forEach(sec => sec.classList.add('hidden'));
 
@@ -407,40 +342,39 @@ window.navigate = function(pageId, itemId = null) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  if (pageId === 'home') window.renderHome();
-  else if (pageId === 'articles') window.renderArticlesCatalog();
-  else if (pageId === 'article-detail' && itemId) window.renderArticleDetail(itemId);
-  else if (pageId === 'courses') window.renderCoursesCatalog();
-  else if (pageId === 'course-detail' && itemId) window.renderCourseDetail(itemId);
-  else if (pageId === 'about') window.renderAboutPage();
+  if (pageId === 'home') renderHome();
+  else if (pageId === 'articles') renderArticlesCatalog();
+  else if (pageId === 'article-detail' && itemId) renderArticleDetail(itemId);
+  else if (pageId === 'courses') renderCoursesCatalog();
+  else if (pageId === 'course-detail' && itemId) renderCourseDetail(itemId);
+  else if (pageId === 'about') renderAboutPage();
 
-  window.safeCreateIcons();
-};
+  safeCreateIcons();
+}
 
-window.toggleMobileMenu = function() {
+function toggleMobileMenu() {
   const menu = document.getElementById('mobileMenu');
   if (menu) menu.classList.toggle('hidden');
-};
+}
 
-window.renderAllViews = function() {
-  window.renderHome();
-  window.renderAboutPage();
-  window.renderArticlesCatalog();
-  window.renderCoursesCatalog();
-};
+function renderAllViews() {
+  renderHome();
+  renderAboutPage();
+  renderArticlesCatalog();
+  renderCoursesCatalog();
+}
 
-// --- RENDER VIEWS ---
-window.renderHome = function() {
-  const articles = window.getArticles();
-  const courses = window.getCourses();
-  const profile = window.getProfile();
+function renderHome() {
+  const articles = getArticles();
+  const courses = getCourses();
+  const profile = getProfile();
 
   const featuredContainer = document.getElementById('featuredArticleContainer');
-  const mainArticle = articles[0] || window.DEFAULT_ARTICLES[0];
+  const mainArticle = articles[0] || DEFAULT_ARTICLES[0];
 
   if (featuredContainer && mainArticle) {
     featuredContainer.innerHTML = `
-      <div onclick="window.navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
+      <div onclick="navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-7 space-y-5">
             <div class="flex flex-wrap items-center gap-2">
@@ -477,9 +411,9 @@ window.renderHome = function() {
 
   const feedContainer = document.getElementById('homeArticlesFeed');
   if (feedContainer) {
-    const feedItems = articles.length > 1 ? articles.slice(1) : window.DEFAULT_ARTICLES.slice(1);
+    const feedItems = articles.length > 1 ? articles.slice(1) : DEFAULT_ARTICLES.slice(1);
     feedContainer.innerHTML = feedItems.map(item => `
-      <div onclick="window.navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
+      <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
         <div class="w-full sm:w-44 shrink-0">
           <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-32 object-cover rounded-xl border border-cyan-200 dark:border-blue-900/60 shadow-sm">
         </div>
@@ -501,9 +435,9 @@ window.renderHome = function() {
 
   const sidebarCourses = document.getElementById('sidebarCoursesFeed');
   if (sidebarCourses) {
-    const displayCourses = courses.length > 0 ? courses.slice(0, 3) : window.DEFAULT_COURSES.slice(0, 3);
+    const displayCourses = courses.length > 0 ? courses.slice(0, 3) : DEFAULT_COURSES.slice(0, 3);
     sidebarCourses.innerHTML = displayCourses.map(crs => `
-      <div onclick="window.navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
+      <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
         <div class="flex items-center justify-between">
           <span class="badge-pink-glass text-[9px]">${crs.category}</span>
           <span class="text-[10px] font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
@@ -525,16 +459,16 @@ window.renderHome = function() {
   if (bioEl) bioEl.textContent = profile.bio;
   if (imgEl) imgEl.src = profile.avatar;
 
-  window.safeCreateIcons();
-};
+  safeCreateIcons();
+}
 
-window.renderArticlesCatalog = function() {
-  const articles = window.getArticles();
+function renderArticlesCatalog() {
+  const articles = getArticles();
   const grid = document.getElementById('fullArticlesGrid');
   if (!grid) return;
 
   grid.innerHTML = articles.map(item => `
-    <div onclick="window.navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
+    <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
       <div class="polaroid-frame mb-3">
         <span class="polaroid-pin">✦ KARYA TULIS ✨</span>
         <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-48 object-cover rounded-lg">
@@ -563,17 +497,17 @@ window.renderArticlesCatalog = function() {
     </div>
   `).join('');
 
-  window.safeCreateIcons();
-};
+  safeCreateIcons();
+}
 
-window.renderArticleDetail = function(id) {
-  const articles = window.getArticles();
+function renderArticleDetail(id) {
+  const articles = getArticles();
   const article = articles.find(a => a.id === id) || articles[0];
   const container = document.getElementById('articleDetailContent');
   if (!container || !article) return;
 
   article.views = (article.views || 0) + 1;
-  window.saveArticles(articles);
+  saveArticles(articles);
 
   container.innerHTML = `
     <div class="space-y-4 border-b border-cyan-200 dark:border-blue-900/60 pb-6">
@@ -597,7 +531,7 @@ window.renderArticleDetail = function(id) {
             <span class="text-[10px] text-slate-500 dark:text-blue-300/70">Penulis & Inisiator</span>
           </div>
         </div>
-        <button onclick="window.shareArticle('${article.title}')" class="btn-awwwards-secondary text-xs px-3.5 py-1.5 flex items-center gap-1.5">
+        <button onclick="shareArticle('${article.id}')" class="btn-awwwards-secondary text-xs px-3.5 py-1.5 flex items-center gap-1.5">
           <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
           <span>Bagikan</span>
         </button>
@@ -611,25 +545,29 @@ window.renderArticleDetail = function(id) {
     </div>
   `;
 
-  window.safeCreateIcons();
-};
+  safeCreateIcons();
+}
 
-window.shareArticle = function(title) {
+function shareArticle(id) {
+  const articles = getArticles();
+  const art = articles.find(a => a.id === id) || articles[0];
+  const title = art ? art.title : 'Karya Tulis & Kelas Terbuka';
+
   if (navigator.share) {
     navigator.share({ title: title, url: window.location.href });
   } else {
     navigator.clipboard.writeText(window.location.href);
     alert('Tautan artikel berhasil disalin ke clipboard!');
   }
-};
+}
 
-window.renderCoursesCatalog = function() {
-  const courses = window.getCourses();
+function renderCoursesCatalog() {
+  const courses = getCourses();
   const grid = document.getElementById('fullCoursesGrid');
   if (!grid) return;
 
   grid.innerHTML = courses.map(crs => `
-    <div onclick="window.navigate('course-detail', '${crs.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
+    <div onclick="navigate('course-detail', '${crs.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
       <div class="polaroid-frame mb-3">
         <span class="polaroid-pin">🌸 edX KELAS TERBUKA 🎓</span>
         <img src="${crs.thumbnail}" alt="${crs.title}" class="w-full h-48 object-cover rounded-lg">
@@ -655,11 +593,11 @@ window.renderCoursesCatalog = function() {
     </div>
   `).join('');
 
-  window.safeCreateIcons();
-};
+  safeCreateIcons();
+}
 
-window.renderCourseDetail = function(id) {
-  const courses = window.getCourses();
+function renderCourseDetail(id) {
+  const courses = getCourses();
   const crs = courses.find(c => c.id === id) || courses[0];
   const container = document.getElementById('courseDetailContent');
   if (!container || !crs) return;
@@ -698,11 +636,11 @@ window.renderCourseDetail = function(id) {
     </div>
   `;
 
-  window.safeCreateIcons();
-};
+  safeCreateIcons();
+}
 
-window.renderAboutPage = function() {
-  const profile = window.getProfile();
+function renderAboutPage() {
+  const profile = getProfile();
 
   const nameEl = document.getElementById('aboutProfileName');
   const headlineEl = document.getElementById('aboutProfileHeadline');
@@ -763,46 +701,46 @@ window.renderAboutPage = function() {
     `).join('');
   }
 
-  window.safeCreateIcons();
-};
+  safeCreateIcons();
+}
 
-// --- ADMIN CONTROL PANEL ---
-window.openAdmin = function() {
+function openAdmin() {
   const modal = document.getElementById('adminModal');
   if (modal) modal.classList.remove('hidden');
-};
+}
 
-window.closeAdmin = function() {
+function closeAdmin() {
   const modal = document.getElementById('adminModal');
   if (modal) modal.classList.add('hidden');
-};
+}
 
-window.checkAdminAuth = function() {
-  const pass = document.getElementById('adminPassInput').value;
+function checkAdminAuth() {
+  const passInput = document.getElementById('adminPassInput');
+  const pass = passInput ? passInput.value : '';
   if (pass === 'admin123' || pass === 'admin') {
     document.getElementById('adminAuthSection').classList.add('hidden');
     document.getElementById('adminDashboardSection').classList.remove('hidden');
-    window.renderAdminTab('articles');
+    renderAdminTab('articles');
   } else {
     alert('Kata kunci akses salah!');
   }
-};
+}
 
-window.switchAdminTab = function(tab) {
-  window.renderAdminTab(tab);
-};
+function switchAdminTab(tab) {
+  renderAdminTab(tab);
+}
 
-window.renderAdminTab = function(tab) {
+function renderAdminTab(tab) {
   const container = document.getElementById('adminContentContainer');
   if (!container) return;
 
   if (tab === 'articles') {
-    const articles = window.getArticles();
+    const articles = getArticles();
     container.innerHTML = `
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Karya Tulis (${articles.length})</h3>
-          <button onclick="window.showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru</button>
+          <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru</button>
         </div>
         <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
           ${articles.map(a => `
@@ -812,8 +750,8 @@ window.renderAdminTab = function(tab) {
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${a.date || ''}</span>
               </div>
               <div class="flex items-center gap-2">
-                <button onclick="window.editArticle('${a.id}')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold px-2 py-1">Edit</button>
-                <button onclick="window.deleteArticle('${a.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
+                <button onclick="editArticle('${a.id}')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold px-2 py-1">Edit</button>
+                <button onclick="deleteArticle('${a.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
               </div>
             </div>
           `).join('')}
@@ -821,12 +759,12 @@ window.renderAdminTab = function(tab) {
       </div>
     `;
   } else if (tab === 'courses') {
-    const courses = window.getCourses();
+    const courses = getCourses();
     container.innerHTML = `
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Kelas Terbuka edX (${courses.length})</h3>
-          <button onclick="window.showAddCourseForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Buat Kelas Baru (Gaya edX)</button>
+          <button onclick="showAddCourseForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Buat Kelas Baru (Gaya edX)</button>
         </div>
         <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
           ${courses.map(c => `
@@ -835,20 +773,20 @@ window.renderAdminTab = function(tab) {
                 <span class="font-bold text-slate-900 dark:text-white block truncate">${c.title}</span>
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${c.category} • ${c.duration}</span>
               </div>
-              <button onclick="window.deleteCourse('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
+              <button onclick="deleteCourse('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
             </div>
           `).join('')}
         </div>
       </div>
     `;
   } else if (tab === 'profile') {
-    const p = window.getProfile();
+    const p = getProfile();
     const certs = p.certificates || [];
     const exps = p.experiences || [];
 
     container.innerHTML = `
       <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
-        <form onsubmit="window.saveProfileFromAdmin(event)" class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
+        <form onsubmit="saveProfileFromAdmin(event)" class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Edit Profil Utama & Kontak</h3>
           <div class="grid grid-cols-2 gap-4">
             <div>
@@ -873,7 +811,7 @@ window.renderAdminTab = function(tab) {
 
         <div class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kelola Sertifikat (${certs.length})</h3>
-          <form onsubmit="window.addCertificateFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
+          <form onsubmit="addCertificateFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
             <span class="font-bold block text-slate-900 dark:text-white">+ Tambah Sertifikat Baru</span>
             <div class="grid grid-cols-2 gap-3">
               <input type="text" id="newCertTitle" required placeholder="Judul Sertifikat..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
@@ -892,7 +830,7 @@ window.renderAdminTab = function(tab) {
                   <span class="font-bold text-slate-900 dark:text-white block">${c.title}</span>
                   <span class="text-[10px] text-cyan-600 dark:text-blue-400 font-mono">${c.issuer} (${c.year})</span>
                 </div>
-                <button onclick="window.deleteCertificate('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
+                <button onclick="deleteCertificate('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
               </div>
             `).join('')}
           </div>
@@ -900,7 +838,7 @@ window.renderAdminTab = function(tab) {
 
         <div class="space-y-4">
           <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kelola Rekam Jejak / Pengalaman (${exps.length})</h3>
-          <form onsubmit="window.addExperienceFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
+          <form onsubmit="addExperienceFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
             <span class="font-bold block text-slate-900 dark:text-white">+ Tambah Item Rekam Jejak Baru</span>
             <div class="grid grid-cols-2 gap-3">
               <input type="text" id="newExpRole" required placeholder="Peran / Jabatan..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
@@ -921,17 +859,17 @@ window.renderAdminTab = function(tab) {
                   <span class="font-bold text-slate-900 dark:text-white block">${e.role} — ${e.organization}</span>
                   <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-mono">${e.period}</span>
                 </div>
-                <button onclick="window.deleteExperience('${e.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
+                <button onclick="deleteExperience('${e.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
               </div>
             `).join('')}
           </div>
         </div>
       </div>
     `;
-    window.safeCreateIcons();
+    safeCreateIcons();
   } else if (tab === 'supabase') {
-    const isConnected = !!window.supabase;
-    const currentAnonKey = localStorage.getItem('supabase_anon_key') || window.DEFAULT_SUPABASE_ANON_KEY;
+    const isConnected = !!supabase;
+    const currentAnonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
     
     container.innerHTML = `
       <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
@@ -949,7 +887,7 @@ window.renderAdminTab = function(tab) {
           <div class="space-y-3">
             <div>
               <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Project URL:</label>
-              <input type="text" value="${window.SUPABASE_PROJECT_URL}" readonly class="w-full px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-xs border border-slate-300 dark:border-slate-700">
+              <input type="text" value="${SUPABASE_PROJECT_URL}" readonly class="w-full px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-xs border border-slate-300 dark:border-slate-700">
             </div>
 
             <div>
@@ -958,11 +896,11 @@ window.renderAdminTab = function(tab) {
             </div>
 
             <div class="pt-2 flex flex-wrap items-center gap-3">
-              <button onclick="window.saveSupabaseConfig()" class="btn-awwwards-primary text-xs py-2 px-4">
+              <button onclick="saveSupabaseConfig()" class="btn-awwwards-primary text-xs py-2 px-4">
                 <span>💾 Simpan & Hubungkan Supabase</span>
               </button>
               ${isConnected ? `
-                <button onclick="window.pushAllLocalDataToSupabase()" class="btn-awwwards-secondary text-xs py-2 px-4 font-bold text-cyan-600 dark:text-blue-400">
+                <button onclick="pushAllLocalDataToSupabase()" class="btn-awwwards-secondary text-xs py-2 px-4 font-bold text-cyan-600 dark:text-blue-400">
                   <span>📤 Push Semua Artikel & Data ke Cloud Supabase</span>
                 </button>
               ` : ''}
@@ -973,7 +911,7 @@ window.renderAdminTab = function(tab) {
         <div class="p-5 rounded-2xl bg-cyan-50/60 dark:bg-blue-950/40 border border-cyan-200 dark:border-blue-900/60 space-y-3">
           <div class="flex items-center justify-between">
             <h4 class="font-bold text-slate-900 dark:text-white">🛠️ Tabel SQL Supabase (Skrip Setup 1-Klik)</h4>
-            <button onclick="window.copySupabaseSQL()" class="text-xs font-mono text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
+            <button onclick="copySupabaseSQL()" class="text-xs font-mono text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
           </div>
           <pre id="supabaseSqlCode" class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-48 border border-slate-800 leading-relaxed">
 CREATE TABLE IF NOT EXISTS articles (
@@ -1022,43 +960,43 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         </div>
       </div>
     `;
-    window.safeCreateIcons();
+    safeCreateIcons();
   }
-};
+}
 
-window.pushAllLocalDataToSupabase = async function() {
-  if (!window.supabase) {
+async function pushAllLocalDataToSupabase() {
+  if (!supabase) {
     alert("Supabase belum dikonfigurasi!");
     return;
   }
 
-  const articles = window.getArticles();
-  const courses = window.getCourses();
-  const profile = window.getProfile();
+  const articles = getArticles();
+  const courses = getCourses();
+  const profile = getProfile();
 
   let articleSuccess = 0;
   let courseSuccess = 0;
 
   try {
     if (articles.length > 0) {
-      const { error } = await window.supabase.from('articles').upsert(articles, { onConflict: 'id' });
+      const { error } = await supabase.from('articles').upsert(articles, { onConflict: 'id' });
       if (!error) articleSuccess = articles.length;
     }
 
     if (courses.length > 0) {
-      const { error } = await window.supabase.from('courses').upsert(courses, { onConflict: 'id' });
+      const { error } = await supabase.from('courses').upsert(courses, { onConflict: 'id' });
       if (!error) courseSuccess = courses.length;
     }
 
-    await window.supabase.from('profile').upsert([{ id: 'default', data: profile }], { onConflict: 'id' });
+    await supabase.from('profile').upsert([{ id: 'default', data: profile }], { onConflict: 'id' });
 
     alert(`✅ Berhasil melakukan sinkronisasi cloud!\n• ${articleSuccess} artikel telah diunggah ke Supabase.\n• ${courseSuccess} kelas edX telah diunggah ke Supabase.`);
   } catch (e) {
     alert(`Gagal mengunggah data ke Supabase: ${e.message}`);
   }
-};
+}
 
-window.saveSupabaseConfig = function() {
+function saveSupabaseConfig() {
   const anonKey = document.getElementById('supabaseAnonKeyInput').value.trim();
   if (!anonKey) {
     alert('Harap masukkan Supabase anon public key!');
@@ -1066,28 +1004,28 @@ window.saveSupabaseConfig = function() {
   }
 
   localStorage.setItem('supabase_anon_key', anonKey);
-  const success = window.initSupabaseClient();
+  const success = initSupabaseClient();
   if (success) {
     alert('✅ Konfigurasi Kunci Supabase Berhasil Disimpan & Terhubung!');
-    window.syncFromSupabase();
-    window.renderAdminTab('supabase');
+    syncFromSupabase();
+    renderAdminTab('supabase');
   } else {
     alert('Gagal menginisialisasi Kunci Supabase.');
   }
-};
+}
 
-window.copySupabaseSQL = function() {
+function copySupabaseSQL() {
   const code = document.getElementById('supabaseSqlCode').innerText;
   navigator.clipboard.writeText(code);
   alert('Kode SQL Schema berhasil disalin ke clipboard!');
-};
+}
 
-window.showAddArticleForm = function(artToEdit = null) {
-  window.editingArticleId = artToEdit ? artToEdit.id : null;
+function showAddArticleForm(artToEdit = null) {
+  editingArticleId = artToEdit ? artToEdit.id : null;
   const container = document.getElementById('adminContentContainer');
   
   container.innerHTML = `
-    <form onsubmit="window.saveNewArticle(event)" class="space-y-4 text-xs">
+    <form onsubmit="saveNewArticle(event)" class="space-y-4 text-xs">
       <h3 class="font-bold text-sm text-slate-900 dark:text-white">
         ${artToEdit ? '✏️ Edit Artikel Terpublikasi' : '📝 Tulis Artikel Baru'}
       </h3>
@@ -1111,14 +1049,14 @@ window.showAddArticleForm = function(artToEdit = null) {
         </span>
 
         <div class="flex flex-wrap gap-1.5 pt-1">
-          <button type="button" onclick="window.applyMediumFormat('bold')" class="medium-toolbar-btn"><b>B</b> Bold</button>
-          <button type="button" onclick="window.applyMediumFormat('italic')" class="medium-toolbar-btn"><i>I</i> Italic</button>
-          <button type="button" onclick="window.applyMediumFormat('h2')" class="medium-toolbar-btn">H2 Judul</button>
-          <button type="button" onclick="window.applyMediumFormat('h3')" class="medium-toolbar-btn">H3 Subjudul</button>
-          <button type="button" onclick="window.applyMediumFormat('quote')" class="medium-toolbar-btn">“ Quote</button>
-          <button type="button" onclick="window.applyMediumFormat('lead')" class="medium-toolbar-btn">Paragraph Lead</button>
-          <button type="button" onclick="window.applyMediumFormat('link')" class="medium-toolbar-btn">🔗 Link</button>
-          <button type="button" onclick="window.applyMediumFormat('image')" class="medium-toolbar-btn">🖼️ Sisipkan Gambar</button>
+          <button type="button" onclick="applyMediumFormat('bold')" class="medium-toolbar-btn"><b>B</b> Bold</button>
+          <button type="button" onclick="applyMediumFormat('italic')" class="medium-toolbar-btn"><i>I</i> Italic</button>
+          <button type="button" onclick="applyMediumFormat('h2')" class="medium-toolbar-btn">H2 Judul</button>
+          <button type="button" onclick="applyMediumFormat('h3')" class="medium-toolbar-btn">H3 Subjudul</button>
+          <button type="button" onclick="applyMediumFormat('quote')" class="medium-toolbar-btn">“ Quote</button>
+          <button type="button" onclick="applyMediumFormat('lead')" class="medium-toolbar-btn">Paragraph Lead</button>
+          <button type="button" onclick="applyMediumFormat('link')" class="medium-toolbar-btn">🔗 Link</button>
+          <button type="button" onclick="applyMediumFormat('image')" class="medium-toolbar-btn">🖼️ Sisipkan Gambar</button>
         </div>
       </div>
 
@@ -1131,22 +1069,22 @@ window.showAddArticleForm = function(artToEdit = null) {
         <button type="submit" class="btn-awwwards-primary py-2.5 px-5">
           ${artToEdit ? 'Simpan Perubahan Artikel' : 'Terbitkan Artikel'}
         </button>
-        <button type="button" onclick="window.renderAdminTab('articles')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
+        <button type="button" onclick="renderAdminTab('articles')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
       </div>
     </form>
   `;
-  window.safeCreateIcons();
-};
+  safeCreateIcons();
+}
 
-window.editArticle = function(id) {
-  const articles = window.getArticles();
+function editArticle(id) {
+  const articles = getArticles();
   const art = articles.find(a => a.id === id);
   if (art) {
-    window.showAddArticleForm(art);
+    showAddArticleForm(art);
   }
-};
+}
 
-window.applyMediumFormat = function(type) {
+function applyMediumFormat(type) {
   const textarea = document.getElementById('newArtContent');
   if (!textarea) return;
 
@@ -1181,19 +1119,19 @@ window.applyMediumFormat = function(type) {
 
   textarea.value = textarea.value.substring(0, start) + formatted + textarea.value.substring(end);
   textarea.focus();
-};
+}
 
-window.saveNewArticle = function(e) {
+function saveNewArticle(e) {
   e.preventDefault();
-  let articles = window.getArticles();
+  let articles = getArticles();
 
   const title = document.getElementById('newArtTitle').value;
   const thumbnail = document.getElementById('newArtThumbnail').value;
   const excerpt = document.getElementById('newArtExcerpt').value;
   const content = document.getElementById('newArtContent').value;
 
-  if (window.editingArticleId) {
-    const artIndex = articles.findIndex(a => a.id === window.editingArticleId);
+  if (editingArticleId) {
+    const artIndex = articles.findIndex(a => a.id === editingArticleId);
     if (artIndex !== -1) {
       articles[artIndex].title = title;
       articles[artIndex].thumbnail = thumbnail;
@@ -1201,7 +1139,7 @@ window.saveNewArticle = function(e) {
       articles[artIndex].content = content;
       alert('Artikel berhasil diperbarui!');
     }
-    window.editingArticleId = null;
+    editingArticleId = null;
   } else {
     const newArticle = {
       id: `art-${Date.now()}`,
@@ -1220,24 +1158,24 @@ window.saveNewArticle = function(e) {
     alert('Artikel baru berhasil diterbitkan!');
   }
 
-  window.saveArticles(articles);
-  window.renderAllViews();
-  window.renderAdminTab('articles');
-};
+  saveArticles(articles);
+  renderAllViews();
+  renderAdminTab('articles');
+}
 
-window.deleteArticle = function(id) {
+function deleteArticle(id) {
   if (confirm('Yakin ingin menghapus artikel ini?')) {
-    let articles = window.getArticles();
+    let articles = getArticles();
     articles = articles.filter(a => a.id !== id);
-    window.saveArticles(articles);
-    window.renderAllViews();
-    window.renderAdminTab('articles');
+    saveArticles(articles);
+    renderAllViews();
+    renderAdminTab('articles');
   }
-};
+}
 
-window.addCertificateFromAdmin = function(e) {
+function addCertificateFromAdmin(e) {
   e.preventDefault();
-  const p = window.getProfile();
+  const p = getProfile();
   const title = document.getElementById('newCertTitle').value.trim();
   const issuer = document.getElementById('newCertIssuer').value.trim();
   const year = document.getElementById('newCertYear').value.trim() || '2026';
@@ -1246,25 +1184,25 @@ window.addCertificateFromAdmin = function(e) {
   if (!p.certificates) p.certificates = [];
   p.certificates.unshift({ id: `cert-${Date.now()}`, title, issuer, year, credentialUrl: url });
 
-  window.saveProfile(p);
-  window.renderAllViews();
-  window.renderAdminTab('profile');
+  saveProfile(p);
+  renderAllViews();
+  renderAdminTab('profile');
   alert('Sertifikat berhasil ditambahkan!');
-};
+}
 
-window.deleteCertificate = function(id) {
+function deleteCertificate(id) {
   if (confirm('Yakin ingin menghapus sertifikat ini?')) {
-    const p = window.getProfile();
+    const p = getProfile();
     p.certificates = (p.certificates || []).filter(c => c.id !== id);
-    window.saveProfile(p);
-    window.renderAllViews();
-    window.renderAdminTab('profile');
+    saveProfile(p);
+    renderAllViews();
+    renderAdminTab('profile');
   }
-};
+}
 
-window.addExperienceFromAdmin = function(e) {
+function addExperienceFromAdmin(e) {
   e.preventDefault();
-  const p = window.getProfile();
+  const p = getProfile();
   const role = document.getElementById('newExpRole').value.trim();
   const org = document.getElementById('newExpOrg').value.trim();
   const period = document.getElementById('newExpPeriod').value.trim();
@@ -1273,39 +1211,39 @@ window.addExperienceFromAdmin = function(e) {
   if (!p.experiences) p.experiences = [];
   p.experiences.unshift({ id: `exp-${Date.now()}`, role, organization: org, period, description: desc });
 
-  window.saveProfile(p);
-  window.renderAllViews();
-  window.renderAdminTab('profile');
+  saveProfile(p);
+  renderAllViews();
+  renderAdminTab('profile');
   alert('Item Rekam Jejak berhasil ditambahkan!');
-};
+}
 
-window.deleteExperience = function(id) {
+function deleteExperience(id) {
   if (confirm('Yakin ingin menghapus item rekam jejak ini?')) {
-    const p = window.getProfile();
+    const p = getProfile();
     p.experiences = (p.experiences || []).filter(e => e.id !== id);
-    window.saveProfile(p);
-    window.renderAllViews();
-    window.renderAdminTab('profile');
+    saveProfile(p);
+    renderAllViews();
+    renderAdminTab('profile');
   }
-};
+}
 
-window.saveProfileFromAdmin = function(e) {
+function saveProfileFromAdmin(e) {
   e.preventDefault();
-  const p = window.getProfile();
+  const p = getProfile();
   p.name = document.getElementById('admName').value;
   p.headline = document.getElementById('admHeadline').value;
   p.bio = document.getElementById('admBio').value;
   p.avatar = document.getElementById('admAvatar').value;
 
-  window.saveProfile(p);
-  window.renderAllViews();
+  saveProfile(p);
+  renderAllViews();
   alert('Profil utama berhasil diperbarui!');
-};
+}
 
-window.showAddCourseForm = function() {
+function showAddCourseForm() {
   const container = document.getElementById('adminContentContainer');
   container.innerHTML = `
-    <form onsubmit="window.saveNewCourse(event)" class="space-y-4 text-xs">
+    <form onsubmit="saveNewCourse(event)" class="space-y-4 text-xs">
       <h3 class="font-bold text-sm text-slate-900 dark:text-white">Buat Kelas Terbuka Baru (Gaya edX)</h3>
       <div>
         <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Judul Kelas edX:</label>
@@ -1339,15 +1277,15 @@ window.showAddCourseForm = function() {
 
       <div class="flex gap-3">
         <button type="submit" class="btn-awwwards-primary py-2.5 px-5">Terbitkan Kelas edX</button>
-        <button type="button" onclick="window.renderAdminTab('courses')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
+        <button type="button" onclick="renderAdminTab('courses')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
       </div>
     </form>
   `;
-};
+}
 
-window.saveNewCourse = function(e) {
+function saveNewCourse(e) {
   e.preventDefault();
-  const courses = window.getCourses();
+  const courses = getCourses();
   const newCourse = {
     id: `crs-${Date.now()}`,
     title: document.getElementById('newCrsTitle').value,
@@ -1367,33 +1305,99 @@ window.saveNewCourse = function(e) {
   };
 
   courses.unshift(newCourse);
-  window.saveCourses(courses);
-  window.renderAllViews();
-  window.renderAdminTab('courses');
+  saveCourses(courses);
+  renderAllViews();
+  renderAdminTab('courses');
   alert('Kelas terbuka edX berhasil diterbitkan!');
-};
+}
 
-window.deleteCourse = function(id) {
+function deleteCourse(id) {
   if (confirm('Yakin ingin menghapus kelas edX ini?')) {
-    let courses = window.getCourses();
+    let courses = getCourses();
     courses = courses.filter(c => c.id !== id);
-    window.saveCourses(courses);
-    window.renderAllViews();
-    window.renderAdminTab('courses');
+    saveCourses(courses);
+    renderAllViews();
+    renderAdminTab('courses');
   }
+}
+
+function initSupabaseClient() {
+  const anonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
+  if (anonKey && window.supabase && typeof window.supabase.createClient === 'function') {
+    try {
+      supabase = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
+      return true;
+    } catch (e) {
+      supabase = null;
+      return false;
+    }
+  }
+  return false;
+}
+
+async function syncFromSupabase() {
+  if (!supabase) return;
+  try {
+    const { data: articles, error: artError } = await supabase.from('articles').select('*');
+    if (!artError && Array.isArray(articles) && articles.length > 0) {
+      const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title);
+      if (validArticles.length > 0) {
+        localStorage.setItem('site_articles', JSON.stringify(validArticles));
+      }
+    }
+
+    const { data: courses, error: crsError } = await supabase.from('courses').select('*');
+    if (!crsError && Array.isArray(courses) && courses.length > 0) {
+      const validCourses = courses.filter(c => c && typeof c === 'object' && c.id && c.title);
+      if (validCourses.length > 0) {
+        localStorage.setItem('site_courses', JSON.stringify(validCourses));
+      }
+    }
+
+    const { data: profileData, error: profError } = await supabase.from('profile').select('*').limit(1);
+    if (!profError && Array.isArray(profileData) && profileData.length > 0) {
+      const prof = profileData[0].data || profileData[0];
+      if (prof && typeof prof === 'object' && prof.name) {
+        localStorage.setItem('site_profile', JSON.stringify(prof));
+      }
+    }
+
+    renderAllViews();
+  } catch (e) {}
+}
+
+// --- BIND ALL FUNCTIONS TO WINDOW OBJECT ---
+const funcsToBind = {
+  SVG_LIGHT_GRAPHICS, SVG_DARK_GRAPHICS, DEFAULT_PROFILE, DEFAULT_ARTICLES, DEFAULT_COURSES,
+  getProfile, saveProfile, getArticles, saveArticles, getCourses, saveCourses,
+  safeCreateIcons, initDarkMode, toggleDarkMode, setupScrollProgress,
+  createAmbientFloatingDoodles, navigate, toggleMobileMenu, renderAllViews,
+  renderHome, renderArticlesCatalog, renderArticleDetail, shareArticle,
+  renderCoursesCatalog, renderCourseDetail, renderAboutPage, openAdmin, closeAdmin,
+  checkAdminAuth, switchAdminTab, renderAdminTab, pushAllLocalDataToSupabase,
+  saveSupabaseConfig, copySupabaseSQL, showAddArticleForm, editArticle,
+  applyMediumFormat, saveNewArticle, deleteArticle, addCertificateFromAdmin,
+  deleteCertificate, addExperienceFromAdmin, deleteExperience, saveProfileFromAdmin,
+  showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase
 };
 
-window.initApp = function() {
-  window.initDarkMode();
-  window.renderAllViews();
-  window.setupScrollProgress();
-  window.initSupabaseClient();
-  window.syncFromSupabase();
-  window.safeCreateIcons();
-};
+for (const [key, val] of Object.entries(funcsToBind)) {
+  window[key] = val;
+}
+
+function initApp() {
+  initDarkMode();
+  renderAllViews();
+  setupScrollProgress();
+  initSupabaseClient();
+  syncFromSupabase();
+  safeCreateIcons();
+}
+
+window.initApp = initApp;
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', window.initApp);
+  document.addEventListener('DOMContentLoaded', initApp);
 } else {
-  window.initApp();
+  initApp();
 }
