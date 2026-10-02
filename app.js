@@ -1452,6 +1452,109 @@ async function syncFromSupabase() {
   } catch (e) {}
 }
 
+
+async function universalCloudSync() {
+  const btn = document.getElementById('btnUniversalCloudSync');
+  const icon = document.getElementById('universalSyncIcon');
+  const text = document.getElementById('universalSyncText');
+  const badge = document.getElementById('universalSyncStatusBadge');
+
+  if (!supabaseClient) {
+    initSupabaseClient();
+  }
+
+  if (!supabaseClient) {
+    alert("⚠️ Supabase belum terhubung. Harap periksa Supabase Anon Key di tab '⚡ Supabase Cloud Sync'.");
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add('opacity-75', 'cursor-not-allowed');
+    if (icon) icon.textContent = '🔄';
+    if (text) text.textContent = 'Menyinkronkan ke Cloud...';
+  }
+
+  const articles = getArticles();
+  const courses = getCourses();
+  const profile = getProfile();
+
+  try {
+    // 1. Sinkronisasi Karya Tulis
+    const { data: cloudArticles, error: artFetchErr } = await supabaseClient.from('articles').select('id');
+    if (artFetchErr) {
+      if (artFetchErr.code === 'PGRST205' || (artFetchErr.message && artFetchErr.message.includes('schema cache'))) {
+        throw new Error("Tabel 'articles' belum dibuat di Supabase.\n\nSilakan buka Supabase Dashboard > SQL Editor, salin skrip pembuatan tabel dari tab '⚡ Supabase Cloud Sync', lalu klik 'Run'.");
+      }
+      throw artFetchErr;
+    }
+
+    const localArtIds = new Set(articles.map(a => a.id));
+    if (Array.isArray(cloudArticles)) {
+      for (const ca of cloudArticles) {
+        if (!localArtIds.has(ca.id)) {
+          await supabaseClient.from('articles').delete().eq('id', ca.id);
+        }
+      }
+    }
+
+    if (articles.length > 0) {
+      const { error: artUpsertErr } = await supabaseClient.from('articles').upsert(articles, { onConflict: 'id' });
+      if (artUpsertErr) throw artUpsertErr;
+    }
+
+    // 2. Sinkronisasi Kelas edX
+    const { data: cloudCourses, error: crsFetchErr } = await supabaseClient.from('courses').select('id');
+    if (crsFetchErr) {
+      if (crsFetchErr.code === 'PGRST205' || (crsFetchErr.message && crsFetchErr.message.includes('schema cache'))) {
+        throw new Error("Tabel 'courses' belum dibuat di Supabase.\n\nSilakan jalankan skrip pembuatan tabel di Supabase SQL Editor.");
+      }
+      throw crsFetchErr;
+    }
+
+    const localCrsIds = new Set(courses.map(c => c.id));
+    if (Array.isArray(cloudCourses)) {
+      for (const cc of cloudCourses) {
+        if (!localCrsIds.has(cc.id)) {
+          await supabaseClient.from('courses').delete().eq('id', cc.id);
+        }
+      }
+    }
+
+    if (courses.length > 0) {
+      const { error: crsUpsertErr } = await supabaseClient.from('courses').upsert(courses, { onConflict: 'id' });
+      if (crsUpsertErr) throw crsUpsertErr;
+    }
+
+    // 3. Sinkronisasi Profil
+    const { error: profErr } = await supabaseClient.from('profile').upsert([{ id: 'default', data: profile }], { onConflict: 'id' });
+    if (profErr) {
+      if (profErr.code === 'PGRST205' || (profErr.message && profErr.message.includes('schema cache'))) {
+        throw new Error("Tabel 'profile' belum dibuat di Supabase.\n\nSilakan jalankan skrip pembuatan tabel di Supabase SQL Editor.");
+      }
+      throw profErr;
+    }
+
+    // Berhasil
+    if (badge) {
+      badge.textContent = '🟢 Cloud Tersinkron';
+      badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700';
+    }
+
+    alert(`✅ Sinkronisasi Universal Berhasil!\n\n• ${articles.length} Karya Tulis tersimpan di Supabase Cloud\n• ${courses.length} Kelas edX tersimpan di Supabase Cloud\n• Profil & Kontak tersimpan aman.\n\nSemua perubahan sekarang dapat diakses secara sinkron dari perangkat mana pun!`);
+  } catch (err) {
+    console.error("Universal Cloud Sync Error:", err);
+    alert(`⚠️ Kendala Sinkronisasi Cloud:\n\n${err.message || err}`);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('opacity-75', 'cursor-not-allowed');
+      if (icon) icon.textContent = '☁️';
+      if (text) text.textContent = 'Simpan & Sinkronkan ke Cloud';
+    }
+  }
+}
+
 // --- BIND ALL FUNCTIONS TO WINDOW OBJECT ---
 const funcsToBind = {
   SVG_LIGHT_GRAPHICS, SVG_DARK_GRAPHICS, DEFAULT_PROFILE, DEFAULT_ARTICLES, DEFAULT_COURSES,
@@ -1464,7 +1567,7 @@ const funcsToBind = {
   saveSupabaseConfig, copySupabaseSQL, showAddArticleForm, editArticle,
   applyMediumFormat, saveNewArticle, deleteArticle, addCertificateFromAdmin,
   deleteCertificate, addExperienceFromAdmin, deleteExperience, saveProfileFromAdmin,
-  showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase, resetToDefaultData
+  showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase, resetToDefaultData, universalCloudSync
 };
 
 for (const [key, val] of Object.entries(funcsToBind)) {
@@ -1473,6 +1576,9 @@ for (const [key, val] of Object.entries(funcsToBind)) {
 
 
 function initInlineParticles() {
+  if (window.__particlesInitialized) return;
+  window.__particlesInitialized = true;
+
   function createParticle(x, y) {
     var isDark = document.documentElement.classList.contains('dark');
     var lightSymbols = ['✦', '★', '◆', '✨', '⭐', '🌸'];
