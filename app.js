@@ -154,7 +154,7 @@ let editingArticleId = null;
 const SUPABASE_PROJECT_URL = "https://ccsrakdoumhvfoqgupve.supabase.co";
 const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_YMYksbZJv0zj1ogYLO-_AQ_GFuRp6d4";
 window.supabaseClient = null;
-let supabase = null;
+var supabaseClient = null;
 
 // --- EXPLICIT GLOBAL FUNCTIONS ENGINE ---
 function getProfile() {
@@ -170,8 +170,8 @@ function getProfile() {
 
 function saveProfile(data) {
   localStorage.setItem('site_profile', JSON.stringify(data));
-  if (supabase) {
-    supabase.from('profile').upsert([{ id: 'default', data: data }], { onConflict: 'id' }).then(({ error }) => {
+  if (supabaseClient) {
+    supabaseClient.from('profile').upsert([{ id: 'default', data: data }], { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert profile error", error);
     });
   }
@@ -191,8 +191,8 @@ function getArticles() {
 function saveArticles(data) {
   const valid = Array.isArray(data) ? data : [];
   localStorage.setItem('site_articles', JSON.stringify(valid));
-  if (supabase) {
-    supabase.from('articles').upsert(valid, { onConflict: 'id' }).then(({ error }) => {
+  if (supabaseClient) {
+    supabaseClient.from('articles').upsert(valid, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert articles error", error);
     });
   }
@@ -212,8 +212,8 @@ function getCourses() {
 function saveCourses(data) {
   const valid = Array.isArray(data) ? data : [];
   localStorage.setItem('site_courses', JSON.stringify(valid));
-  if (supabase) {
-    supabase.from('courses').upsert(valid, { onConflict: 'id' }).then(({ error }) => {
+  if (supabaseClient) {
+    supabaseClient.from('courses').upsert(valid, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert courses error", error);
     });
   }
@@ -925,7 +925,7 @@ function renderAdminTab(tab) {
     `;
     safeCreateIcons();
   } else if (tab === 'supabase') {
-    const isConnected = !!supabase;
+    const isConnected = !!supabaseClient;
     const currentAnonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
     
     container.innerHTML = `
@@ -1022,7 +1022,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
 }
 
 async function pushAllLocalDataToSupabase() {
-  if (!supabase) {
+  if (!supabaseClient) {
     alert("Supabase belum dikonfigurasi!");
     return;
   }
@@ -1036,16 +1036,16 @@ async function pushAllLocalDataToSupabase() {
 
   try {
     if (articles.length > 0) {
-      const { error } = await supabase.from('articles').upsert(articles, { onConflict: 'id' });
+      const { error } = await supabaseClient.from('articles').upsert(articles, { onConflict: 'id' });
       if (!error) articleSuccess = articles.length;
     }
 
     if (courses.length > 0) {
-      const { error } = await supabase.from('courses').upsert(courses, { onConflict: 'id' });
+      const { error } = await supabaseClient.from('courses').upsert(courses, { onConflict: 'id' });
       if (!error) courseSuccess = courses.length;
     }
 
-    await supabase.from('profile').upsert([{ id: 'default', data: profile }], { onConflict: 'id' });
+    await supabaseClient.from('profile').upsert([{ id: 'default', data: profile }], { onConflict: 'id' });
 
     alert(`✅ Berhasil melakukan sinkronisasi cloud!\n• ${articleSuccess} artikel telah diunggah ke Supabase.\n• ${courseSuccess} kelas edX telah diunggah ke Supabase.`);
   } catch (e) {
@@ -1226,8 +1226,8 @@ function deleteArticle(id) {
     let articles = getArticles();
     articles = articles.filter(a => a.id !== id);
     saveArticles(articles);
-    if (supabase) {
-      supabase.from('articles').delete().eq('id', id).then(({ error }) => {
+    if (supabaseClient) {
+      supabaseClient.from('articles').delete().eq('id', id).then(({ error }) => {
         if (error) console.error("Supabase delete article error", error);
       });
     }
@@ -1386,8 +1386,8 @@ function deleteCourse(id) {
     let courses = getCourses();
     courses = courses.filter(c => c.id !== id);
     saveCourses(courses);
-    if (supabase) {
-      supabase.from('courses').delete().eq('id', id).then(({ error }) => {
+    if (supabaseClient) {
+      supabaseClient.from('courses').delete().eq('id', id).then(({ error }) => {
         if (error) console.error("Supabase delete course error", error);
       });
     }
@@ -1401,11 +1401,11 @@ function initSupabaseClient() {
   const anonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
   if (anonKey && window.supabase && typeof window.supabase.createClient === 'function') {
     try {
-      supabase = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
-      window.supabaseClient = supabase;
+      supabaseClient = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
+      window.supabaseClient = supabaseClient;
       return true;
     } catch (e) {
-      supabase = null;
+      supabaseClient = null;
       return false;
     }
   }
@@ -1413,9 +1413,9 @@ function initSupabaseClient() {
 }
 
 async function syncFromSupabase() {
-  if (!supabase) return;
+  if (!supabaseClient) return;
   try {
-    const { data: articles, error: artError } = await supabase.from('articles').select('*');
+    const { data: articles, error: artError } = await supabaseClient.from('articles').select('*');
     if (!artError && Array.isArray(articles)) {
       if (articles.length > 0) {
         const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title);
@@ -1427,7 +1427,7 @@ async function syncFromSupabase() {
       }
     }
 
-    const { data: courses, error: crsError } = await supabase.from('courses').select('*');
+    const { data: courses, error: crsError } = await supabaseClient.from('courses').select('*');
     if (!crsError && Array.isArray(courses)) {
       if (courses.length > 0) {
         const validCourses = courses.filter(c => c && typeof c === 'object' && c.id && c.title);
@@ -1439,7 +1439,7 @@ async function syncFromSupabase() {
       }
     }
 
-    const { data: profileData, error: profError } = await supabase.from('profile').select('*').limit(1);
+    const { data: profileData, error: profError } = await supabaseClient.from('profile').select('*').limit(1);
     if (!profError && Array.isArray(profileData) && profileData.length > 0) {
       const prof = profileData[0].data || profileData[0];
       if (prof && typeof prof === 'object' && prof.name) {
