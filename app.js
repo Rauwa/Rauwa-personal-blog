@@ -152,7 +152,8 @@ const DEFAULT_COURSES = [
 
 let editingArticleId = null;
 const SUPABASE_PROJECT_URL = "https://ccsrakdoumhvfoqgupve.supabase.co";
-const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_YMYksbZJv0zj1ogYL0-_AQ_GFuRp";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_YMYksbZJv0zj1ogYLO-_AQ_GFuRp6d4";
+window.supabaseClient = null;
 let supabase = null;
 
 // --- EXPLICIT GLOBAL FUNCTIONS ENGINE ---
@@ -1216,6 +1217,7 @@ function saveNewArticle(e) {
 
   saveArticles(articles);
   renderAllViews();
+  initInlineParticles();
   renderAdminTab('articles');
 }
 
@@ -1230,6 +1232,7 @@ function deleteArticle(id) {
       });
     }
     renderAllViews();
+  initInlineParticles();
     renderAdminTab('articles');
   }
 }
@@ -1247,6 +1250,7 @@ function addCertificateFromAdmin(e) {
 
   saveProfile(p);
   renderAllViews();
+  initInlineParticles();
   renderAdminTab('profile');
   alert('Sertifikat berhasil ditambahkan!');
 }
@@ -1257,6 +1261,7 @@ function deleteCertificate(id) {
     p.certificates = (p.certificates || []).filter(c => c.id !== id);
     saveProfile(p);
     renderAllViews();
+  initInlineParticles();
     renderAdminTab('profile');
   }
 }
@@ -1274,6 +1279,7 @@ function addExperienceFromAdmin(e) {
 
   saveProfile(p);
   renderAllViews();
+  initInlineParticles();
   renderAdminTab('profile');
   alert('Item Rekam Jejak berhasil ditambahkan!');
 }
@@ -1284,6 +1290,7 @@ function deleteExperience(id) {
     p.experiences = (p.experiences || []).filter(e => e.id !== id);
     saveProfile(p);
     renderAllViews();
+  initInlineParticles();
     renderAdminTab('profile');
   }
 }
@@ -1298,6 +1305,7 @@ function saveProfileFromAdmin(e) {
 
   saveProfile(p);
   renderAllViews();
+  initInlineParticles();
   alert('Profil utama berhasil diperbarui!');
 }
 
@@ -1368,6 +1376,7 @@ function saveNewCourse(e) {
   courses.unshift(newCourse);
   saveCourses(courses);
   renderAllViews();
+  initInlineParticles();
   renderAdminTab('courses');
   alert('Kelas terbuka edX berhasil diterbitkan!');
 }
@@ -1383,6 +1392,7 @@ function deleteCourse(id) {
       });
     }
     renderAllViews();
+  initInlineParticles();
     renderAdminTab('courses');
   }
 }
@@ -1392,6 +1402,7 @@ function initSupabaseClient() {
   if (anonKey && window.supabase && typeof window.supabase.createClient === 'function') {
     try {
       supabase = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
+      window.supabaseClient = supabase;
       return true;
     } catch (e) {
       supabase = null;
@@ -1437,6 +1448,7 @@ async function syncFromSupabase() {
     }
 
     renderAllViews();
+  initInlineParticles();
   } catch (e) {}
 }
 
@@ -1459,9 +1471,77 @@ for (const [key, val] of Object.entries(funcsToBind)) {
   window[key] = val;
 }
 
+
+function initInlineParticles() {
+  function createParticle(x, y) {
+    var isDark = document.documentElement.classList.contains('dark');
+    var lightSymbols = ['✦', '★', '◆', '✨', '⭐', '🌸'];
+    var darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧'];
+    var textSymbols = isDark ? darkStarSymbols : lightSymbols;
+
+    var useSvgGraphics = Math.random() > 0.4;
+    var svgGraphics = isDark ? SVG_DARK_GRAPHICS : SVG_LIGHT_GRAPHICS;
+
+    var lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#f472b6'];
+    var darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#fde047'];
+    var colors = isDark ? darkColors : lightColors;
+
+    var el = document.createElement('span');
+    el.className = 'pastel-doodle-particle';
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    var size = Math.floor(Math.random() * 6) + 12;
+    var vx = (Math.random() - 0.5) * 50;
+    var vy = -(Math.random() * 35 + 20);
+    var rot = (Math.random() - 0.5) * 60;
+
+    if (useSvgGraphics && svgGraphics && svgGraphics.length > 0) {
+      el.innerHTML = svgGraphics[Math.floor(Math.random() * svgGraphics.length)];
+    } else {
+      el.textContent = textSymbols[Math.floor(Math.random() * textSymbols.length)];
+    }
+
+    el.style.cssText = 'position:fixed;left:' + x + 'px;top:' + y + 'px;font-size:' + size + 'px;color:' + color + ';pointer-events:none;z-index:9999;user-select:none;transform:translate(-50%,-50%) scale(0.3);opacity:0.8;transition:transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out;filter:drop-shadow(0 0 4px ' + color + '66);';
+
+    document.body.appendChild(el);
+
+    requestAnimationFrame(function() {
+      el.style.transform = 'translate(calc(-50% + ' + vx + 'px), calc(-50% + ' + vy + 'px)) scale(1.1) rotate(' + rot + 'deg)';
+      el.style.opacity = '0';
+    });
+
+    setTimeout(function() {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    }, 780);
+  }
+
+  document.addEventListener('click', function(e) {
+    for (var i = 0; i < 4; i++) {
+      (function(idx) {
+        setTimeout(function() {
+          createParticle(e.clientX + (Math.random() - 0.5) * 20, e.clientY + (Math.random() - 0.5) * 20);
+        }, idx * 35);
+      })(i);
+    }
+  });
+
+  var lastMoveTime = 0;
+  document.addEventListener('mousemove', function(e) {
+    var now = Date.now();
+    if (now - lastMoveTime > 120) {
+      var target = e.target;
+      if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || (target.closest && (target.closest('.awwwards-card') || target.closest('.btn-awwwards-primary') || target.closest('.btn-awwwards-secondary') || target.closest('.nav-awwwards'))))) {
+        createParticle(e.clientX, e.clientY);
+        lastMoveTime = now;
+      }
+    }
+  });
+}
+
+
 function initApp() {
   initDarkMode();
   renderAllViews();
+  initInlineParticles();
   setupScrollProgress();
   initSupabaseClient();
   syncFromSupabase();
@@ -1482,6 +1562,7 @@ function resetToDefaultData() {
     localStorage.removeItem('site_courses');
     localStorage.removeItem('site_profile');
     renderAllViews();
+  initInlineParticles();
     renderAdminTab('articles');
     alert('✅ Data berhasil dipulihkan ke default!');
   }
