@@ -712,20 +712,222 @@
   </div>
 
   <!-- Instant Inline UI Navigation & Interactive Particle Engine -->
-  <script>
-    const SVG_LIGHT_GRAPHICS_INLINE = [
-      `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-3-7-4-9-2s-1 6 2 6 5-2.5 7-4zm0 0c2.5-3 7-4 9-2s1 6-2 6-5-2.5-7-4z" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`,
-      `<svg class="w-8 h-4 inline-block" viewBox="0 0 32 16"><rect x="1" y="1" width="30" height="14" rx="7" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/><circle cx="16" cy="8" r="3.5" fill="#f472b6"/><path d="M16 6l.6 1.2h1.4l-1 1 .4 1.4-1.4-.8-1.4.8.4-1.4-1-1h1.4z" fill="#ffffff"/></svg>`,
-      `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`,
-      `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1"/></svg>`,
-      `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ec4899" stroke="#be185d" stroke-width="1.5"/></svg>`
+    <script>
+    // --- DEFAULT DATA & FALLBACKS ---
+    const DEFAULT_PROFILE = {
+      name: "Rauwa",
+      headline: "Penulis & Inisiator Literasi Publik",
+      bio: "Berpengalaman dalam pengembangan materi edukasi terbuka, pengkajian opini publik, dan pembangunan jaringan pembelajar mandiri secara berkelanjutan.",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+      linkedin: "https://linkedin.com",
+      email: "kontak@literasipublik.org",
+      skills: ["Pengkajian Opini", "Literasi Digital", "Metodologi Riset", "Desain Edukasi", "Kritik Kebijakan", "Public Speaking"],
+      certificates: [
+        {
+          id: "cert-1",
+          title: "Sertifikasi Metodologi Riset & Analisis Data Publik",
+          issuer: "Institut Pengkajian & Literasi Terbuka",
+          year: "2025",
+          credentialUrl: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=600&q=80"
+        },
+        {
+          id: "cert-2",
+          title: "Sertifikat Pengampu Pembelajaran Terbuka Mandiri",
+          issuer: "Konsorsium Edukasi Digital Indonesia",
+          year: "2024",
+          credentialUrl: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80"
+        }
+      ],
+      experiences: [
+        {
+          id: "exp-1",
+          role: "Inisiator Platform Literasi Publik",
+          organization: "Program Pembelajaran Terbuka Mandiri",
+          period: "2024 - Sekarang",
+          description: "Mengembangkan kurikulum terbuka gratis, mengarsip karya ilmiah publik, serta menyelenggarakan sesi belajar berkala."
+        },
+        {
+          id: "exp-2",
+          role: "Peneliti & Penulis Independen",
+          organization: "Studi Kebijakan & Transformasi Digital",
+          period: "2021 - 2024",
+          description: "Menulis artikel riset mendalam dan esai reflektif tentang sains, budaya, dan struktur sosial."
+        }
+      ]
+    };
+
+    const DEFAULT_ARTICLES = [
+      {
+        id: "art-1",
+        title: "Sains Presisi & Seni Ekstraksi Mesin Espresso",
+        category: "riset",
+        categoryLabel: "Metodologi & Riset",
+        date: "1 Oktober 2026",
+        readTime: "7 min dibaca",
+        views: 2450,
+        isFeatured: true,
+        thumbnail: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80",
+        excerpt: "Eksplorasi ilmiah mengenai pengaruh variabel termal (92°C–94°C), rasio seduh (1:2), kehalusan penggilingan (grind size), serta tekanan pompa terhadap emulsifikasi minyak, pembentukan crema, dan keseimbangan rasa espresso.",
+        content: `
+    <p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">Seduhan espresso yang sempurna bukanlah sekadar keberuntungan barista, melainkan hasil dari interaksi fisika fluida dan kimia organik yang presisi di dalam basket portafilter.</p>
+    <figure class="medium-inline-figure">
+      <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80" class="medium-inline-img" alt="Proses Ekstraksi Espresso">
+      <figcaption class="medium-caption">Gambar 1: Aliran ekstraksi espresso presisi pada tekanan 9 bar dan suhu 93°C.</figcaption>
+    </figure>
+    <h2>1. Peran Stabilitas Termal & Sistem PID</h2>
+    <p>Fluktuasi suhu sebesar 1°C saja dapat mengubah rasio asam sitrat dan asam kuinat yang teresktraksi. Pada mesin espresso modern, penggunaan kendali logika PID (Proportional-Integral-Derivative) memastikan air yang mengalir dari boiler menuju grouphead berada pada rentang ideal 92°C hingga 94°C.</p>
+    <h2>2. Dinamika Tekanan 9 Bar & Emulsifikasi Minyak</h2>
+    <p>Tekanan 9 bar memaksa air menembus lapisan bubuk berukuran mikro (fine grind). Tekanan tinggi ini mengemulsi minyak tak jenuh bersama gas CO2 alami hasil sangrai, menciptakan busa padat berwarna cokelat keemasan (crema) yang menangkap aroma volatil.</p>
+    <blockquote class="my-6">"Channeling atau celah udara pada puck adalah musuh utama ekstraksi espresso. Teknik perataan WDT (Weiss Distribution Technique) serta tamping sejajar 15kg adalah kunci kepatuhan resistensi bubuk."</blockquote>
+    `
+      },
+      {
+        id: "art-2",
+        title: "Metodologi Riset Terbuka: Membangun Komunitas Pembelajar Mandiri",
+        category: "literasi",
+        categoryLabel: "Edukasi & Riset",
+        date: "28 September 2026",
+        readTime: "5 min dibaca",
+        views: 1820,
+        isFeatured: false,
+        thumbnail: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+        excerpt: "Bagaimana paradigma pembelajaran terbuka mengikis batas aksesibilitas ilmu pengetahuan dan memberdayakan inovasi lokal melalui riset partisipatif.",
+        content: `<p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">Pembelajaran terbuka bukan sekadar membagikan file PDF secara bebas, melainkan sebuah gerakan kultural untuk demokratisasi ilmu pengetahuan.</p><p>Dengan mengadopsi standar lisensi terbuka dan kurikulum modular, setiap individu dapat mengakses materi pembelajaran berkualitas tinggi secara mandiri tanpa terhalang kendala finansial maupun geografis.</p>`
+      },
+      {
+        id: "art-3",
+        title: "Etika Opini Publik & Literasi Digital di Era Informasi Fast-Paced",
+        category: "opini",
+        categoryLabel: "Studi Opini Publik",
+        date: "20 September 2026",
+        readTime: "6 min dibaca",
+        views: 1430,
+        isFeatured: false,
+        thumbnail: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
+        excerpt: "Menelaah polarisasi narasi digital dan membangun kerangka berpikir kritis dalam menyikapi derasnya arus informasi di media sosial.",
+        content: `<p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">Dalam lanskap komunikasi modern, pemikiran kritis dan verifikasi berbasis bukti adalah perlindungan utama dari manipulasi opini publik.</p><p>Esai ini mengurai pentingnya skeptisisme metodologis saat mengonsumsi informasi digital dan menyajikan langkah praktis mengevaluasi klaim ilmiah di ruang publik.</p>`
+      }
     ];
 
-    const SVG_DARK_GRAPHICS_INLINE = [
-      `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1"/></svg>`,
-      `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#f59e0b" stroke-width="1"/></svg>`,
-      `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="#c084fc" stroke="#a855f7" stroke-width="1"/></svg>`
+    const DEFAULT_COURSES = [
+      {
+        id: "crs-1",
+        title: "Pengantar Metodologi Penulisan & Riset Kritis (Gaya edX)",
+        category: "Riset & Penulisan",
+        level: "Umum & Mandiri",
+        status: "Pendaftaran Terbuka",
+        thumbnail: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
+        excerpt: "Menguasai struktur argumentasi ilmiah, sintesis ide, dan artikulasi bahasa dalam publikasi karya tulis edX.",
+        duration: "4 Sesi Pembelajaran",
+        modules: [
+          { title: "Modul 1: Merumuskan Pokok Pikiran Utama", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Fokus pada pembuatan thesis statement yang kuat dan terukur." },
+          { title: "Modul 2: Penyuntingan Akhir & Publikasi edX", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Proses revisi mandiri sebelum menerbitkan karya." }
+        ]
+      },
+      {
+        id: "crs-2",
+        title: "Analisis Opini Publik & Literasi Informasi Digital",
+        category: "Opini & Sains Terbuka",
+        level: "Tingkat Menengah",
+        status: "Pendaftaran Terbuka",
+        thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+        excerpt: "Modul praktis pengumpulan data kualitatif dan pemetaan narasi publik dalam media massa.",
+        duration: "3 Sesi Pembelajaran",
+        modules: [
+          { title: "Modul 1: Teknik Pemetaan Narasi Media", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", notes: "Memahami bias media dan struktur sentimen publik." }
+        ]
+      }
     ];
+
+    const SUPABASE_PROJECT_URL_INLINE = "https://ccsrakdoumhvfoqgupve.supabase.co";
+    const DEFAULT_SUPABASE_ANON_KEY_INLINE = "sb_publishable_YMYksbZJv0zj1ogYL0-_AQ_GFuRp";
+    var editingArticleIdInline = null;
+
+    function getProfile() {
+      const data = localStorage.getItem('site_profile');
+      if (data) {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed && typeof parsed === 'object' && parsed.name) return parsed;
+        } catch (e) {}
+      }
+      return DEFAULT_PROFILE;
+    }
+
+    function saveProfile(data) {
+      localStorage.setItem('site_profile', JSON.stringify(data));
+    }
+
+    function getArticles() {
+      const data = localStorage.getItem('site_articles');
+      if (data) {
+        try {
+          const parsed = JSON.parse(data);
+          if (Array.isArray(parsed)) {
+            const valid = parsed.filter(a => a && typeof a === 'object' && a.id && a.title);
+            if (valid.length > 0) return valid;
+          }
+        } catch (e) {}
+      }
+      return DEFAULT_ARTICLES;
+    }
+
+    function saveArticles(data) {
+      if (!Array.isArray(data) || data.length === 0) {
+        localStorage.removeItem('site_articles');
+        return;
+      }
+      localStorage.setItem('site_articles', JSON.stringify(data));
+    }
+
+    function getCourses() {
+      const data = localStorage.getItem('site_courses');
+      if (data) {
+        try {
+          const parsed = JSON.parse(data);
+          if (Array.isArray(parsed)) {
+            const valid = parsed.filter(c => c && typeof c === 'object' && c.id && c.title);
+            if (valid.length > 0) return valid;
+          }
+        } catch (e) {}
+      }
+      return DEFAULT_COURSES;
+    }
+
+    function saveCourses(data) {
+      if (!Array.isArray(data) || data.length === 0) {
+        localStorage.removeItem('site_courses');
+        return;
+      }
+      localStorage.setItem('site_courses', JSON.stringify(data));
+    }
+
+    function copyUrlToClipboard(url) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() {
+          alert('✅ Tautan artikel berhasil disalin ke clipboard!');
+        }).catch(function() {
+          prompt('Salin tautan artikel di bawah ini:', url);
+        });
+      } else {
+        prompt('Salin tautan artikel di bawah ini:', url);
+      }
+    }
+
+    function shareArticle(id) {
+      var articles = getArticles();
+      var art = articles.find(function(a) { return a.id === id; }) || (articles && articles[0]);
+      var title = art ? art.title : 'Karya Tulis & Kelas Terbuka';
+      var url = window.location.href;
+
+      if (navigator.share) {
+        navigator.share({ title: title, url: url }).catch(function() {
+          copyUrlToClipboard(url);
+        });
+      } else {
+        copyUrlToClipboard(url);
+      }
+    }
 
     function navigate(pageId, itemId) {
       var sections = document.querySelectorAll('.view-section');
@@ -783,22 +985,25 @@
     }
 
     function checkAdminAuth() {
-      if (typeof window.checkAdminAuth === 'function' && window.checkAdminAuth !== checkAdminAuth) {
-        window.checkAdminAuth();
-        return;
-      }
       var passInput = document.getElementById('adminPassInput');
       var pass = passInput ? passInput.value : '';
       if (pass === 'admin123' || pass === 'admin') {
         document.getElementById('adminAuthSection').classList.add('hidden');
         document.getElementById('adminDashboardSection').classList.remove('hidden');
-        if (typeof window.renderAdminTab === 'function') window.renderAdminTab('articles');
+        renderAdminTab('articles');
       } else {
         alert('Kata kunci akses salah!');
       }
     }
 
     function switchAdminTab(tab) {
+      renderAdminTab(tab);
+    }
+
+    function renderAdminTab(tab) {
+      var container = document.getElementById('adminContentContainer');
+      if (!container) return;
+
       ['articles', 'courses', 'profile', 'supabase'].forEach(function(t) {
         var btn = document.getElementById('admin-tab-' + t);
         if (btn) {
@@ -809,7 +1014,570 @@
           }
         }
       });
-      if (typeof window.renderAdminTab === 'function') window.renderAdminTab(tab);
+
+      if (tab === 'articles') {
+        var articles = getArticles();
+        container.innerHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Karya Tulis (${articles.length})</h3>
+              <div class="flex gap-2">
+                <button onclick="resetToDefaultData()" class="btn-awwwards-secondary text-xs py-1.5 px-3">🔄 Pulihkan Data Default</button>
+                <button onclick="showAddArticleForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Tulis Artikel Baru</button>
+              </div>
+            </div>
+            <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
+              ${articles.map(function(a) { return `
+                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-white/5 text-xs border border-slate-200 dark:border-white/10">
+                  <div class="truncate max-w-md">
+                    <span class="font-bold text-slate-900 dark:text-white block truncate">${a.title}</span>
+                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${a.date || ''}</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button onclick="editArticle('${a.id}')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold px-2 py-1">Edit</button>
+                    <button onclick="deleteArticle('${a.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
+                  </div>
+                </div>
+              `; }).join('')}
+            </div>
+          </div>
+        `;
+      } else if (tab === 'courses') {
+        var courses = getCourses();
+        container.innerHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-sm text-slate-900 dark:text-white">Daftar Kelas Terbuka edX (${courses.length})</h3>
+              <button onclick="showAddCourseForm()" class="btn-awwwards-primary text-xs py-1.5 px-3">+ Buat Kelas Baru (Gaya edX)</button>
+            </div>
+            <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
+              ${courses.map(function(c) { return `
+                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-white/5 text-xs border border-slate-200 dark:border-white/10">
+                  <div class="truncate max-w-md">
+                    <span class="font-bold text-slate-900 dark:text-white block truncate">${c.title}</span>
+                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${c.category} • ${c.duration}</span>
+                  </div>
+                  <button onclick="deleteCourse('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
+                </div>
+              `; }).join('')}
+            </div>
+          </div>
+        `;
+      } else if (tab === 'profile') {
+        var p = getProfile();
+        var certs = p.certificates || [];
+        var exps = p.experiences || [];
+
+        container.innerHTML = `
+          <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
+            <form onsubmit="saveProfileFromAdmin(event)" class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
+              <h3 class="font-bold text-sm text-slate-900 dark:text-white">Edit Profil Utama & Kontak</h3>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Nama Pengampu:</label>
+                  <input type="text" id="admName" value="${p.name}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                </div>
+                <div>
+                  <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Foto Avatar URL:</label>
+                  <input type="text" id="admAvatar" value="${p.avatar}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                </div>
+              </div>
+              <div>
+                <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Headline Profil:</label>
+                <input type="text" id="admHeadline" value="${p.headline}" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+              </div>
+              <div>
+                <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Biografi:</label>
+                <textarea id="admBio" rows="3" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">${p.bio}</textarea>
+              </div>
+              <button type="submit" class="btn-awwwards-primary py-2 px-4">Simpan Perubahan Profil</button>
+            </form>
+
+            <div class="space-y-4 border-b border-slate-200 dark:border-white/10 pb-6">
+              <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kelola Sertifikat (${certs.length})</h3>
+              <form onsubmit="addCertificateFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
+                <span class="font-bold block text-slate-900 dark:text-white">+ Tambah Sertifikat Baru</span>
+                <div class="grid grid-cols-2 gap-3">
+                  <input type="text" id="newCertTitle" required placeholder="Judul Sertifikat..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                  <input type="text" id="newCertIssuer" required placeholder="Penerbit / Instansi..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <input type="text" id="newCertYear" placeholder="Tahun (misal: 2026)..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                  <input type="text" id="newCertUrl" placeholder="URL Bukti Sertifikat / Gambar..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                </div>
+                <button type="submit" class="btn-awwwards-secondary text-xs py-1.5 px-3">+ Tambahkan Sertifikat</button>
+              </form>
+              <div class="space-y-2">
+                ${certs.map(function(c) { return `
+                  <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10">
+                    <div>
+                      <span class="font-bold text-slate-900 dark:text-white block">${c.title}</span>
+                      <span class="text-[10px] text-cyan-600 dark:text-blue-400 font-mono">${c.issuer} (${c.year})</span>
+                    </div>
+                    <button onclick="deleteCertificate('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
+                  </div>
+                `; }).join('')}
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kelola Rekam Jejak / Pengalaman (${exps.length})</h3>
+              <form onsubmit="addExperienceFromAdmin(event)" class="p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-3">
+                <span class="font-bold block text-slate-900 dark:text-white">+ Tambah Item Rekam Jejak Baru</span>
+                <div class="grid grid-cols-2 gap-3">
+                  <input type="text" id="newExpRole" required placeholder="Peran / Jabatan..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                  <input type="text" id="newExpOrg" required placeholder="Organisasi / Instansi..." class="p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                </div>
+                <div>
+                  <input type="text" id="newExpPeriod" required placeholder="Periode (misal: 2024 - Sekarang)..." class="w-full p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                </div>
+                <div>
+                  <textarea id="newExpDesc" rows="2" required placeholder="Deskripsi singkat..." class="w-full p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"></textarea>
+                </div>
+                <button type="submit" class="btn-awwwards-secondary text-xs py-1.5 px-3">+ Tambahkan Rekam Jejak</button>
+              </form>
+              <div class="space-y-2">
+                ${exps.map(function(e) { return `
+                  <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10">
+                    <div>
+                      <span class="font-bold text-slate-900 dark:text-white block">${e.role} — ${e.organization}</span>
+                      <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-mono">${e.period}</span>
+                    </div>
+                    <button onclick="deleteExperience('${e.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
+                  </div>
+                `; }).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (tab === 'supabase') {
+        var currentAnonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY_INLINE;
+        container.innerHTML = `
+          <div class="space-y-6 text-xs max-h-[70vh] overflow-y-auto pr-2">
+            <div class="p-5 rounded-2xl bg-slate-50 dark:bg-white/5 border border-cyan-200 dark:border-blue-900/60 space-y-4">
+              <div class="flex items-center justify-between">
+                <h3 class="font-serif font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                  <span>⚡ Status Supabase Cloud Sync</span>
+                </h3>
+                <span class="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">🟢 Terhubung ke Cloud</span>
+              </div>
+
+              <div class="space-y-3">
+                <div>
+                  <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Project URL:</label>
+                  <input type="text" value="${SUPABASE_PROJECT_URL_INLINE}" readonly class="w-full px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-xs border border-slate-300 dark:border-slate-700">
+                </div>
+
+                <div>
+                  <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Anon Public Key (`sb_publishable_...`):</label>
+                  <input type="password" id="supabaseAnonKeyInput" value="${currentAnonKey}" placeholder="Tempelkan kunci anon public Supabase..." class="w-full px-3 py-2 rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs focus:outline-none focus:border-cyan-500">
+                </div>
+
+                <div class="pt-2 flex flex-wrap items-center gap-3">
+                  <button onclick="saveSupabaseConfig()" class="btn-awwwards-primary text-xs py-2 px-4">
+                    <span>💾 Simpan & Hubungkan Supabase</span>
+                  </button>
+                  <button onclick="pushAllLocalDataToSupabase()" class="btn-awwwards-secondary text-xs py-2 px-4 font-bold text-cyan-600 dark:text-blue-400">
+                    <span>📤 Push Semua Artikel & Data ke Cloud Supabase</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-cyan-50/60 dark:bg-blue-950/40 border border-cyan-200 dark:border-blue-900/60 space-y-3">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-slate-900 dark:text-white">🛠️ Tabel SQL Supabase (Skrip Setup 1-Klik)</h4>
+                <button onclick="copySupabaseSQL()" class="text-xs font-mono text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
+              </div>
+              <pre id="supabaseSqlCode" class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-48 border border-slate-800 leading-relaxed">
+CREATE TABLE IF NOT EXISTS articles (
+  id TEXT PRIMARY KEY,
+  title TEXT,
+  category TEXT,
+  categoryLabel TEXT,
+  date TEXT,
+  readTime TEXT,
+  views INTEGER DEFAULT 0,
+  isFeatured BOOLEAN DEFAULT false,
+  thumbnail TEXT,
+  excerpt TEXT,
+  content TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+CREATE TABLE IF NOT EXISTS courses (
+  id TEXT PRIMARY KEY,
+  title TEXT,
+  category TEXT,
+  level TEXT,
+  status TEXT,
+  thumbnail TEXT,
+  excerpt TEXT,
+  duration TEXT,
+  modules JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+CREATE TABLE IF NOT EXISTS profile (
+  id TEXT PRIMARY KEY,
+  data JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Access Articles" ON articles FOR ALL USING (true) WITH CHECK (true);
+
+ALTER TABLE courses ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Access Courses" ON courses FOR ALL USING (true) WITH CHECK (true);
+
+ALTER TABLE profile ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK (true);
+              </pre>
+            </div>
+          </div>
+        `;
+      }
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        try { window.lucide.createIcons(); } catch(e){}
+      }
+    }
+
+    function showAddArticleForm(artToEdit) {
+      editingArticleIdInline = artToEdit ? artToEdit.id : null;
+      var container = document.getElementById('adminContentContainer');
+      if (!container) return;
+
+      container.innerHTML = `
+        <form onsubmit="saveNewArticle(event)" class="space-y-4 text-xs">
+          <h3 class="font-bold text-sm text-slate-900 dark:text-white">
+            ${artToEdit ? '✏️ Edit Artikel Terpublikasi' : '📝 Tulis Artikel Baru'}
+          </h3>
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Judul Artikel:</label>
+            <input type="text" id="newArtTitle" value="${artToEdit ? artToEdit.title : ''}" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+          </div>
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">URL Gambar Cover Utama / Thumbnail:</label>
+            <input type="text" id="newArtThumbnail" value="${artToEdit ? artToEdit.thumbnail : 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'}" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+          </div>
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Subjudul / Ringkasan (Excerpt):</label>
+            <textarea id="newArtExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">${artToEdit ? artToEdit.excerpt : ''}</textarea>
+          </div>
+
+          <div class="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30 space-y-2">
+            <span class="font-bold text-indigo-700 dark:text-indigo-300 block flex items-center gap-1">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+              <span>Toolbar Formatting Visual Gaya Medium:</span>
+            </span>
+
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button type="button" onclick="applyMediumFormat('bold')" class="medium-toolbar-btn"><b>B</b> Bold</button>
+              <button type="button" onclick="applyMediumFormat('italic')" class="medium-toolbar-btn"><i>I</i> Italic</button>
+              <button type="button" onclick="applyMediumFormat('h2')" class="medium-toolbar-btn">H2 Judul</button>
+              <button type="button" onclick="applyMediumFormat('h3')" class="medium-toolbar-btn">H3 Subjudul</button>
+              <button type="button" onclick="applyMediumFormat('quote')" class="medium-toolbar-btn">“ Quote</button>
+              <button type="button" onclick="applyMediumFormat('lead')" class="medium-toolbar-btn">Paragraph Lead</button>
+              <button type="button" onclick="applyMediumFormat('link')" class="medium-toolbar-btn">🔗 Link</button>
+              <button type="button" onclick="applyMediumFormat('image')" class="medium-toolbar-btn">🖼️ Sisipkan Gambar</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Isi Artikel (HTML):</label>
+            <textarea id="newArtContent" rows="8" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs leading-relaxed">${artToEdit ? artToEdit.content : ''}</textarea>
+          </div>
+
+          <div class="flex gap-3">
+            <button type="submit" class="btn-awwwards-primary py-2.5 px-5">
+              ${artToEdit ? 'Simpan Perubahan Artikel' : 'Terbitkan Artikel'}
+            </button>
+            <button type="button" onclick="renderAdminTab('articles')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
+          </div>
+        </form>
+      `;
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        try { window.lucide.createIcons(); } catch(e){}
+      }
+    }
+
+    function editArticle(id) {
+      var articles = getArticles();
+      var art = articles.find(function(a) { return a.id === id; });
+      if (art) showAddArticleForm(art);
+    }
+
+    function applyMediumFormat(type) {
+      var textarea = document.getElementById('newArtContent');
+      if (!textarea) return;
+
+      var start = textarea.selectionStart;
+      var end = textarea.selectionEnd;
+      var selectedText = textarea.value.substring(start, end);
+
+      var formatted = '';
+
+      if (type === 'bold') {
+        formatted = `<strong>${selectedText || 'Teks Tebal'}</strong>`;
+      } else if (type === 'italic') {
+        formatted = `<em>${selectedText || 'Teks Miring'}</em>`;
+      } else if (type === 'h2') {
+        formatted = `
+<h2>${selectedText || 'Judul Bagian Utama'}</h2>
+`;
+      } else if (type === 'h3') {
+        formatted = `
+<h3>${selectedText || 'Sub-judul Bagian'}</h3>
+`;
+      } else if (type === 'quote') {
+        formatted = `
+<blockquote class="my-6">"${selectedText || 'Kutipan esai...'}"</blockquote>
+`;
+      } else if (type === 'lead') {
+        formatted = `
+<p class="lead font-medium text-lg text-slate-700 dark:text-slate-200">${selectedText || 'Paragraf pembuka...'}</p>
+`;
+      } else if (type === 'link') {
+        var url = prompt('Masukkan URL Link:', 'https://');
+        if (url) formatted = `<a href="${url}" target="_blank" class="text-indigo-600 dark:text-indigo-400 underline">${selectedText || 'Tautan Link'}</a>`;
+        else return;
+      } else if (type === 'image') {
+        var imgUrl = prompt('Masukkan URL Gambar:', 'https://images.unsplash.com/');
+        if (!imgUrl) return;
+        var caption = prompt('Masukkan Caption Gambar (Opsional):', 'Keterangan gambar');
+        formatted = `
+<figure class="medium-inline-figure">
+  <img src="${imgUrl}" class="medium-inline-img" alt="${caption || ''}">
+  ${caption ? `<figcaption class="medium-caption">${caption}</figcaption>` : ''}
+</figure>
+`;
+      }
+
+      textarea.value = textarea.value.substring(0, start) + formatted + textarea.value.substring(end);
+      textarea.focus();
+    }
+
+    function saveNewArticle(e) {
+      e.preventDefault();
+      var articles = getArticles();
+
+      var title = document.getElementById('newArtTitle').value;
+      var thumbnail = document.getElementById('newArtThumbnail').value;
+      var excerpt = document.getElementById('newArtExcerpt').value;
+      var content = document.getElementById('newArtContent').value;
+
+      if (editingArticleIdInline) {
+        var artIndex = articles.findIndex(function(a) { return a.id === editingArticleIdInline; });
+        if (artIndex !== -1) {
+          articles[artIndex].title = title;
+          articles[artIndex].thumbnail = thumbnail;
+          articles[artIndex].excerpt = excerpt;
+          articles[artIndex].content = content;
+          alert('Artikel berhasil diperbarui!');
+        }
+        editingArticleIdInline = null;
+      } else {
+        var newArticle = {
+          id: `art-${Date.now()}`,
+          title: title,
+          category: "riset",
+          categoryLabel: "Karya Tulis",
+          date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+          readTime: "5 min dibaca",
+          views: 0,
+          isFeatured: true,
+          thumbnail: thumbnail,
+          excerpt: excerpt,
+          content: content
+        };
+        articles.unshift(newArticle);
+        alert('Artikel baru berhasil diterbitkan!');
+      }
+
+      saveArticles(articles);
+      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAdminTab('articles');
+    }
+
+    function deleteArticle(id) {
+      if (confirm('Yakin ingin menghapus artikel ini?')) {
+        var articles = getArticles();
+        articles = articles.filter(function(a) { return a.id !== id; });
+        saveArticles(articles);
+        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAdminTab('articles');
+      }
+    }
+
+    function showAddCourseForm() {
+      var container = document.getElementById('adminContentContainer');
+      if (!container) return;
+      container.innerHTML = `
+        <form onsubmit="saveNewCourse(event)" class="space-y-4 text-xs">
+          <h3 class="font-bold text-sm text-slate-900 dark:text-white">🎓 Buat Kelas Terbuka Baru (Gaya edX)</h3>
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Judul Kelas edX:</label>
+            <input type="text" id="newCrsTitle" required placeholder="Pengantar..." class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Kategori Kelas:</label>
+              <input type="text" id="newCrsCat" value="Riset & Penulisan" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+            </div>
+            <div>
+              <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Durasi Pembelajaran:</label>
+              <input type="text" id="newCrsDuration" value="4 Sesi Pembelajaran" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+            </div>
+          </div>
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">URL Cover Thumbnail:</label>
+            <input type="text" id="newCrsThumbnail" value="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+          </div>
+          <div>
+            <label class="font-bold block mb-1 text-slate-700 dark:text-slate-300">Deskripsi Ringkas Kelas:</label>
+            <textarea id="newCrsExcerpt" rows="2" required class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"></textarea>
+          </div>
+          <div class="p-3 rounded-xl bg-cyan-50 dark:bg-blue-950/40 border border-cyan-200 dark:border-blue-900/60 space-y-3">
+            <span class="font-bold text-slate-900 dark:text-white block">🎥 Modul Pertama Kelas:</span>
+            <input type="text" id="newCrsModTitle" value="Modul 1: Pengenalan Dasar" required placeholder="Judul Modul..." class="w-full p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+            <input type="text" id="newCrsModVideo" value="https://www.youtube.com/embed/dQw4w9WgXcQ" required placeholder="URL Embed Video Youtube..." class="w-full p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+            <textarea id="newCrsModNotes" rows="2" placeholder="Catatan Modul..." class="w-full p-2 rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">Penjelasan materi utama.</textarea>
+          </div>
+          <div class="flex gap-3">
+            <button type="submit" class="btn-awwwards-primary py-2.5 px-5">Terbitkan Kelas edX</button>
+            <button type="button" onclick="renderAdminTab('courses')" class="btn-awwwards-secondary py-2.5 px-4">Batal</button>
+          </div>
+        </form>
+      `;
+    }
+
+    function saveNewCourse(e) {
+      e.preventDefault();
+      var courses = getCourses();
+      var newCourse = {
+        id: `crs-${Date.now()}`,
+        title: document.getElementById('newCrsTitle').value,
+        category: document.getElementById('newCrsCat').value,
+        level: "Umum & Mandiri",
+        status: "Pendaftaran Terbuka",
+        thumbnail: document.getElementById('newCrsThumbnail').value,
+        excerpt: document.getElementById('newCrsExcerpt').value,
+        duration: document.getElementById('newCrsDuration').value,
+        modules: [
+          {
+            title: document.getElementById('newCrsModTitle').value,
+            videoUrl: document.getElementById('newCrsModVideo').value,
+            notes: document.getElementById('newCrsModNotes').value
+          }
+        ]
+      };
+      courses.unshift(newCourse);
+      saveCourses(courses);
+      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAdminTab('courses');
+      alert('Kelas terbuka edX berhasil diterbitkan!');
+    }
+
+    function deleteCourse(id) {
+      if (confirm('Yakin ingin menghapus kelas edX ini?')) {
+        var courses = getCourses();
+        courses = courses.filter(function(c) { return c.id !== id; });
+        saveCourses(courses);
+        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAdminTab('courses');
+      }
+    }
+
+    function saveProfileFromAdmin(e) {
+      e.preventDefault();
+      var p = getProfile();
+      p.name = document.getElementById('admName').value;
+      p.avatar = document.getElementById('admAvatar').value;
+      p.headline = document.getElementById('admHeadline').value;
+      p.bio = document.getElementById('admBio').value;
+
+      saveProfile(p);
+      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAdminTab('profile');
+      alert('Profil berhasil diperbarui!');
+    }
+
+    function addCertificateFromAdmin(e) {
+      e.preventDefault();
+      var p = getProfile();
+      var title = document.getElementById('newCertTitle').value.trim();
+      var issuer = document.getElementById('newCertIssuer').value.trim();
+      var year = document.getElementById('newCertYear').value.trim() || '2026';
+      var url = document.getElementById('newCertUrl').value.trim() || 'https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=600&q=80';
+
+      if (!p.certificates) p.certificates = [];
+      p.certificates.unshift({ id: `cert-${Date.now()}`, title: title, issuer: issuer, year: year, credentialUrl: url });
+
+      saveProfile(p);
+      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAdminTab('profile');
+      alert('Sertifikat berhasil ditambahkan!');
+    }
+
+    function deleteCertificate(id) {
+      if (confirm('Yakin ingin menghapus sertifikat ini?')) {
+        var p = getProfile();
+        p.certificates = (p.certificates || []).filter(function(c) { return c.id !== id; });
+        saveProfile(p);
+        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAdminTab('profile');
+      }
+    }
+
+    function addExperienceFromAdmin(e) {
+      e.preventDefault();
+      var p = getProfile();
+      var role = document.getElementById('newExpRole').value.trim();
+      var org = document.getElementById('newExpOrg').value.trim();
+      var period = document.getElementById('newExpPeriod').value.trim();
+      var desc = document.getElementById('newExpDesc').value.trim();
+
+      if (!p.experiences) p.experiences = [];
+      p.experiences.unshift({ id: `exp-${Date.now()}`, role: role, organization: org, period: period, description: desc });
+
+      saveProfile(p);
+      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAdminTab('profile');
+      alert('Rekam jejak berhasil ditambahkan!');
+    }
+
+    function deleteExperience(id) {
+      if (confirm('Yakin ingin menghapus rekam jejak ini?')) {
+        var p = getProfile();
+        p.experiences = (p.experiences || []).filter(function(e) { return e.id !== id; });
+        saveProfile(p);
+        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAdminTab('profile');
+      }
+    }
+
+    function saveSupabaseConfig() {
+      var anonKey = document.getElementById('supabaseAnonKeyInput').value.trim();
+      if (!anonKey) {
+        alert('Harap masukkan Supabase anon public key!');
+        return;
+      }
+      localStorage.setItem('supabase_anon_key', anonKey);
+      alert('✅ Konfigurasi Kunci Supabase Berhasil Disimpan!');
+      renderAdminTab('supabase');
+    }
+
+    function pushAllLocalDataToSupabase() {
+      if (typeof window.pushAllLocalDataToSupabase === 'function' && window.pushAllLocalDataToSupabase !== pushAllLocalDataToSupabase) {
+        window.pushAllLocalDataToSupabase();
+      } else {
+        alert('Data tersimpan secara lokal di browser.');
+      }
+    }
+
+    function copySupabaseSQL() {
+      var code = document.getElementById('supabaseSqlCode').innerText;
+      copyUrlToClipboard(code);
     }
 
     function resetToDefaultData() {
@@ -818,7 +1586,7 @@
         localStorage.removeItem('site_courses');
         localStorage.removeItem('site_profile');
         if (typeof window.renderAllViews === 'function') window.renderAllViews();
-        if (typeof window.renderAdminTab === 'function') window.renderAdminTab('articles');
+        renderAdminTab('articles');
         alert('✅ Data berhasil dipulihkan ke default!');
       }
     }
@@ -876,14 +1644,22 @@
       });
     }
 
-    window.navigate = navigate;
-    window.toggleDarkMode = toggleDarkMode;
-    window.toggleMobileMenu = toggleMobileMenu;
-    window.openAdmin = openAdmin;
-    window.closeAdmin = closeAdmin;
-    window.checkAdminAuth = checkAdminAuth;
-    window.switchAdminTab = switchAdminTab;
-    window.resetToDefaultData = resetToDefaultData;
+    // --- BIND ALL FUNCTIONS TO WINDOW ---
+    var funcsToBindInline = {
+      DEFAULT_PROFILE: DEFAULT_PROFILE, DEFAULT_ARTICLES: DEFAULT_ARTICLES, DEFAULT_COURSES: DEFAULT_COURSES,
+      getProfile: getProfile, saveProfile: saveProfile, getArticles: getArticles, saveArticles: saveArticles, getCourses: getCourses, saveCourses: saveCourses,
+      copyUrlToClipboard: copyUrlToClipboard, shareArticle: shareArticle, navigate: navigate, toggleDarkMode: toggleDarkMode, toggleMobileMenu: toggleMobileMenu,
+      openAdmin: openAdmin, closeAdmin: closeAdmin, checkAdminAuth: checkAdminAuth, switchAdminTab: switchAdminTab, renderAdminTab: renderAdminTab,
+      showAddArticleForm: showAddArticleForm, editArticle: editArticle, applyMediumFormat: applyMediumFormat, saveNewArticle: saveNewArticle, deleteArticle: deleteArticle,
+      showAddCourseForm: showAddCourseForm, saveNewCourse: saveNewCourse, deleteCourse: deleteCourse,
+      saveProfileFromAdmin: saveProfileFromAdmin, addCertificateFromAdmin: addCertificateFromAdmin, deleteCertificate: deleteCertificate,
+      addExperienceFromAdmin: addExperienceFromAdmin, deleteExperience: deleteExperience, saveSupabaseConfig: saveSupabaseConfig,
+      pushAllLocalDataToSupabase: pushAllLocalDataToSupabase, copySupabaseSQL: copySupabaseSQL, resetToDefaultData: resetToDefaultData
+    };
+
+    for (var key in funcsToBindInline) {
+      window[key] = funcsToBindInline[key];
+    }
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initInlineParticles);

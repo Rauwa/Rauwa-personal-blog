@@ -549,15 +549,29 @@ function renderArticleDetail(id) {
 }
 
 function shareArticle(id) {
-  const articles = getArticles();
-  const art = articles.find(a => a.id === id) || articles[0];
-  const title = art ? art.title : 'Karya Tulis & Kelas Terbuka';
+  var articles = getArticles();
+  var art = articles.find(function(a) { return a.id === id; }) || (articles && articles[0]);
+  var title = art ? art.title : 'Karya Tulis & Kelas Terbuka';
+  var url = window.location.href;
 
   if (navigator.share) {
-    navigator.share({ title: title, url: window.location.href });
+    navigator.share({ title: title, url: url }).catch(function() {
+      copyUrlToClipboard(url);
+    });
   } else {
-    navigator.clipboard.writeText(window.location.href);
-    alert('Tautan artikel berhasil disalin ke clipboard!');
+    copyUrlToClipboard(url);
+  }
+}
+
+function copyUrlToClipboard(url) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() {
+      alert('✅ Tautan artikel berhasil disalin ke clipboard!');
+    }).catch(function() {
+      prompt('Salin tautan artikel di bawah ini:', url);
+    });
+  } else {
+    prompt('Salin tautan artikel di bawah ini:', url);
   }
 }
 
