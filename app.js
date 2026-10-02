@@ -358,83 +358,107 @@ function renderHome() {
   const profile = getProfile();
 
   const featuredContainer = document.getElementById('featuredArticleContainer');
-  const mainArticle = articles[0] || DEFAULT_ARTICLES[0];
+  const mainArticle = articles.length > 0 ? articles[0] : null;
 
-  if (featuredContainer && mainArticle) {
-    featuredContainer.innerHTML = `
-      <div onclick="navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div class="lg:col-span-7 space-y-5">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="badge-pastel-glass font-bold">
-                ✦ ${mainArticle.categoryLabel || 'Karya Utama'} ✨
-              </span>
-              <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">${mainArticle.date || ''}</span>
-              <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">• ${mainArticle.readTime || ''}</span>
+  if (featuredContainer) {
+    if (mainArticle) {
+      featuredContainer.innerHTML = `
+        <div onclick="navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 space-y-5">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="badge-pastel-glass font-bold">
+                  ✦ ${mainArticle.categoryLabel || 'Karya Utama'} ✨
+                </span>
+                <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">${mainArticle.date || ''}</span>
+                <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">• ${mainArticle.readTime || ''}</span>
+              </div>
+              
+              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
+                ${mainArticle.title}
+              </h2>
+
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+                ${mainArticle.excerpt}
+              </p>
+
+              <div class="pt-2 flex items-center gap-3 text-xs font-bold text-cyan-600 dark:text-blue-400 group-hover:translate-x-1.5 transition-transform">
+                <span class="btn-awwwards-primary text-xs px-4 py-2">Baca Karya Selengkapnya ✦</span>
+              </div>
             </div>
-            
-            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
-              ${mainArticle.title}
-            </h2>
 
-            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
-              ${mainArticle.excerpt}
-            </p>
-
-            <div class="pt-2 flex items-center gap-3 text-xs font-bold text-cyan-600 dark:text-blue-400 group-hover:translate-x-1.5 transition-transform">
-              <span class="btn-awwwards-primary text-xs px-4 py-2">Baca Karya Selengkapnya ✦</span>
-            </div>
-          </div>
-
-          <div class="lg:col-span-5">
-            <div class="polaroid-frame">
-              <span class="polaroid-pin">✦ ESSAY PILIHAN ✨</span>
-              <img src="${mainArticle.thumbnail || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'}" alt="${mainArticle.title}" class="w-full h-60 sm:h-72 object-cover rounded-xl">
+            <div class="lg:col-span-5">
+              <div class="polaroid-frame">
+                <span class="polaroid-pin">✦ ESSAY PILIHAN ✨</span>
+                <img src="${mainArticle.thumbnail || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'}" alt="${mainArticle.title}" class="w-full h-60 sm:h-72 object-cover rounded-xl">
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      featuredContainer.innerHTML = `
+        <div class="p-8 rounded-2xl border border-dashed border-cyan-300 dark:border-blue-800/60 bg-cyan-50/30 dark:bg-blue-950/20 text-center text-xs font-mono text-slate-500 dark:text-blue-300/70">
+          Belum ada karya utama. Buat artikel baru di Pusat Kendali Admin atau klik "Pulihkan Data Default".
+        </div>
+      `;
+    }
   }
 
   const feedContainer = document.getElementById('homeArticlesFeed');
   if (feedContainer) {
-    const feedItems = articles.length > 1 ? articles.slice(1) : DEFAULT_ARTICLES.slice(1);
-    feedContainer.innerHTML = feedItems.map(item => `
-      <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
-        <div class="w-full sm:w-44 shrink-0">
-          <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-32 object-cover rounded-xl border border-cyan-200 dark:border-blue-900/60 shadow-sm">
-        </div>
-        <div class="space-y-2 flex-grow">
-          <div class="flex items-center gap-2">
-            <span class="badge-pink-glass text-[10px]">${item.categoryLabel || 'Karya Tulis'}</span>
-            <span class="text-[11px] text-slate-500 dark:text-blue-300/70 font-mono">${item.date || ''}</span>
+    const feedItems = articles.length > 1 ? articles.slice(1) : [];
+    if (feedItems.length > 0) {
+      feedContainer.innerHTML = feedItems.map(item => `
+        <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
+          <div class="w-full sm:w-44 shrink-0">
+            <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-32 object-cover rounded-xl border border-cyan-200 dark:border-blue-900/60 shadow-sm">
           </div>
-          <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
-            ${item.title}
-          </h3>
-          <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
-            ${item.excerpt}
-          </p>
+          <div class="space-y-2 flex-grow">
+            <div class="flex items-center gap-2">
+              <span class="badge-pink-glass text-[10px]">${item.categoryLabel || 'Karya Tulis'}</span>
+              <span class="text-[11px] text-slate-500 dark:text-blue-300/70 font-mono">${item.date || ''}</span>
+            </div>
+            <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
+              ${item.title}
+            </h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
+              ${item.excerpt}
+            </p>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `).join('');
+    } else {
+      feedContainer.innerHTML = `
+        <div class="p-4 rounded-xl border border-cyan-200/60 dark:border-blue-900/40 text-center text-xs text-slate-400 font-mono">
+          Belum ada artikel tambahan.
+        </div>
+      `;
+    }
   }
 
   const sidebarCourses = document.getElementById('sidebarCoursesFeed');
   if (sidebarCourses) {
-    const displayCourses = courses.length > 0 ? courses.slice(0, 3) : DEFAULT_COURSES.slice(0, 3);
-    sidebarCourses.innerHTML = displayCourses.map(crs => `
-      <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
-        <div class="flex items-center justify-between">
-          <span class="badge-pink-glass text-[9px]">${crs.category}</span>
-          <span class="text-[10px] font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
+    const displayCourses = courses.length > 0 ? courses.slice(0, 3) : [];
+    if (displayCourses.length > 0) {
+      sidebarCourses.innerHTML = displayCourses.map(crs => `
+        <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
+          <div class="flex items-center justify-between">
+            <span class="badge-pink-glass text-[9px]">${crs.category}</span>
+            <span class="text-[10px] font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
+          </div>
+          <h4 class="text-xs font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors line-clamp-2">
+            ${crs.title}
+          </h4>
         </div>
-        <h4 class="text-xs font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors line-clamp-2">
-          ${crs.title}
-        </h4>
-      </div>
-    `).join('');
+      `).join('');
+    } else {
+      sidebarCourses.innerHTML = `
+        <div class="p-4 rounded-xl border border-cyan-200/60 dark:border-blue-900/40 text-center text-xs text-slate-400 font-mono">
+          Belum ada kelas terbuka.
+        </div>
+      `;
+    }
   }
 
   const nameEl = document.getElementById('sidebarProfileName');
@@ -454,6 +478,11 @@ function renderArticlesCatalog() {
   const articles = getArticles();
   const grid = document.getElementById('fullArticlesGrid');
   if (!grid) return;
+
+  if (articles.length === 0) {
+    grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 dark:text-slate-400 italic font-mono text-xs">Belum ada karya tulis terpublikasi. Klik "+ Tulis Artikel Baru" di Pusat Kendali Admin untuk membuat artikel.</div>`;
+    return;
+  }
 
   grid.innerHTML = articles.map(item => `
     <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
@@ -567,6 +596,11 @@ function renderCoursesCatalog() {
   const courses = getCourses();
   const grid = document.getElementById('fullCoursesGrid');
   if (!grid) return;
+
+  if (courses.length === 0) {
+    grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 dark:text-slate-400 italic font-mono text-xs">Belum ada kelas terbuka terpublikasi. Klik "+ Buat Kelas Baru" di Pusat Kendali Admin untuk membuat kelas.</div>`;
+    return;
+  }
 
   grid.innerHTML = courses.map(crs => `
     <div onclick="navigate('course-detail', '${crs.id}')" class="awwwards-card hover-wiggle cursor-pointer overflow-hidden flex flex-col justify-between p-3">
@@ -1371,18 +1405,26 @@ async function syncFromSupabase() {
   if (!supabase) return;
   try {
     const { data: articles, error: artError } = await supabase.from('articles').select('*');
-    if (!artError && Array.isArray(articles) && articles.length > 0) {
-      const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title);
-      if (validArticles.length > 0) {
-        localStorage.setItem('site_articles', JSON.stringify(validArticles));
+    if (!artError && Array.isArray(articles)) {
+      if (articles.length > 0) {
+        const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title);
+        if (validArticles.length > 0) {
+          localStorage.setItem('site_articles', JSON.stringify(validArticles));
+        }
+      } else {
+        localStorage.setItem('site_articles', JSON.stringify([]));
       }
     }
 
     const { data: courses, error: crsError } = await supabase.from('courses').select('*');
-    if (!crsError && Array.isArray(courses) && courses.length > 0) {
-      const validCourses = courses.filter(c => c && typeof c === 'object' && c.id && c.title);
-      if (validCourses.length > 0) {
-        localStorage.setItem('site_courses', JSON.stringify(validCourses));
+    if (!crsError && Array.isArray(courses)) {
+      if (courses.length > 0) {
+        const validCourses = courses.filter(c => c && typeof c === 'object' && c.id && c.title);
+        if (validCourses.length > 0) {
+          localStorage.setItem('site_courses', JSON.stringify(validCourses));
+        }
+      } else {
+        localStorage.setItem('site_courses', JSON.stringify([]));
       }
     }
 

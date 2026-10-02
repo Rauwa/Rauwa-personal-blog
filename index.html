@@ -713,6 +713,19 @@
 
   <!-- Instant Inline UI Navigation & Interactive Particle Engine -->
     <script>
+    const SVG_LIGHT_GRAPHICS_INLINE = [
+      `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24" fill="none"><path d="M12 12c-2.5-3-7-4-9-2s-1 6 2 6 5-2.5 7-4zm0 0c2.5-3 7-4 9-2s1 6-2 6-5-2.5-7-4z" fill="#f472b6" stroke="#db2777" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`,
+      `<svg class="w-8 h-4 inline-block" viewBox="0 0 32 16"><rect x="1" y="1" width="30" height="14" rx="7" fill="#fef08a" stroke="#f59e0b" stroke-width="1.5"/><circle cx="16" cy="8" r="3.5" fill="#f472b6"/><path d="M16 6l.6 1.2h1.4l-1 1 .4 1.4-1.4-.8-1.4.8.4-1.4-1-1h1.4z" fill="#ffffff"/></svg>`,
+      `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#b45309" stroke-width="1"/></svg>`,
+      `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1"/></svg>`,
+      `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ec4899" stroke="#be185d" stroke-width="1.5"/></svg>`
+    ];
+
+    const SVG_DARK_GRAPHICS_INLINE = [
+      `<svg class="w-5 h-5 inline-block" viewBox="0 0 24 24"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1"/></svg>`,
+      `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><path d="M4 20L20 4M4 4l16 16" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/><polygon points="12 2 13.8 6.2 18 7 14.8 10 15.6 14.5 12 12.2 8.4 14.5 9.2 10 6 7 10.2 6.2 12 2" fill="#fde047" stroke="#f59e0b" stroke-width="1"/></svg>`,
+      `<svg class="w-6 h-6 inline-block" viewBox="0 0 24 24"><polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="#c084fc" stroke="#a855f7" stroke-width="1"/></svg>`
+    ];
     // --- DEFAULT DATA & FALLBACKS ---
     const DEFAULT_PROFILE = {
       name: "Rauwa",
@@ -1591,15 +1604,15 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
       }
     }
 
-    function initInlineParticles() {
+        function initInlineParticles() {
       function createParticle(x, y) {
         var isDark = document.documentElement.classList.contains('dark');
         var lightSymbols = ['✦', '★', '◆', '✨', '⭐', '🌸'];
         var darkStarSymbols = ['✦', '★', '⭐', '✨', '💫', '✧'];
         var textSymbols = isDark ? darkStarSymbols : lightSymbols;
 
-        var useSvgGraphics = Math.random() > 0.5;
-        var svgGraphics = isDark ? SVG_DARK_GRAPHICS_INLINE : SVG_LIGHT_GRAPHICS_INLINE;
+        var useSvgGraphics = Math.random() > 0.4;
+        var svgGraphics = isDark ? (typeof SVG_DARK_GRAPHICS_INLINE !== 'undefined' ? SVG_DARK_GRAPHICS_INLINE : []) : (typeof SVG_LIGHT_GRAPHICS_INLINE !== 'undefined' ? SVG_LIGHT_GRAPHICS_INLINE : []);
 
         var lightColors = ['#06b6d4', '#ec4899', '#f59e0b', '#38bdf8', '#f472b6'];
         var darkColors = ['#38bdf8', '#60a5fa', '#93c5fd', '#c084fc', '#fde047'];
@@ -1613,9 +1626,48 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         var vy = -(Math.random() * 35 + 20);
         var rot = (Math.random() - 0.5) * 60;
 
-        if (useSvgGraphics && svgGraphics.length > 0) {
+        if (useSvgGraphics && svgGraphics && svgGraphics.length > 0) {
           el.innerHTML = svgGraphics[Math.floor(Math.random() * svgGraphics.length)];
         } else {
+          el.textContent = textSymbols[Math.floor(Math.random() * textSymbols.length)];
+        }
+
+        el.style.cssText = 'position:fixed;left:' + x + 'px;top:' + y + 'px;font-size:' + size + 'px;color:' + color + ';pointer-events:none;z-index:9999;user-select:none;transform:translate(-50%,-50%) scale(0.3);opacity:0.8;transition:transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out;filter:drop-shadow(0 0 4px ' + color + '66);';
+
+        document.body.appendChild(el);
+
+        requestAnimationFrame(function() {
+          el.style.transform = 'translate(calc(-50% + ' + vx + 'px), calc(-50% + ' + vy + 'px)) scale(1.1) rotate(' + rot + 'deg)';
+          el.style.opacity = '0';
+        });
+
+        setTimeout(function() {
+          if (el.parentNode) el.parentNode.removeChild(el);
+        }, 780);
+      }
+
+      document.addEventListener('click', function(e) {
+        for (var i = 0; i < 4; i++) {
+          (function(idx) {
+            setTimeout(function() {
+              createParticle(e.clientX + (Math.random() - 0.5) * 20, e.clientY + (Math.random() - 0.5) * 20);
+            }, idx * 35);
+          })(i);
+        }
+      });
+
+      var lastMoveTime = 0;
+      document.addEventListener('mousemove', function(e) {
+        var now = Date.now();
+        if (now - lastMoveTime > 120) {
+          var target = e.target;
+          if (target && (target.tagName === 'BUTTON' || target.tagName === 'A' || (target.closest && (target.closest('.awwwards-card') || target.closest('.btn-awwwards-primary') || target.closest('.btn-awwwards-secondary') || target.closest('.nav-awwwards'))))) {
+            createParticle(e.clientX, e.clientY);
+            lastMoveTime = now;
+          }
+        }
+      });
+    } else {
           el.textContent = textSymbols[Math.floor(Math.random() * textSymbols.length)];
         }
 
