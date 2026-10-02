@@ -628,7 +628,7 @@
   </footer>
 
   <!-- Admin Modal -->
-  <div id="adminModal" class="fixed inset-0 z-50 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+  <div id="adminModal" style="display: none;" class="fixed inset-0 z-50 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md items-center justify-center p-4">
     <div class="bg-white dark:bg-[#0b1120] rounded-2xl border border-cyan-200 dark:border-blue-900/60 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6">
       <div class="flex items-center justify-between border-b border-cyan-200 dark:border-blue-900/60 pb-4">
         <div class="flex items-center gap-2">
@@ -976,12 +976,18 @@
 
     function openAdmin() {
       var modal = document.getElementById('adminModal');
-      if (modal) modal.classList.remove('hidden');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+      }
     }
 
     function closeAdmin() {
       var modal = document.getElementById('adminModal');
-      if (modal) modal.classList.add('hidden');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }
     }
 
     function checkAdminAuth() {

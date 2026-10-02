@@ -720,12 +720,18 @@ function renderAboutPage() {
 
 function openAdmin() {
   const modal = document.getElementById('adminModal');
-  if (modal) modal.classList.remove('hidden');
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.remove('hidden');
+  }
 }
 
 function closeAdmin() {
   const modal = document.getElementById('adminModal');
-  if (modal) modal.classList.add('hidden');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.add('hidden');
+  }
 }
 
 function checkAdminAuth() {
