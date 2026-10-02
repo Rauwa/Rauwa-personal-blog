@@ -1402,7 +1402,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
       }
 
       saveArticles(articles);
-      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAllViews();
       renderAdminTab('articles');
     }
 
@@ -1414,7 +1414,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         if (window.supabase) {
           try { window.supabase.from('articles').delete().eq('id', id); } catch(e){}
         }
-        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAllViews();
         renderAdminTab('articles');
       }
     }
@@ -1483,7 +1483,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
       };
       courses.unshift(newCourse);
       saveCourses(courses);
-      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAllViews();
       renderAdminTab('courses');
       alert('Kelas terbuka edX berhasil diterbitkan!');
     }
@@ -1496,7 +1496,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         if (window.supabase) {
           try { window.supabase.from('courses').delete().eq('id', id); } catch(e){}
         }
-        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAllViews();
         renderAdminTab('courses');
       }
     }
@@ -1510,7 +1510,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
       p.bio = document.getElementById('admBio').value;
 
       saveProfile(p);
-      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAllViews();
       renderAdminTab('profile');
       alert('Profil berhasil diperbarui!');
     }
@@ -1527,7 +1527,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
       p.certificates.unshift({ id: `cert-${Date.now()}`, title: title, issuer: issuer, year: year, credentialUrl: url });
 
       saveProfile(p);
-      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAllViews();
       renderAdminTab('profile');
       alert('Sertifikat berhasil ditambahkan!');
     }
@@ -1537,7 +1537,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         var p = getProfile();
         p.certificates = (p.certificates || []).filter(function(c) { return c.id !== id; });
         saveProfile(p);
-        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAllViews();
         renderAdminTab('profile');
       }
     }
@@ -1554,7 +1554,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
       p.experiences.unshift({ id: `exp-${Date.now()}`, role: role, organization: org, period: period, description: desc });
 
       saveProfile(p);
-      if (typeof window.renderAllViews === 'function') window.renderAllViews();
+      renderAllViews();
       renderAdminTab('profile');
       alert('Rekam jejak berhasil ditambahkan!');
     }
@@ -1564,7 +1564,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         var p = getProfile();
         p.experiences = (p.experiences || []).filter(function(e) { return e.id !== id; });
         saveProfile(p);
-        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAllViews();
         renderAdminTab('profile');
       }
     }
@@ -1598,7 +1598,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
         localStorage.removeItem('site_articles');
         localStorage.removeItem('site_courses');
         localStorage.removeItem('site_profile');
-        if (typeof window.renderAllViews === 'function') window.renderAllViews();
+        renderAllViews();
         renderAdminTab('articles');
         alert('✅ Data berhasil dipulihkan ke default!');
       }
@@ -1674,7 +1674,7 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
       DEFAULT_PROFILE: DEFAULT_PROFILE, DEFAULT_ARTICLES: DEFAULT_ARTICLES, DEFAULT_COURSES: DEFAULT_COURSES,
       getProfile: getProfile, saveProfile: saveProfile, getArticles: getArticles, saveArticles: saveArticles, getCourses: getCourses, saveCourses: saveCourses,
       copyUrlToClipboard: copyUrlToClipboard, shareArticle: shareArticle, navigate: navigate, toggleDarkMode: toggleDarkMode, toggleMobileMenu: toggleMobileMenu,
-      openAdmin: openAdmin, closeAdmin: closeAdmin, checkAdminAuth: checkAdminAuth, switchAdminTab: switchAdminTab, renderAdminTab: renderAdminTab,
+      openAdmin: openAdmin, closeAdmin: closeAdmin, checkAdminAuth: checkAdminAuth, switchAdminTab: switchAdminTab, renderAdminTab: renderAdminTab, renderAllViews: renderAllViews, renderAboutPage: renderAboutPage,
       showAddArticleForm: showAddArticleForm, editArticle: editArticle, applyMediumFormat: applyMediumFormat, saveNewArticle: saveNewArticle, deleteArticle: deleteArticle,
       showAddCourseForm: showAddCourseForm, saveNewCourse: saveNewCourse, deleteCourse: deleteCourse,
       saveProfileFromAdmin: saveProfileFromAdmin, addCertificateFromAdmin: addCertificateFromAdmin, deleteCertificate: deleteCertificate,
