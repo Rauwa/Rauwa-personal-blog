@@ -1398,7 +1398,13 @@ function deleteCourse(id) {
 }
 
 function initSupabaseClient() {
-  const anonKey = localStorage.getItem('supabase_anon_key') || DEFAULT_SUPABASE_ANON_KEY;
+  let anonKey = localStorage.getItem('supabase_anon_key');
+  // Auto-repair outdated, truncated, or typo keys to the verified working key
+  if (!anonKey || anonKey.includes('YL0') || !anonKey.endsWith('6d4') || anonKey === 'sb_publishable_YMYksbZJv0zj1ogYL0-_AQ_GFuRp') {
+    anonKey = DEFAULT_SUPABASE_ANON_KEY;
+    localStorage.setItem('supabase_anon_key', DEFAULT_SUPABASE_ANON_KEY);
+  }
+
   if (anonKey && window.supabase && typeof window.supabase.createClient === 'function') {
     try {
       supabaseClient = window.supabase.createClient(SUPABASE_PROJECT_URL, anonKey);
@@ -1459,9 +1465,9 @@ async function universalCloudSync() {
   const text = document.getElementById('universalSyncText');
   const badge = document.getElementById('universalSyncStatusBadge');
 
-  if (!supabaseClient) {
-    initSupabaseClient();
-  }
+  // Enforce valid key in localStorage to overwrite any stale typo key
+  localStorage.setItem('supabase_anon_key', DEFAULT_SUPABASE_ANON_KEY);
+  initSupabaseClient();
 
   if (!supabaseClient) {
     alert("⚠️ Supabase belum terhubung. Harap periksa Supabase Anon Key di tab '⚡ Supabase Cloud Sync'.");
