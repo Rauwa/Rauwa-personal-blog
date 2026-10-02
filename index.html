@@ -1667,33 +1667,6 @@ CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK
           }
         }
       });
-    } else {
-          el.textContent = textSymbols[Math.floor(Math.random() * textSymbols.length)];
-        }
-
-        el.style.cssText = 'position:fixed;left:' + x + 'px;top:' + y + 'px;font-size:' + size + 'px;color:' + color + ';pointer-events:none;z-index:9999;user-select:none;transform:translate(-50%,-50%) scale(0.3);opacity:0.8;transition:transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease-out;filter:drop-shadow(0 0 4px ' + color + '66);';
-
-        document.body.appendChild(el);
-
-        requestAnimationFrame(function() {
-          el.style.transform = 'translate(calc(-50% + ' + vx + 'px), calc(-50% + ' + vy + 'px)) scale(1.1) rotate(' + rot + 'deg)';
-          el.style.opacity = '0';
-        });
-
-        setTimeout(function() {
-          if (el.parentNode) el.parentNode.removeChild(el);
-        }, 780);
-      }
-
-      document.addEventListener('click', function(e) {
-        for (var i = 0; i < 3; i++) {
-          (function(idx) {
-            setTimeout(function() {
-              createParticle(e.clientX + (Math.random() - 0.5) * 20, e.clientY + (Math.random() - 0.5) * 20);
-            }, idx * 35);
-          })(i);
-        }
-      });
     }
 
     // --- BIND ALL FUNCTIONS TO WINDOW ---
