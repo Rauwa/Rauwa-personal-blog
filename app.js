@@ -188,11 +188,44 @@ function getArticles() {
   return DEFAULT_ARTICLES;
 }
 
+function mapArticleToCloud(a) {
+  return {
+    id: a.id,
+    title: a.title,
+    category: a.category || '',
+    categorylabel: a.categoryLabel || a.categorylabel || '',
+    date: a.date || '',
+    readtime: a.readTime || a.readtime || '',
+    views: Number(a.views || 0),
+    isfeatured: Boolean(a.isFeatured !== undefined ? a.isFeatured : a.isfeatured),
+    thumbnail: a.thumbnail || '',
+    excerpt: a.excerpt || '',
+    content: a.content || ''
+  };
+}
+
+function mapArticleFromCloud(a) {
+  return {
+    id: a.id,
+    title: a.title,
+    category: a.category || '',
+    categoryLabel: a.categorylabel || a.categoryLabel || 'Karya Tulis',
+    date: a.date || '',
+    readTime: a.readtime || a.readTime || '5 min dibaca',
+    views: Number(a.views || 0),
+    isFeatured: Boolean(a.isfeatured !== undefined ? a.isfeatured : a.isFeatured),
+    thumbnail: a.thumbnail || '',
+    excerpt: a.excerpt || '',
+    content: a.content || ''
+  };
+}
+
 function saveArticles(data) {
   const valid = Array.isArray(data) ? data : [];
   localStorage.setItem('site_articles', JSON.stringify(valid));
-  if (supabaseClient) {
-    supabaseClient.from('articles').upsert(valid, { onConflict: 'id' }).then(({ error }) => {
+  if (supabaseClient && valid.length > 0) {
+    const cloudPayload = valid.map(mapArticleToCloud);
+    supabaseClient.from('articles').upsert(cloudPayload, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert articles error", error);
     });
   }
@@ -1036,7 +1069,8 @@ async function pushAllLocalDataToSupabase() {
 
   try {
     if (articles.length > 0) {
-      const { error } = await supabaseClient.from('articles').upsert(articles, { onConflict: 'id' });
+      const cloudPayload = articles.map(mapArticleToCloud);
+      const { error } = await supabaseClient.from('articles').upsert(cloudPayload, { onConflict: 'id' });
       if (!error) articleSuccess = articles.length;
     }
 
@@ -1424,7 +1458,7 @@ async function syncFromSupabase() {
     const { data: articles, error: artError } = await supabaseClient.from('articles').select('*');
     if (!artError && Array.isArray(articles)) {
       if (articles.length > 0) {
-        const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title);
+        const validArticles = articles.filter(a => a && typeof a === 'object' && a.id && a.title).map(mapArticleFromCloud);
         if (validArticles.length > 0) {
           localStorage.setItem('site_articles', JSON.stringify(validArticles));
         }
@@ -1505,7 +1539,8 @@ async function universalCloudSync() {
     }
 
     if (articles.length > 0) {
-      const { error: artUpsertErr } = await supabaseClient.from('articles').upsert(articles, { onConflict: 'id' });
+      const cloudPayload = articles.map(mapArticleToCloud);
+      const { error: artUpsertErr } = await supabaseClient.from('articles').upsert(cloudPayload, { onConflict: 'id' });
       if (artUpsertErr) throw artUpsertErr;
     }
 
