@@ -178,26 +178,20 @@ function saveProfile(data) {
 
 function getArticles() {
   const data = localStorage.getItem('site_articles');
-  if (data) {
+  if (data !== null) {
     try {
       const parsed = JSON.parse(data);
-      if (Array.isArray(parsed)) {
-        const valid = parsed.filter(a => a && typeof a === 'object' && a.id && a.title);
-        if (valid.length > 0) return valid;
-      }
+      if (Array.isArray(parsed)) return parsed;
     } catch (e) {}
   }
   return DEFAULT_ARTICLES;
 }
 
 function saveArticles(data) {
-  if (!Array.isArray(data) || data.length === 0) {
-    localStorage.removeItem('site_articles');
-    return;
-  }
-  localStorage.setItem('site_articles', JSON.stringify(data));
+  const valid = Array.isArray(data) ? data : [];
+  localStorage.setItem('site_articles', JSON.stringify(valid));
   if (supabase) {
-    supabase.from('articles').upsert(data, { onConflict: 'id' }).then(({ error }) => {
+    supabase.from('articles').upsert(valid, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert articles error", error);
     });
   }
@@ -205,26 +199,20 @@ function saveArticles(data) {
 
 function getCourses() {
   const data = localStorage.getItem('site_courses');
-  if (data) {
+  if (data !== null) {
     try {
       const parsed = JSON.parse(data);
-      if (Array.isArray(parsed)) {
-        const valid = parsed.filter(c => c && typeof c === 'object' && c.id && c.title);
-        if (valid.length > 0) return valid;
-      }
+      if (Array.isArray(parsed)) return parsed;
     } catch (e) {}
   }
   return DEFAULT_COURSES;
 }
 
 function saveCourses(data) {
-  if (!Array.isArray(data) || data.length === 0) {
-    localStorage.removeItem('site_courses');
-    return;
-  }
-  localStorage.setItem('site_courses', JSON.stringify(data));
+  const valid = Array.isArray(data) ? data : [];
+  localStorage.setItem('site_courses', JSON.stringify(valid));
   if (supabase) {
-    supabase.from('courses').upsert(data, { onConflict: 'id' }).then(({ error }) => {
+    supabase.from('courses').upsert(valid, { onConflict: 'id' }).then(({ error }) => {
       if (error) console.error("Supabase upsert courses error", error);
     });
   }
@@ -1202,6 +1190,11 @@ function deleteArticle(id) {
     let articles = getArticles();
     articles = articles.filter(a => a.id !== id);
     saveArticles(articles);
+    if (supabase) {
+      supabase.from('articles').delete().eq('id', id).then(({ error }) => {
+        if (error) console.error("Supabase delete article error", error);
+      });
+    }
     renderAllViews();
     renderAdminTab('articles');
   }
@@ -1350,6 +1343,11 @@ function deleteCourse(id) {
     let courses = getCourses();
     courses = courses.filter(c => c.id !== id);
     saveCourses(courses);
+    if (supabase) {
+      supabase.from('courses').delete().eq('id', id).then(({ error }) => {
+        if (error) console.error("Supabase delete course error", error);
+      });
+    }
     renderAllViews();
     renderAdminTab('courses');
   }
