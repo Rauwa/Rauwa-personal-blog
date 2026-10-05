@@ -600,16 +600,31 @@
           <i data-lucide="shield" class="w-5 h-5 text-cyan-600 dark:text-blue-400"></i>
           <h2 class="text-base font-bold text-slate-900 dark:text-white">Pusat Kendali Admin — Manajemen Konten Lengkap</h2>
         </div>
-        <button onclick="closeAdmin()" class="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+        <div class="flex items-center gap-2">
+          <button id="btnAdminLogout" onclick="logoutAdmin()" class="hidden btn-awwwards-secondary text-[11px] py-1 px-3 flex items-center gap-1 text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400">
+            <span>🚪</span> Keluar
+          </button>
+          <button onclick="closeAdmin()" class="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
       </div>
 
       <div id="adminAuthSection" class="space-y-4 py-4 max-w-sm mx-auto">
-        <input type="password" id="adminPassInput" placeholder="Password Admin..." class="w-full px-4 py-2.5 text-sm rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-cyan-50/50 dark:bg-blue-950/60 text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 dark:focus:border-blue-500">
+        <div class="relative">
+          <input type="password" id="adminPassInput" onkeydown="if(event.key==='Enter') checkAdminAuth()" placeholder="Password Admin..." class="w-full px-4 py-2.5 pr-10 text-sm rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-cyan-50/50 dark:bg-blue-950/60 text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 dark:focus:border-blue-500">
+          <button type="button" onclick="togglePassVisibility('adminPassInput', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-blue-300 text-sm select-none" title="Lihat/Sembunyikan Password">
+            👁️
+          </button>
+        </div>
         <button onclick="checkAdminAuth()" class="w-full btn-awwwards-primary text-xs py-2.5">
           Masuk ke Dashboard
         </button>
+        <div class="text-center pt-1">
+          <button type="button" onclick="resetAdminPasswordPrompt()" class="text-[11px] text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-blue-300 underline transition-colors">
+            Lupa Password Admin?
+          </button>
+        </div>
       </div>
 
       <div id="adminDashboardSection" class="hidden space-y-6">
@@ -650,6 +665,9 @@
           </button>
           <button onclick="switchAdminTab('supabase')" id="admin-tab-supabase" class="btn-awwwards-secondary text-xs py-1.5 px-3">
             ⚡ Supabase Cloud Sync
+          </button>
+          <button onclick="switchAdminTab('password')" id="admin-tab-password" class="btn-awwwards-secondary text-xs py-1.5 px-3">
+            🔒 Ganti Password
           </button>
         </div>
 

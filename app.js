@@ -782,23 +782,50 @@ function openAdmin() {
   }
 }
 
+function logoutAdmin() {
+  const authSec = document.getElementById('adminAuthSection');
+  const dashSec = document.getElementById('adminDashboardSection');
+  if (authSec) authSec.classList.remove('hidden');
+  if (dashSec) dashSec.classList.add('hidden');
+  const passInput = document.getElementById('adminPassInput');
+  if (passInput) passInput.value = '';
+  const logoutBtn = document.getElementById('btnAdminLogout');
+  if (logoutBtn) logoutBtn.classList.add('hidden');
+}
+
 function closeAdmin() {
   const modal = document.getElementById('adminModal');
   if (modal) {
     modal.style.display = 'none';
     modal.classList.add('hidden');
   }
+  logoutAdmin();
+}
+
+function getAdminPassword() {
+  const custom = localStorage.getItem('admin_password');
+  if (custom && typeof custom === 'string' && custom.trim().length > 0) {
+    return custom.trim();
+  }
+  const prof = getProfile();
+  if (prof && prof.adminPassword && typeof prof.adminPassword === 'string' && prof.adminPassword.trim().length > 0) {
+    return prof.adminPassword.trim();
+  }
+  return 'admin123';
 }
 
 function checkAdminAuth() {
   const passInput = document.getElementById('adminPassInput');
-  const pass = passInput ? passInput.value : '';
-  if (pass === 'admin123' || pass === 'admin') {
+  const pass = passInput ? passInput.value.trim() : '';
+  const expected = getAdminPassword();
+  if (pass === expected) {
     document.getElementById('adminAuthSection').classList.add('hidden');
     document.getElementById('adminDashboardSection').classList.remove('hidden');
+    const logoutBtn = document.getElementById('btnAdminLogout');
+    if (logoutBtn) logoutBtn.classList.remove('hidden');
     renderAdminTab('articles');
   } else {
-    alert('Kata kunci akses salah!');
+    alert('⚠️ Kata kunci akses admin salah! Periksa kembali atau gunakan opsi "Lupa Password Admin" di bawah form.');
   }
 }
 
@@ -810,7 +837,7 @@ function renderAdminTab(tab) {
   const container = document.getElementById('adminContentContainer');
   if (!container) return;
 
-  ['articles', 'courses', 'profile', 'supabase'].forEach(t => {
+  ['articles', 'courses', 'profile', 'supabase', 'password'].forEach(t => {
     const btn = document.getElementById(`admin-tab-${t}`);
     if (btn) {
       if (t === tab) {
@@ -1048,6 +1075,76 @@ ALTER TABLE profile ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public Access Profile" ON profile FOR ALL USING (true) WITH CHECK (true);
           </pre>
         </div>
+      </div>
+    `;
+    safeCreateIcons();
+  } else if (tab === 'password') {
+    const currentPass = getAdminPassword();
+    const isCustom = currentPass !== 'admin123';
+    container.innerHTML = `
+      <div class="space-y-6 max-w-lg mx-auto py-2">
+        <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-cyan-500/10 via-pink-500/10 to-indigo-500/10 border border-cyan-300 dark:border-blue-800/80 space-y-2 shadow-sm">
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <span class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span>🔐</span> Pengaturan Keamanan & Password
+            </span>
+            <span id="adminPasswordStatusBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-meta font-bold ${isCustom ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700' : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700'}">
+              ${isCustom ? '● Password Kustom Aktif' : '▲ Menggunakan Password Bawaan (admin123)'}
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            Perbarui password admin untuk menjaga privasi pengelolaan artikel, kelas edX, dan konfigurasi Supabase Cloud. Password baru akan tersimpan di peramban dan ikut tersinkronisasi ke Cloud.
+          </p>
+        </div>
+
+        <form id="formChangeAdminPassword" onsubmit="handleSaveNewPassword(event)" class="space-y-4 bg-white dark:bg-white/5 p-5 rounded-2xl border border-cyan-200 dark:border-blue-900/40 shadow-sm">
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-slate-700 dark:text-blue-200">
+              Password Saat Ini <span class="text-rose-500">*</span>
+            </label>
+            <div class="relative">
+              <input type="password" id="inputOldPassword" required placeholder="Masukkan password saat ini..." class="w-full px-4 py-2.5 pr-10 text-xs sm:text-sm rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-cyan-50/50 dark:bg-blue-950/60 text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 dark:focus:border-blue-500">
+              <button type="button" onclick="togglePassVisibility('inputOldPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-blue-300 text-sm select-none" title="Lihat/Sembunyikan">
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-slate-700 dark:text-blue-200">
+              Password Baru <span class="text-rose-500">* (minimal 4 karakter)</span>
+            </label>
+            <div class="relative">
+              <input type="password" id="inputNewPassword" required minlength="4" placeholder="Ketik password baru yang kuat..." class="w-full px-4 py-2.5 pr-10 text-xs sm:text-sm rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-cyan-50/50 dark:bg-blue-950/60 text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 dark:focus:border-blue-500">
+              <button type="button" onclick="togglePassVisibility('inputNewPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-blue-300 text-sm select-none" title="Lihat/Sembunyikan">
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="block text-xs font-bold text-slate-700 dark:text-blue-200">
+              Konfirmasi Password Baru <span class="text-rose-500">*</span>
+            </label>
+            <div class="relative">
+              <input type="password" id="inputConfirmPassword" required minlength="4" placeholder="Ulangi password baru..." class="w-full px-4 py-2.5 pr-10 text-xs sm:text-sm rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-cyan-50/50 dark:bg-blue-950/60 text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 dark:focus:border-blue-500">
+              <button type="button" onclick="togglePassVisibility('inputConfirmPassword', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-blue-300 text-sm select-none" title="Lihat/Sembunyikan">
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <div id="passwordChangeFeedback" class="hidden text-xs font-bold p-3 rounded-xl transition-all"></div>
+
+          <div class="flex items-center justify-between pt-3 gap-3 flex-wrap sm:flex-nowrap">
+            <button type="button" onclick="resetAdminPasswordToDefault()" class="btn-awwwards-secondary text-xs py-2 px-3 text-slate-600 dark:text-slate-400">
+              🔄 Reset ke Default
+            </button>
+            <button type="submit" id="btnSubmitNewPassword" class="btn-awwwards-primary text-xs py-2.5 px-6 shadow-md">
+              💾 Simpan Password Baru
+            </button>
+          </div>
+        </form>
       </div>
     `;
     safeCreateIcons();
@@ -1431,6 +1528,89 @@ function deleteCourse(id) {
   }
 }
 
+function togglePassVisibility(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (btn) btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    if (btn) btn.textContent = '👁️';
+  }
+}
+
+function handleSaveNewPassword(e) {
+  e.preventDefault();
+  const oldPass = (document.getElementById('inputOldPassword')?.value || '').trim();
+  const newPass = (document.getElementById('inputNewPassword')?.value || '').trim();
+  const confirmPass = (document.getElementById('inputConfirmPassword')?.value || '').trim();
+  const feedback = document.getElementById('passwordChangeFeedback');
+
+  const current = getAdminPassword();
+  if (oldPass !== current) {
+    if (feedback) {
+      feedback.className = 'text-xs font-bold p-3 rounded-xl bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-700 block';
+      feedback.textContent = '❌ Password lama yang Anda masukkan tidak sesuai!';
+    } else {
+      alert('❌ Password lama tidak sesuai!');
+    }
+    return;
+  }
+
+  if (newPass.length < 4) {
+    if (feedback) {
+      feedback.className = 'text-xs font-bold p-3 rounded-xl bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-700 block';
+      feedback.textContent = '❌ Password baru minimal harus 4 karakter!';
+    } else {
+      alert('❌ Password baru minimal harus 4 karakter!');
+    }
+    return;
+  }
+
+  if (newPass !== confirmPass) {
+    if (feedback) {
+      feedback.className = 'text-xs font-bold p-3 rounded-xl bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-700 block';
+      feedback.textContent = '❌ Konfirmasi password tidak cocok dengan password baru!';
+    } else {
+      alert('❌ Konfirmasi password baru tidak cocok!');
+    }
+    return;
+  }
+
+  // Simpan ke localStorage & update profil cloud
+  localStorage.setItem('admin_password', newPass);
+  const profile = getProfile();
+  profile.adminPassword = newPass;
+  saveProfile(profile);
+
+  alert('✅ Password Admin Berhasil Diperbarui!\n\nKata sandi baru telah disimpan dan disinkronkan ke profil cloud. Gunakan password baru ini saat masuk ke Pusat Kendali.');
+  renderAdminTab('password');
+}
+
+function resetAdminPasswordToDefault() {
+  if (confirm('Apakah Anda yakin ingin mengembalikan password admin ke bawaan ("admin123")?')) {
+    localStorage.removeItem('admin_password');
+    const prof = getProfile();
+    delete prof.adminPassword;
+    saveProfile(prof);
+    alert('✅ Password admin telah dikembalikan ke default: "admin123"');
+    renderAdminTab('password');
+  }
+}
+
+function resetAdminPasswordPrompt() {
+  if (confirm('Lupa password admin?\n\nKlik OK untuk mereset kata kunci akses kembali ke bawaan ("admin123").')) {
+    localStorage.removeItem('admin_password');
+    const prof = getProfile();
+    delete prof.adminPassword;
+    saveProfile(prof);
+    const passInput = document.getElementById('adminPassInput');
+    if (passInput) passInput.value = 'admin123';
+    alert('✅ Password admin telah direset ke default: "admin123"\n\nSilakan klik "Masuk ke Dashboard".');
+  }
+}
+
 function initSupabaseClient() {
   let anonKey = localStorage.getItem('supabase_anon_key');
   // Auto-repair outdated, truncated, or typo keys to the verified working key
@@ -1608,7 +1788,8 @@ const funcsToBind = {
   saveSupabaseConfig, copySupabaseSQL, showAddArticleForm, editArticle,
   applyMediumFormat, saveNewArticle, deleteArticle, addCertificateFromAdmin,
   deleteCertificate, addExperienceFromAdmin, deleteExperience, saveProfileFromAdmin,
-  showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase, resetToDefaultData, universalCloudSync
+  showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase, resetToDefaultData, universalCloudSync,
+  getAdminPassword, togglePassVisibility, handleSaveNewPassword, resetAdminPasswordToDefault, resetAdminPasswordPrompt, logoutAdmin
 };
 
 for (const [key, val] of Object.entries(funcsToBind)) {
