@@ -404,8 +404,8 @@ function renderHome() {
                 <span class="badge-pastel-glass font-bold">
                   ✦ ${mainArticle.categoryLabel || 'Karya Utama'} ✨
                 </span>
-                <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">${mainArticle.date || ''}</span>
-                <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">• ${mainArticle.readTime || ''}</span>
+                <span class="text-xs font-meta text-slate-500 dark:text-blue-300/70">${mainArticle.date || ''}</span>
+                <span class="text-xs font-meta text-slate-500 dark:text-blue-300/70">• ${mainArticle.readTime || ''}</span>
               </div>
               
               <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
@@ -432,7 +432,7 @@ function renderHome() {
       `;
     } else {
       featuredContainer.innerHTML = `
-        <div class="p-8 rounded-2xl border border-dashed border-cyan-300 dark:border-blue-800/60 bg-cyan-50/30 dark:bg-blue-950/20 text-center text-xs font-mono text-slate-500 dark:text-blue-300/70">
+        <div class="p-8 rounded-2xl border border-dashed border-cyan-300 dark:border-blue-800/60 bg-cyan-50/30 dark:bg-blue-950/20 text-center text-xs font-meta text-slate-500 dark:text-blue-300/70">
           Belum ada karya utama. Buat artikel baru di Pusat Kendali Admin atau klik "Pulihkan Data Default".
         </div>
       `;
@@ -451,7 +451,7 @@ function renderHome() {
           <div class="space-y-2 flex-grow">
             <div class="flex items-center gap-2">
               <span class="badge-pink-glass text-[10px]">${item.categoryLabel || 'Karya Tulis'}</span>
-              <span class="text-[11px] text-slate-500 dark:text-blue-300/70 font-mono">${item.date || ''}</span>
+              <span class="text-[11px] text-slate-500 dark:text-blue-300/70 font-meta">${item.date || ''}</span>
             </div>
             <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
               ${item.title}
@@ -464,7 +464,7 @@ function renderHome() {
       `).join('');
     } else {
       feedContainer.innerHTML = `
-        <div class="p-4 rounded-xl border border-cyan-200/60 dark:border-blue-900/40 text-center text-xs text-slate-400 font-mono">
+        <div class="p-4 rounded-xl border border-cyan-200/60 dark:border-blue-900/40 text-center text-xs text-slate-400 font-meta">
           Belum ada artikel tambahan.
         </div>
       `;
@@ -479,7 +479,7 @@ function renderHome() {
         <div onclick="navigate('course-detail', '${crs.id}')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
           <div class="flex items-center justify-between">
             <span class="badge-pink-glass text-[9px]">${crs.category}</span>
-            <span class="text-[10px] font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
+            <span class="text-[10px] font-meta text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
           </div>
           <h4 class="text-xs font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors line-clamp-2">
             ${crs.title}
@@ -488,7 +488,7 @@ function renderHome() {
       `).join('');
     } else {
       sidebarCourses.innerHTML = `
-        <div class="p-4 rounded-xl border border-cyan-200/60 dark:border-blue-900/40 text-center text-xs text-slate-400 font-mono">
+        <div class="p-4 rounded-xl border border-cyan-200/60 dark:border-blue-900/40 text-center text-xs text-slate-400 font-meta">
           Belum ada kelas terbuka.
         </div>
       `;
@@ -514,7 +514,7 @@ function renderArticlesCatalog() {
   if (!grid) return;
 
   if (articles.length === 0) {
-    grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 dark:text-slate-400 italic font-mono text-xs">Belum ada karya tulis terpublikasi. Klik "+ Tulis Artikel Baru" di Pusat Kendali Admin untuk membuat artikel.</div>`;
+    grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 dark:text-slate-400 italic font-meta text-xs">Belum ada karya tulis terpublikasi. Klik "+ Tulis Artikel Baru" di Pusat Kendali Admin untuk membuat artikel.</div>`;
     return;
   }
 
@@ -526,7 +526,7 @@ function renderArticlesCatalog() {
       </div>
       <div class="p-4 space-y-4 flex-grow flex flex-col justify-between">
         <div class="space-y-3">
-          <div class="flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-blue-300/70">
+          <div class="flex items-center justify-between text-[11px] font-meta text-slate-500 dark:text-blue-300/70">
             <span class="badge-pastel-glass text-[9px]">${item.categoryLabel || 'Karya Tulis'}</span>
             <span>${item.readTime || ''}</span>
           </div>
@@ -537,7 +537,7 @@ function renderArticlesCatalog() {
             ${item.excerpt}
           </p>
         </div>
-        <div class="pt-4 border-t border-cyan-200 dark:border-blue-900/60 flex items-center justify-between text-xs font-mono">
+        <div class="pt-4 border-t border-cyan-200 dark:border-blue-900/60 flex items-center justify-between text-xs font-meta">
           <span class="text-slate-500 dark:text-blue-300/70">${item.date || ''}</span>
           <span class="text-cyan-600 dark:text-blue-400 font-bold flex items-center gap-1">
             <span>Baca Artikel</span>
@@ -563,11 +563,11 @@ function renderArticleDetail(id) {
   container.innerHTML = `
     <div class="space-y-4 border-b border-cyan-200 dark:border-blue-900/60 pb-6">
       <div class="flex items-center gap-3">
-        <span class="px-3 py-1 rounded-full text-[11px] font-mono font-bold bg-cyan-100 text-cyan-900 dark:bg-blue-950/80 dark:text-blue-300 border border-cyan-300 dark:border-blue-800/60 uppercase">
+        <span class="px-3 py-1 rounded-full text-[11px] font-meta font-bold bg-cyan-100 text-cyan-900 dark:bg-blue-950/80 dark:text-blue-300 border border-cyan-300 dark:border-blue-800/60 uppercase">
           ${article.categoryLabel || 'Karya Tulis'}
         </span>
-        <span class="text-xs text-slate-500 dark:text-blue-300/70 font-mono">${article.date || ''}</span>
-        <span class="text-xs text-slate-500 dark:text-blue-300/70 font-mono">• ${article.readTime || ''}</span>
+        <span class="text-xs text-slate-500 dark:text-blue-300/70 font-meta">${article.date || ''}</span>
+        <span class="text-xs text-slate-500 dark:text-blue-300/70 font-meta">• ${article.readTime || ''}</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-slate-900 dark:text-white leading-tight">
@@ -632,7 +632,7 @@ function renderCoursesCatalog() {
   if (!grid) return;
 
   if (courses.length === 0) {
-    grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 dark:text-slate-400 italic font-mono text-xs">Belum ada kelas terbuka terpublikasi. Klik "+ Buat Kelas Baru" di Pusat Kendali Admin untuk membuat kelas.</div>`;
+    grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 dark:text-slate-400 italic font-meta text-xs">Belum ada kelas terbuka terpublikasi. Klik "+ Buat Kelas Baru" di Pusat Kendali Admin untuk membuat kelas.</div>`;
     return;
   }
 
@@ -646,7 +646,7 @@ function renderCoursesCatalog() {
         <div class="space-y-2">
           <div class="flex items-center justify-between text-[11px]">
             <span class="badge-pink-glass text-[9px]">${crs.category}</span>
-            <span class="font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
+            <span class="font-meta text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
           </div>
           <h3 class="text-xl font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
             ${crs.title}
@@ -656,7 +656,7 @@ function renderCoursesCatalog() {
           </p>
         </div>
         <div class="pt-4 border-t border-cyan-200 dark:border-blue-900/60 flex items-center justify-between text-xs">
-          <span class="font-bold text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">⭐ ${crs.status}</span>
+          <span class="font-bold text-emerald-600 dark:text-emerald-400 font-meta text-[11px]">⭐ ${crs.status}</span>
           <span class="btn-awwwards-primary text-[11px] px-4 py-2">Mulai Belajar ✦</span>
         </div>
       </div>
@@ -675,8 +675,8 @@ function renderCourseDetail(id) {
   container.innerHTML = `
     <div class="awwwards-card p-8 space-y-6">
       <div class="flex items-center justify-between">
-        <span class="text-pink-600 dark:text-blue-400 font-mono font-bold text-xs">${crs.category}</span>
-        <span class="text-xs font-mono text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
+        <span class="text-pink-600 dark:text-blue-400 font-meta font-bold text-xs">${crs.category}</span>
+        <span class="text-xs font-meta text-slate-500 dark:text-blue-300/70">${crs.duration}</span>
       </div>
       <h1 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">${crs.title}</h1>
       <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${crs.excerpt}</p>
@@ -690,7 +690,7 @@ function renderCourseDetail(id) {
         ${(crs.modules || []).map((mod, idx) => `
           <div class="edx-module-card space-y-4">
             <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-3">
-              <span class="w-7 h-7 rounded-full bg-cyan-100 text-cyan-900 dark:bg-blue-900/60 dark:text-blue-300 text-xs flex items-center justify-center font-mono font-bold border border-cyan-300 dark:border-blue-700/60">${idx+1}</span>
+              <span class="w-7 h-7 rounded-full bg-cyan-100 text-cyan-900 dark:bg-blue-900/60 dark:text-blue-300 text-xs flex items-center justify-center font-meta font-bold border border-cyan-300 dark:border-blue-700/60">${idx+1}</span>
               <span>${mod.title}</span>
             </h3>
             <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 border border-cyan-200 dark:border-blue-900/60">
@@ -735,7 +735,7 @@ function renderAboutPage() {
           <div class="space-y-1">
             <h4 class="font-bold text-xs text-slate-900 dark:text-white leading-snug">${cert.title}</h4>
             <p class="text-[11px] text-cyan-600 dark:text-blue-400 font-semibold">${cert.issuer}</p>
-            <span class="text-[10px] font-mono text-slate-500 dark:text-blue-300/70 block">Diterbitkan: ${cert.year}</span>
+            <span class="text-[10px] font-meta text-slate-500 dark:text-blue-300/70 block">Diterbitkan: ${cert.year}</span>
           </div>
         </div>
       `).join('');
@@ -751,7 +751,7 @@ function renderAboutPage() {
         <div class="awwwards-card p-6 space-y-2 border-l-4 border-l-cyan-500 dark:border-l-blue-600">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <h3 class="font-bold text-base text-slate-900 dark:text-white">${exp.role}</h3>
-            <span class="text-xs font-mono font-semibold text-cyan-900 dark:text-blue-300 bg-cyan-100 dark:bg-blue-950/80 px-3 py-1 rounded-full w-fit border border-cyan-300 dark:border-blue-800/60">${exp.period}</span>
+            <span class="text-xs font-meta font-semibold text-cyan-900 dark:text-blue-300 bg-cyan-100 dark:bg-blue-950/80 px-3 py-1 rounded-full w-fit border border-cyan-300 dark:border-blue-800/60">${exp.period}</span>
           </div>
           <p class="text-xs font-semibold text-slate-500 dark:text-blue-300/70">${exp.organization}</p>
           <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed pt-1">${exp.description}</p>
@@ -765,7 +765,7 @@ function renderAboutPage() {
   const skillsContainer = document.getElementById('aboutSkillsBadges');
   if (skillsContainer && profile.skills) {
     skillsContainer.innerHTML = profile.skills.map(skill => `
-      <span class="px-4 py-1.5 rounded-full text-xs font-mono font-semibold bg-cyan-100/70 dark:bg-blue-950/60 border border-cyan-200 dark:border-blue-800/60 text-cyan-900 dark:text-blue-300">
+      <span class="px-4 py-1.5 rounded-full text-xs font-meta font-semibold bg-cyan-100/70 dark:bg-blue-950/60 border border-cyan-200 dark:border-blue-800/60 text-cyan-900 dark:text-blue-300">
         ${skill}
       </span>
     `).join('');
@@ -837,7 +837,7 @@ function renderAdminTab(tab) {
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-white/5 text-xs border border-slate-200 dark:border-white/10">
               <div class="truncate max-w-md">
                 <span class="font-bold text-slate-900 dark:text-white block truncate">${a.title}</span>
-                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${a.date || ''}</span>
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-meta">${a.date || ''}</span>
               </div>
               <div class="flex items-center gap-2">
                 <button onclick="editArticle('${a.id}')" class="text-indigo-600 dark:text-indigo-400 hover:underline font-bold px-2 py-1">Edit</button>
@@ -861,7 +861,7 @@ function renderAdminTab(tab) {
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-white/5 text-xs border border-slate-200 dark:border-white/10">
               <div class="truncate max-w-md">
                 <span class="font-bold text-slate-900 dark:text-white block truncate">${c.title}</span>
-                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">${c.category} • ${c.duration}</span>
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-meta">${c.category} • ${c.duration}</span>
               </div>
               <button onclick="deleteCourse('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline font-bold px-2 py-1">Hapus</button>
             </div>
@@ -918,7 +918,7 @@ function renderAdminTab(tab) {
               <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10">
                 <div>
                   <span class="font-bold text-slate-900 dark:text-white block">${c.title}</span>
-                  <span class="text-[10px] text-cyan-600 dark:text-blue-400 font-mono">${c.issuer} (${c.year})</span>
+                  <span class="text-[10px] text-cyan-600 dark:text-blue-400 font-meta">${c.issuer} (${c.year})</span>
                 </div>
                 <button onclick="deleteCertificate('${c.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
               </div>
@@ -947,7 +947,7 @@ function renderAdminTab(tab) {
               <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10">
                 <div>
                   <span class="font-bold text-slate-900 dark:text-white block">${e.role} — ${e.organization}</span>
-                  <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-mono">${e.period}</span>
+                  <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-meta">${e.period}</span>
                 </div>
                 <button onclick="deleteExperience('${e.id}')" class="text-red-500 dark:text-red-400 hover:underline text-xs">Hapus</button>
               </div>
@@ -969,20 +969,20 @@ function renderAdminTab(tab) {
               <span>⚡ Status Supabase Cloud Sync</span>
             </h3>
             ${isConnected 
-              ? `<span class="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">🟢 Terhubung ke Cloud</span>`
-              : `<span class="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">⚪ Belum Terhubung</span>`
+              ? `<span class="px-3 py-1 rounded-full text-[10px] font-meta font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">🟢 Terhubung ke Cloud</span>`
+              : `<span class="px-3 py-1 rounded-full text-[10px] font-meta font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">⚪ Belum Terhubung</span>`
             }
           </div>
 
           <div class="space-y-3">
             <div>
               <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Project URL:</label>
-              <input type="text" value="${SUPABASE_PROJECT_URL}" readonly class="w-full px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono text-xs border border-slate-300 dark:border-slate-700">
+              <input type="text" value="${SUPABASE_PROJECT_URL}" readonly class="w-full px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-meta text-xs border border-slate-300 dark:border-slate-700">
             </div>
 
             <div>
               <label class="font-bold text-slate-700 dark:text-slate-200 block mb-1">Supabase Anon Public Key ('sb_publishable_...'):</label>
-              <input type="password" id="supabaseAnonKeyInput" value="${currentAnonKey}" placeholder="Tempelkan kunci anon public Supabase..." class="w-full px-3 py-2 rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-mono text-xs focus:outline-none focus:border-cyan-500">
+              <input type="password" id="supabaseAnonKeyInput" value="${currentAnonKey}" placeholder="Tempelkan kunci anon public Supabase..." class="w-full px-3 py-2 rounded-xl border border-cyan-200 dark:border-blue-900/60 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-meta text-xs focus:outline-none focus:border-cyan-500">
             </div>
 
             <div class="pt-2 flex flex-wrap items-center gap-3">
@@ -1001,7 +1001,7 @@ function renderAdminTab(tab) {
         <div class="p-5 rounded-2xl bg-cyan-50/60 dark:bg-blue-950/40 border border-cyan-200 dark:border-blue-900/60 space-y-3">
           <div class="flex items-center justify-between">
             <h4 class="font-bold text-slate-900 dark:text-white">🛠️ Tabel SQL Supabase (Skrip Setup 1-Klik)</h4>
-            <button onclick="copySupabaseSQL()" class="text-xs font-mono text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
+            <button onclick="copySupabaseSQL()" class="text-xs font-meta text-cyan-600 dark:text-blue-400 underline font-bold">Salin Kode SQL</button>
           </div>
           <pre id="supabaseSqlCode" class="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-48 border border-slate-800 leading-relaxed">
 CREATE TABLE IF NOT EXISTS articles (
@@ -1579,7 +1579,7 @@ async function universalCloudSync() {
     // Berhasil
     if (badge) {
       badge.textContent = '🟢 Cloud Tersinkron';
-      badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700';
+      badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-meta font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700';
     }
 
     alert(`✅ Sinkronisasi Universal Berhasil!\n\n• ${articles.length} Karya Tulis tersimpan di Supabase Cloud\n• ${courses.length} Kelas edX tersimpan di Supabase Cloud\n• Profil & Kontak tersimpan aman.\n\nSemua perubahan sekarang dapat diakses secara sinkron dari perangkat mana pun!`);
