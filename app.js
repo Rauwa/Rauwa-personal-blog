@@ -825,7 +825,7 @@ function checkAdminAuth() {
     if (logoutBtn) logoutBtn.classList.remove('hidden');
     renderAdminTab('articles');
   } else {
-    alert('⚠️ Kata kunci akses admin salah! Periksa kembali atau gunakan opsi "Lupa Password Admin" di bawah form.');
+    alert('⚠️ Kata kunci akses admin salah! Periksa kembali kata kunci yang Anda masukkan.');
   }
 }
 
@@ -1599,18 +1599,6 @@ function resetAdminPasswordToDefault() {
   }
 }
 
-function resetAdminPasswordPrompt() {
-  if (confirm('Lupa password admin?\n\nKlik OK untuk mereset kata kunci akses kembali ke bawaan ("admin123").')) {
-    localStorage.removeItem('admin_password');
-    const prof = getProfile();
-    delete prof.adminPassword;
-    saveProfile(prof);
-    const passInput = document.getElementById('adminPassInput');
-    if (passInput) passInput.value = 'admin123';
-    alert('✅ Password admin telah direset ke default: "admin123"\n\nSilakan klik "Masuk ke Dashboard".');
-  }
-}
-
 function initSupabaseClient() {
   let anonKey = localStorage.getItem('supabase_anon_key');
   // Auto-repair outdated, truncated, or typo keys to the verified working key
@@ -1789,7 +1777,7 @@ const funcsToBind = {
   applyMediumFormat, saveNewArticle, deleteArticle, addCertificateFromAdmin,
   deleteCertificate, addExperienceFromAdmin, deleteExperience, saveProfileFromAdmin,
   showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase, resetToDefaultData, universalCloudSync,
-  getAdminPassword, togglePassVisibility, handleSaveNewPassword, resetAdminPasswordToDefault, resetAdminPasswordPrompt, logoutAdmin
+  getAdminPassword, togglePassVisibility, handleSaveNewPassword, resetAdminPasswordToDefault, logoutAdmin
 };
 
 for (const [key, val] of Object.entries(funcsToBind)) {
