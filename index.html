@@ -63,22 +63,22 @@
   <!-- Reading Progress Bar -->
   <div id="readingProgressBar" class="reading-progress-bar"></div>
 
-  <!-- Awwwards Floating Glass Header Navigation -->
-  <header class="sticky top-0 z-40 awwwards-nav transition-colors">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+  <!-- Kkost Floating Pill Header Navigation -->
+  <header class="sticky top-2 sm:top-4 z-40 px-3 sm:px-6 transition-all">
+    <div class="max-w-6xl mx-auto rounded-full awwwards-nav px-4 sm:px-6 h-16 sm:h-18 flex items-center justify-between gap-3 shadow-lift">
       
       <!-- Brand Logo -->
-      <a href="#home" onclick="navigate('home')" class="group flex items-center gap-3.5">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-500 via-teal-500 to-pink-500 dark:from-blue-700 dark:to-blue-900 text-white flex items-center justify-center font-serif font-bold text-lg shadow-lg group-hover:scale-105 transition-transform">
+      <a href="#home" onclick="navigate('home')" class="group flex items-center gap-2.5 sm:gap-3">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500 via-teal-500 to-pink-500 dark:from-blue-700 dark:to-blue-900 text-white flex items-center justify-center font-serif font-bold text-base sm:text-lg shadow-md group-hover:scale-105 transition-transform">
           K
         </div>
         <div class="flex flex-col">
-          <span class="font-serif font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-blue-400 transition-colors">
+          <span class="font-serif font-bold text-sm sm:text-base tracking-tight text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-blue-400 transition-colors leading-none">
             Karya Tulis & Kelas Terbuka
           </span>
-          <div class="flex items-center gap-2 -mt-0.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-cyan-500 dark:bg-blue-500 animate-pulse"></span>
-            <span class="text-[10px] font-meta text-slate-500 dark:text-blue-400/80 uppercase tracking-widest">
+          <div class="flex items-center gap-1.5 mt-1">
+            <span class="pulse-dot"></span>
+            <span class="text-[9px] sm:text-[10px] font-meta font-bold text-slate-500 dark:text-blue-400/80 uppercase tracking-wider">
               Platform Literasi Publik
             </span>
           </div>
@@ -86,14 +86,14 @@
       </a>
 
       <!-- Desktop Focused Nav Links -->
-      <nav class="hidden md:flex items-center gap-1.5">
+      <nav class="hidden md:flex items-center gap-1 bg-slate-100/60 dark:bg-slate-900/60 p-1.5 rounded-full border border-cyan-100 dark:border-blue-900/40">
         <button onclick="navigate('home')" id="nav-btn-home" class="nav-awwwards active">
           Beranda Utama
         </button>
         <button onclick="navigate('articles')" id="nav-btn-articles" class="nav-awwwards">
           Karya Tulis
         </button>
-        <button onclick="navigate('courses')" id="nav-btn-courses" class="nav-awwwards flex items-center gap-2">
+        <button onclick="navigate('courses')" id="nav-btn-courses" class="nav-awwwards flex items-center gap-1.5">
           <span>Kelas Terbuka</span>
           <span class="badge-pastel-glass text-[9px] px-2 py-0.5">
             GRATIS
@@ -105,21 +105,21 @@
       </nav>
 
       <!-- Right Header Actions -->
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2 sm:gap-2.5">
         <!-- Dark/Light Toggle -->
-        <button id="themeToggle" onclick="toggleDarkMode()" class="p-2.5 rounded-full text-slate-600 dark:text-blue-300 hover:text-cyan-600 dark:hover:text-white hover:bg-cyan-50 dark:hover:bg-blue-900/40 transition-colors" title="Toggle Tema">
+        <button id="themeToggle" onclick="toggleDarkMode()" class="p-2 sm:p-2.5 rounded-full text-slate-600 dark:text-blue-300 hover:text-cyan-600 dark:hover:text-white hover:bg-cyan-50 dark:hover:bg-blue-900/40 transition-colors border border-transparent hover:border-cyan-200 dark:hover:border-blue-800" title="Toggle Tema">
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
           <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
         </button>
 
         <!-- Admin Access Button -->
-        <button id="btnOpenAdmin" onclick="openAdmin()" class="btn-awwwards-secondary text-xs px-4 py-2">
+        <button id="btnOpenAdmin" onclick="openAdmin()" class="btn-awwwards-secondary text-xs px-3.5 sm:px-4 py-2">
           <i data-lucide="shield" class="w-3.5 h-3.5 text-cyan-600 dark:text-blue-400"></i>
           <span class="hidden sm:inline">Pusat Kendali</span>
         </button>
 
         <!-- Mobile Drawer Toggle -->
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl text-slate-700 dark:text-blue-300 hover:bg-cyan-50 dark:hover:bg-blue-900/40">
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-full text-slate-700 dark:text-blue-300 hover:bg-cyan-50 dark:hover:bg-blue-900/40">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
       </div>
@@ -127,7 +127,7 @@
     </div>
 
     <!-- Mobile Drawer Navigation -->
-    <div id="mobileMenu" class="hidden md:hidden border-t border-cyan-200 dark:border-blue-900/60 bg-white/95 dark:bg-[#020617] px-4 py-3 space-y-1">
+    <div id="mobileMenu" class="hidden md:hidden mt-2 max-w-6xl mx-auto rounded-2xl border border-cyan-200 dark:border-blue-900/60 bg-white/95 dark:bg-[#020617]/95 backdrop-blur-xl p-3 shadow-xl space-y-1">
       <button onclick="navigate('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-cyan-50 dark:hover:bg-blue-900/30">Beranda Utama</button>
       <button onclick="navigate('articles'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-cyan-50 dark:hover:bg-blue-900/30">Karya Tulis</button>
       <button onclick="navigate('courses'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-sm font-semibold rounded-lg hover:bg-cyan-50 dark:hover:bg-blue-900/30">Kelas Terbuka (GRATIS)</button>
@@ -139,8 +139,42 @@
   <main class="flex-grow">
     
     <!-- VIEW 1: HOME PAGE -->
-    <section id="view-home" class="view-section py-8">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="view-home" class="view-section py-6 sm:py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+        
+        <!-- Kkost-Style Hero Banner with Display Typography & Highlight Marker -->
+        <div class="text-center max-w-4xl mx-auto space-y-4 pt-2">
+          <div class="inline-flex items-center gap-2 eyebrow-pill">
+            <span class="pulse-dot"></span>
+            <span>Platform Riset & Literasi Terbuka</span>
+            <span class="text-cyan-500 font-normal">✦</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-slate-900 dark:text-white tracking-tight leading-[1.18]">
+            Demokratisasi Pengetahuan Lewat <span class="highlight-marker">Riset Kritis</span> & Silabus Terbuka
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Menghubungkan kedalaman esai reflektif standar publikasi ilmiah dengan kurikulum modular mandiri bergaya edX — bebas hambatan biaya untuk siapa saja.
+          </p>
+
+          <!-- Kkost-Style Segmented Search & Category Filter Pill -->
+          <div class="pt-2 max-w-2xl mx-auto">
+            <div class="search-filter-container p-2 sm:p-2.5 flex flex-col sm:flex-row items-center gap-2">
+              <div class="flex items-center gap-2.5 px-3 flex-grow min-w-0 w-full">
+                <i data-lucide="search" class="w-4 h-4 text-cyan-600 dark:text-blue-400 shrink-0"></i>
+                <input type="text" id="heroSearchInput" oninput="handleSearch(this.value)" placeholder="Cari karya tulis, riset, atau topik kelas..." class="w-full bg-transparent text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none">
+              </div>
+              <div class="flex items-center gap-1 shrink-0 pb-1 sm:pb-0 px-1">
+                <button type="button" onclick="filterByTag('all', this)" class="filter-tab-pill active">Semua</button>
+                <button type="button" onclick="filterByTag('riset', this)" class="filter-tab-pill">Riset</button>
+                <button type="button" onclick="filterByTag('literasi', this)" class="filter-tab-pill">Edukasi</button>
+                <button type="button" onclick="filterByTag('opini', this)" class="filter-tab-pill">Opini</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           <!-- Left Column (70% - Featured Article & Articles Feed) -->
@@ -199,61 +233,244 @@
           <!-- Right Column (30% - Sidebar Widgets) -->
           <div class="lg:col-span-4 space-y-8">
             
-            <!-- Courses Widget -->
-            <div class="awwwards-card p-6 space-y-4">
-              <div class="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-3">
-                <div class="flex items-center gap-2">
-                  <i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i>
-                  <h3 class="font-serif font-bold text-base text-slate-900 dark:text-white">Kelas Terbuka Gratis</h3>
+            <!-- Courses Widget (Agus Darmawan OS Frame) -->
+            <div class="window-frame">
+              <div class="window-header">
+                <div class="window-dots">
+                  <span class="window-dot dot-red"></span>
+                  <span class="window-dot dot-yellow"></span>
+                  <span class="window-dot dot-green"></span>
                 </div>
-                <span class="text-[10px] font-meta font-bold text-emerald-700 dark:text-emerald-400">100% BEBAS BIAYA</span>
+                <span class="window-title">courses_feed.json</span>
+                <span class="window-tag">edX Silabus</span>
               </div>
-              <div id="sidebarCoursesFeed" class="space-y-3">
-                <div onclick="navigate('course-detail', 'crs-1')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
-                  <div class="flex items-center justify-between">
-                    <span class="badge-pink-glass text-[9px]">Riset & Penulisan</span>
-                    <span class="text-[10px] font-meta text-slate-500 dark:text-blue-300/70">4 Sesi Pembelajaran</span>
+              <div class="p-6 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-3">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i>
+                    <h3 class="font-serif font-bold text-base text-slate-900 dark:text-white">Kelas Terbuka Gratis</h3>
                   </div>
-                  <h4 class="text-xs font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors line-clamp-2">
-                    Pengantar Metodologi Penulisan & Riset Kritis (Gaya edX)
-                  </h4>
+                  <span class="text-[10px] font-meta font-bold text-emerald-700 dark:text-emerald-400">100% BEBAS BIAYA</span>
                 </div>
+                <div id="sidebarCoursesFeed" class="space-y-3">
+                  <div onclick="navigate('course-detail', 'crs-1')" class="p-4 rounded-xl bg-cyan-50/70 dark:bg-blue-950/40 hover:bg-cyan-100/80 dark:hover:bg-blue-900/60 border border-cyan-200 dark:border-blue-900/60 cursor-pointer transition-colors space-y-2 hover-wiggle">
+                    <div class="flex items-center justify-between">
+                      <span class="badge-pink-glass text-[9px]">Riset & Penulisan</span>
+                      <span class="text-[10px] font-meta text-slate-500 dark:text-blue-300/70">4 Sesi Pembelajaran</span>
+                    </div>
+                    <h4 class="text-xs font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors line-clamp-2">
+                      Pengantar Metodologi Penulisan & Riset Kritis (Gaya edX)
+                    </h4>
+                  </div>
+                </div>
+                <button onclick="navigate('courses')" class="w-full btn-awwwards-secondary text-xs py-2.5">
+                  Jelajahi Semua Kelas
+                </button>
               </div>
-              <button onclick="navigate('courses')" class="w-full btn-awwwards-secondary text-xs py-2.5">
-                Jelajahi Semua Kelas
-              </button>
             </div>
 
-            <!-- Profile Sidebar Widget -->
-            <div class="awwwards-card p-6 space-y-4">
-              <div class="flex items-center gap-3">
-                <img id="sidebarProfileImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Author" class="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-white/10">
-                <div>
-                  <h4 id="sidebarProfileName" class="font-bold text-sm text-slate-900 dark:text-white">Rauwa</h4>
-                  <p id="sidebarProfileHeadline" class="text-xs text-indigo-600 dark:text-indigo-400">Penulis & Inisiator Literasi Publik</p>
+            <!-- Profile Sidebar Widget (Agus Darmawan OS Frame) -->
+            <div class="window-frame">
+              <div class="window-header">
+                <div class="window-dots">
+                  <span class="window-dot dot-red"></span>
+                  <span class="window-dot dot-yellow"></span>
+                  <span class="window-dot dot-green"></span>
                 </div>
+                <span class="window-title">author_bio.sh</span>
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-meta font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
+                  <span class="pulse-dot-green"></span> Aktif
+                </span>
               </div>
-              <p id="sidebarProfileBio" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                Pengampu platform independen untuk penyebaran ilmu pengetahuan dan pembelajaran terbuka.
-              </p>
-              <button onclick="navigate('about')" class="w-full btn-awwwards-secondary text-xs py-2.5">
-                Lihat Profil & Rekam Jejak
-              </button>
+              <div class="p-6 space-y-4">
+                <div class="flex items-center gap-3">
+                  <img id="sidebarProfileImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Author" class="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-white/10">
+                  <div>
+                    <h4 id="sidebarProfileName" class="font-bold text-sm text-slate-900 dark:text-white">Rauwa</h4>
+                    <p id="sidebarProfileHeadline" class="text-xs text-indigo-600 dark:text-indigo-400">Penulis & Inisiator Literasi Publik</p>
+                  </div>
+                </div>
+                <p id="sidebarProfileBio" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Pengampu platform independen untuk penyebaran ilmu pengetahuan dan pembelajaran terbuka.
+                </p>
+                <button onclick="navigate('about')" class="w-full btn-awwwards-secondary text-xs py-2.5">
+                  Lihat Profil & Rekam Jejak
+                </button>
+              </div>
             </div>
 
           </div>
 
         </div>
+
+        <!-- KKOST #CARA-KERJA: 6-PILLAR PLATFORM FOUNDATION -->
+        <section id="cara-kerja" class="pt-8 border-t border-cyan-200/80 dark:border-blue-900/50 space-y-10">
+          <div class="text-center max-w-3xl mx-auto space-y-3">
+            <div class="eyebrow-pill">
+              <span class="pulse-dot"></span>
+              <span>Prinsip & Cara Kerja Platform</span>
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white">
+              Enam Fondasi <span class="highlight-marker">Platform Literasi</span> Publik
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Komitmen independen dalam menyajikan ilmu pengetahuan, riset kritis, dan kurikulum terbuka bebas hambatan bagi pembelajar mandiri.
+            </p>
+          </div>
+
+          <!-- 6 Bento Cards Grid (Direct Kkost #cara-kerja Mapping) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Card 01 -->
+            <div class="pillar-card space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="pillar-num">01</span>
+                <div class="pillar-icon-badge">🔬</div>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Riset Empiris & Terverifikasi</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Setiap karya tulis dibangun atas dasar metodologi ilmiah yang dapat dipertanggungjawabkan, literatur terverifikasi, dan transparansi data analisis.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-cyan-100 dark:border-blue-950 flex items-center justify-between text-[11px] font-meta text-cyan-700 dark:text-blue-300 font-semibold">
+                <span>✦ Berbasis Bukti Ilmiah</span>
+                <span>Terbuka 100%</span>
+              </div>
+            </div>
+
+            <!-- Card 02 -->
+            <div class="pillar-card space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="pillar-num">02</span>
+                <div class="pillar-icon-badge">🔓</div>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white">100% Bebas Biaya & Tanpa Paywall</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Akses informasi murni tanpa langganan tersembunyi, tanpa iklan pop-up yang mengganggu kenyamanan membaca, dan dapat dipelajari siapa pun.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-cyan-100 dark:border-blue-950 flex items-center justify-between text-[11px] font-meta text-emerald-700 dark:text-emerald-400 font-semibold">
+                <span>✦ Nir-Komersialisasi</span>
+                <span>Publik Domain</span>
+              </div>
+            </div>
+
+            <!-- Card 03 -->
+            <div class="pillar-card space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="pillar-num">03</span>
+                <div class="pillar-icon-badge">🎓</div>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Silabus Interaktif Gaya edX</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Pengorganisasian kurikulum terstruktur per modul pembelajaran, dilengkapi video pemaparan, ringkasan konsep, dan panduan belajar mandiri.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-cyan-100 dark:border-blue-950 flex items-center justify-between text-[11px] font-meta text-cyan-700 dark:text-blue-300 font-semibold">
+                <span>✦ Belajar Bertahap</span>
+                <span>Video & Silabus</span>
+              </div>
+            </div>
+
+            <!-- Card 04 -->
+            <div class="pillar-card space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="pillar-num">04</span>
+                <div class="pillar-icon-badge">✍️</div>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Esai Naratif Gaya Medium</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Tipografi editorial Source Serif 4 yang nyaman di mata, tata letak visual proporsional, serta kutipan reflektif yang merangsang daya nalar pembaca.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-cyan-100 dark:border-blue-950 flex items-center justify-between text-[11px] font-meta text-pink-700 dark:text-pink-400 font-semibold">
+                <span>✦ Kenyamanan Membaca</span>
+                <span>Source Serif 4</span>
+              </div>
+            </div>
+
+            <!-- Card 05 -->
+            <div class="pillar-card space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="pillar-num">05</span>
+                <div class="pillar-icon-badge">☁️</div>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Sinkronisasi Cloud Supabase</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Penyimpanan cloud real-time berbasis PostgreSQL Cloud, memungkinkan pembaruan karya tulis, kelas terbuka, dan profil tersimpan abadi dan sinkron.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-cyan-100 dark:border-blue-950 flex items-center justify-between text-[11px] font-meta text-cyan-700 dark:text-blue-300 font-semibold">
+                <span>✦ Database Postgres</span>
+                <span>Sinkron Real-time</span>
+              </div>
+            </div>
+
+            <!-- Card 06 -->
+            <div class="pillar-card space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="pillar-num">06</span>
+                <div class="pillar-icon-badge">🌐</div>
+              </div>
+              <div class="space-y-2">
+                <h3 class="font-serif font-bold text-lg text-slate-900 dark:text-white">Komunitas Pembelajar Mandiri</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Mendorong terbentuknya ekosistem pembelajar mandiri yang kritis, beretika, dan aktif bertukar wawasan di berbagai ruang diskusi terbuka.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-cyan-100 dark:border-blue-950 flex items-center justify-between text-[11px] font-meta text-amber-700 dark:text-amber-400 font-semibold">
+                <span>✦ Ekosistem Intelektual</span>
+                <span>Jaringan Belajar</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kkost Overlapping Highlight Trust Banner -->
+          <div class="pillar-trust-banner flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+              <div class="flex -space-x-2.5 overflow-hidden">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold shadow-sm">📚</div>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold shadow-sm">🔬</div>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold shadow-sm">🎓</div>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white text-xs font-bold shadow-sm">✨</div>
+              </div>
+              <div>
+                <h4 class="font-serif font-bold text-sm sm:text-base text-slate-900 dark:text-white">Didedikasikan untuk Seluruh Pembelajar Mandiri</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-300">Setiap artikel dan silabus dapat diakses, dikutip, dan dipelajari secara cuma-cuma.</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <button onclick="navigate('courses')" class="btn-awwwards-primary text-xs px-5 py-2.5">
+                <span>Jelajahi Kelas Terbuka</span>
+                <span>✦</span>
+              </button>
+              <button onclick="navigate('articles')" class="btn-awwwards-secondary text-xs px-4 py-2.5">
+                <span>Arsip Karya Tulis</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
       </div>
     </section>
 
     <!-- VIEW 2: ARTICLES CATALOG PAGE -->
     <section id="view-articles" class="view-section hidden py-12 px-4">
       <div class="max-w-7xl mx-auto space-y-8">
-        <div class="border-b border-slate-200 dark:border-white/10 pb-6">
-          <h1 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Katalog Karya Tulis & Publikasi</h1>
-          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Arsip lengkap karya tulis, riset, dan esai opini terpublikasi.
+        <div class="border-b border-slate-200 dark:border-white/10 pb-6 space-y-2">
+          <div class="eyebrow-pill">
+            <span class="pulse-dot"></span>
+            <span>Arsip Publikasi & Esai Ilmiah</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white">
+            Katalog Karya Tulis & <span class="highlight-marker">Publikasi Riset</span>
+          </h1>
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            Arsip lengkap karya tulis, metodologi riset empiris, dan esai opini terpublikasi bebas akses.
           </p>
         </div>
 
@@ -407,10 +624,16 @@
     <!-- VIEW 4: COURSES CATALOG PAGE (Gaya edX) -->
     <section id="view-courses" class="view-section hidden py-12 px-4">
       <div class="max-w-7xl mx-auto space-y-8">
-        <div class="border-b border-slate-200 dark:border-white/10 pb-6">
-          <h1 class="text-3xl font-serif font-bold text-slate-900 dark:text-white">Katalog Kelas Terbuka Gratis</h1>
-          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Modul pembelajaran interaktif multi-sesi, video materi, dan lampiran unduhan edX.
+        <div class="border-b border-slate-200 dark:border-white/10 pb-6 space-y-2">
+          <div class="eyebrow-pill">
+            <span class="pulse-dot"></span>
+            <span>Kurikulum Mandiri Standar edX</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white">
+            Katalog Kelas Terbuka <span class="highlight-marker">100% Bebas Biaya</span>
+          </h1>
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            Modul pembelajaran interaktif multi-sesi, video materi komprehensif, dan ringkasan konsep terstruktur.
           </p>
         </div>
 
@@ -514,28 +737,48 @@
     <section id="view-about" class="view-section hidden py-12 px-4">
       <div class="max-w-4xl mx-auto space-y-10">
         
-        <!-- Profile Header Card -->
-        <div class="awwwards-card p-8 space-y-6">
-          <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-            <img id="aboutProfileAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Avatar" class="w-28 h-28 rounded-2xl object-cover border border-slate-200 dark:border-white/10 shrink-0">
-            <div class="space-y-3 text-center md:text-left flex-grow">
-              <div>
-                <h1 id="aboutProfileName" class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white">Rauwa</h1>
-                <p id="aboutProfileHeadline" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mt-0.5">Penulis & Inisiator Literasi Publik</p>
+        <!-- Profile Header Card (Agus Darmawan OS Window Container) -->
+        <div class="window-frame">
+          <div class="window-header">
+            <div class="window-dots">
+              <span class="window-dot dot-red"></span>
+              <span class="window-dot dot-yellow"></span>
+              <span class="window-dot dot-green"></span>
+            </div>
+            <span class="window-title">rauwa_profile.sh ~ zsh</span>
+            <span class="window-tag">Inisiator Literasi</span>
+          </div>
+          <div class="p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+              <div class="polaroid-frame shrink-0">
+                <span class="polaroid-pin">✦ PENULIS ✨</span>
+                <img id="aboutProfileAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Avatar" class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl object-cover">
               </div>
-              <p id="aboutProfileBio" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Berpengalaman dalam pengembangan materi edukasi terbuka dan pengkajian opini publik.
-              </p>
-              
-              <div class="flex items-center justify-center md:justify-start gap-3 pt-2">
-                <a id="aboutLinkedInBtn" href="#" target="_blank" class="btn-awwwards-secondary text-xs px-4 py-2 flex items-center gap-2">
-                  <i data-lucide="linkedin" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
-                  <span>Profil LinkedIn</span>
-                </a>
-                <a id="aboutEmailBtn" href="#" class="btn-awwwards-secondary text-xs px-4 py-2 flex items-center gap-2">
-                  <i data-lucide="mail" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
-                  <span>Email Kontak</span>
-                </a>
+              <div class="space-y-3 text-center md:text-left flex-grow">
+                <div>
+                  <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1">
+                    <h1 id="aboutProfileName" class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white">Rauwa</h1>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-meta font-bold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
+                      <span class="pulse-dot-green"></span>
+                      Aktif Menulis & Mengajar
+                    </span>
+                  </div>
+                  <p id="aboutProfileHeadline" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mt-0.5">Penulis & Inisiator Literasi Publik</p>
+                </div>
+                <p id="aboutProfileBio" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Berpengalaman dalam pengembangan materi edukasi terbuka dan pengkajian opini publik.
+                </p>
+                
+                <div class="flex items-center justify-center md:justify-start gap-3 pt-2">
+                  <a id="aboutLinkedInBtn" href="#" target="_blank" class="btn-awwwards-secondary text-xs px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="linkedin" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
+                    <span>Profil LinkedIn</span>
+                  </a>
+                  <a id="aboutEmailBtn" href="#" class="btn-awwwards-secondary text-xs px-4 py-2 flex items-center gap-2">
+                    <i data-lucide="mail" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                    <span>Email Kontak</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

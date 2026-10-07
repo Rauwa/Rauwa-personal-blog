@@ -397,34 +397,45 @@ function renderHome() {
   if (featuredContainer) {
     if (mainArticle) {
       featuredContainer.innerHTML = `
-        <div onclick="navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div class="lg:col-span-7 space-y-5">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="badge-pastel-glass font-bold">
-                  ✦ ${mainArticle.categoryLabel || 'Karya Utama'} ✨
-                </span>
-                <span class="text-xs font-meta text-slate-500 dark:text-blue-300/70">${mainArticle.date || ''}</span>
-                <span class="text-xs font-meta text-slate-500 dark:text-blue-300/70">• ${mainArticle.readTime || ''}</span>
-              </div>
-              
-              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
-                ${mainArticle.title}
-              </h2>
-
-              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
-                ${mainArticle.excerpt}
-              </p>
-
-              <div class="pt-2 flex items-center gap-3 text-xs font-bold text-cyan-600 dark:text-blue-400 group-hover:translate-x-1.5 transition-transform">
-                <span class="btn-awwwards-primary text-xs px-4 py-2">Baca Karya Selengkapnya ✦</span>
-              </div>
+        <div class="window-frame">
+          <div class="window-header">
+            <div class="window-dots">
+              <span class="window-dot dot-red"></span>
+              <span class="window-dot dot-yellow"></span>
+              <span class="window-dot dot-green"></span>
             </div>
+            <span class="window-title">karya-utama.md ~ vim</span>
+            <span class="window-tag">${mainArticle.categoryLabel || 'Karya Utama'}</span>
+          </div>
+          <div onclick="navigate('article-detail', '${mainArticle.id}')" class="awwwards-card hover-wiggle group cursor-pointer p-6 sm:p-8 relative overflow-hidden rounded-t-none border-t-0 shadow-none">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div class="lg:col-span-7 space-y-5">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="badge-pastel-glass font-bold">
+                    ✦ ${mainArticle.categoryLabel || 'Karya Utama'} ✨
+                  </span>
+                  <span class="text-xs font-meta text-slate-500 dark:text-blue-300/70">${mainArticle.date || ''}</span>
+                  <span class="text-xs font-meta text-slate-500 dark:text-blue-300/70">• ${mainArticle.readTime || ''}</span>
+                </div>
+                
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
+                  ${mainArticle.title}
+                </h2>
 
-            <div class="lg:col-span-5">
-              <div class="polaroid-frame">
-                <span class="polaroid-pin">✦ ESSAY PILIHAN ✨</span>
-                <img src="${mainArticle.thumbnail || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'}" alt="${mainArticle.title}" class="w-full h-60 sm:h-72 object-cover rounded-xl">
+                <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+                  ${mainArticle.excerpt}
+                </p>
+
+                <div class="pt-2 flex items-center gap-3 text-xs font-bold text-cyan-600 dark:text-blue-400 group-hover:translate-x-1.5 transition-transform">
+                  <span class="btn-awwwards-primary text-xs px-4 py-2">Baca Karya Selengkapnya ✦</span>
+                </div>
+              </div>
+
+              <div class="lg:col-span-5">
+                <div class="polaroid-frame">
+                  <span class="polaroid-pin">✦ ESSAY PILIHAN ✨</span>
+                  <img src="${mainArticle.thumbnail || 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'}" alt="${mainArticle.title}" class="w-full h-60 sm:h-72 object-cover rounded-xl">
+                </div>
               </div>
             </div>
           </div>
@@ -505,6 +516,75 @@ function renderHome() {
   if (bioEl) bioEl.textContent = profile.bio;
   if (imgEl) imgEl.src = profile.avatar;
 
+  safeCreateIcons();
+}
+
+let currentSearchQuery = '';
+let currentFilterTag = 'all';
+
+function handleSearch(query) {
+  currentSearchQuery = (query || '').toLowerCase().trim();
+  applyHomeFilter();
+}
+
+function filterByTag(tag, btn) {
+  currentFilterTag = tag;
+  const pills = document.querySelectorAll('.filter-tab-pill');
+  pills.forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyHomeFilter();
+}
+
+function applyHomeFilter() {
+  const articles = getArticles();
+  const feedContainer = document.getElementById('homeArticlesFeed');
+  if (!feedContainer) return;
+
+  let filtered = articles.length > 1 ? articles.slice(1) : [];
+
+  if (currentFilterTag !== 'all') {
+    filtered = filtered.filter(a => {
+      const cat = (a.category || '').toLowerCase();
+      const catLabel = (a.categoryLabel || '').toLowerCase();
+      return cat.includes(currentFilterTag) || catLabel.includes(currentFilterTag);
+    });
+  }
+
+  if (currentSearchQuery) {
+    filtered = filtered.filter(a => {
+      const title = (a.title || '').toLowerCase();
+      const excerpt = (a.excerpt || '').toLowerCase();
+      return title.includes(currentSearchQuery) || excerpt.includes(currentSearchQuery);
+    });
+  }
+
+  if (filtered.length > 0) {
+    feedContainer.innerHTML = filtered.map(item => `
+      <div onclick="navigate('article-detail', '${item.id}')" class="awwwards-card hover-wiggle p-5 cursor-pointer flex flex-col sm:flex-row gap-5 items-start">
+        <div class="w-full sm:w-44 shrink-0">
+          <img src="${item.thumbnail}" alt="${item.title}" class="w-full h-32 object-cover rounded-xl border border-cyan-200 dark:border-blue-900/60 shadow-sm">
+        </div>
+        <div class="space-y-2 flex-grow">
+          <div class="flex items-center gap-2">
+            <span class="badge-pink-glass text-[10px]">${item.categoryLabel || 'Karya Tulis'}</span>
+            <span class="text-[11px] text-slate-500 dark:text-blue-300/70 font-meta">${item.date || ''}</span>
+          </div>
+          <h3 class="text-lg font-serif font-bold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-blue-400 transition-colors leading-snug">
+            ${item.title}
+          </h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
+            ${item.excerpt}
+          </p>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    feedContainer.innerHTML = `
+      <div class="p-6 rounded-2xl border border-dashed border-cyan-300 dark:border-blue-800/60 bg-cyan-50/30 dark:bg-blue-950/20 text-center text-xs font-meta text-slate-500 dark:text-blue-300/70">
+        Tidak ditemukan karya tulis yang sesuai dengan pencarian atau filter "${currentFilterTag !== 'all' ? currentFilterTag : currentSearchQuery}".
+      </div>
+    `;
+  }
   safeCreateIcons();
 }
 
@@ -1777,7 +1857,8 @@ const funcsToBind = {
   applyMediumFormat, saveNewArticle, deleteArticle, addCertificateFromAdmin,
   deleteCertificate, addExperienceFromAdmin, deleteExperience, saveProfileFromAdmin,
   showAddCourseForm, saveNewCourse, deleteCourse, initSupabaseClient, syncFromSupabase, resetToDefaultData, universalCloudSync,
-  getAdminPassword, togglePassVisibility, handleSaveNewPassword, resetAdminPasswordToDefault, logoutAdmin
+  getAdminPassword, togglePassVisibility, handleSaveNewPassword, resetAdminPasswordToDefault, logoutAdmin,
+  handleSearch, filterByTag, applyHomeFilter
 };
 
 for (const [key, val] of Object.entries(funcsToBind)) {

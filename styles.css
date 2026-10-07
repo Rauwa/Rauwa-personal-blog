@@ -90,19 +90,21 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(90deg, #38bdf8, #c084fc, #f472b6);
 }
 
-/* Floating Glass Nav */
+/* Floating Glass Nav (Kkost Pill Style) */
 .awwwards-nav {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(6, 182, 212, 0.25);
+  border: 1px solid rgba(165, 243, 252, 0.85);
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.12), 0 4px 10px rgba(0, 0, 0, 0.03);
   transition: all 0.3s ease;
 }
 
 .dark .awwwards-nav {
   background-color: rgba(2, 6, 23, 0.92);
-  border-bottom: 1px solid rgba(30, 58, 138, 0.5);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(30, 58, 138, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px -2px rgba(56, 189, 248, 0.2);
 }
 
 /* Navigation Link Pills */
@@ -784,6 +786,347 @@ main, section, header, .awwwards-card, .linkedin-cert-card, .edx-module-card, ar
 .dark .polaroid-pin {
   background: rgba(30, 58, 138, 0.9);
   border: 1px dashed #60a5fa;
+  color: #93c5fd;
+}
+
+/* ==========================================================================
+   KKOST & AGUS DARMAWAN BESPOKE DESIGN SYSTEM EXTENSIONS
+   ========================================================================== */
+
+/* 1. Lift & Multi-Tier Shadow Utilities */
+.shadow-lift {
+  box-shadow: 0 12px 32px -8px rgba(6, 182, 212, 0.16), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+}
+
+.dark .shadow-lift {
+  box-shadow: 0 14px 36px -8px rgba(0, 0, 0, 0.9), 0 0 24px -4px rgba(56, 189, 248, 0.15);
+}
+
+.shadow-float {
+  box-shadow: 0 20px 40px -12px rgba(6, 182, 212, 0.22), 0 6px 16px -4px rgba(236, 72, 153, 0.1);
+}
+
+.dark .shadow-float {
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.95), 0 0 30px -5px rgba(56, 189, 248, 0.25);
+}
+
+/* 2. Kkost Punchy Highlight Marker Effect */
+.highlight-marker {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0 0.35rem;
+}
+
+.highlight-marker::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: 12%;
+  height: 42%;
+  background: linear-gradient(120deg, rgba(254, 240, 138, 0.85) 0%, rgba(253, 224, 71, 0.95) 100%);
+  border-radius: 4px;
+  z-index: -1;
+  transform: rotate(-1deg);
+  transition: all 0.3s ease;
+}
+
+.dark .highlight-marker::before {
+  background: linear-gradient(120deg, rgba(30, 58, 138, 0.85) 0%, rgba(14, 165, 233, 0.6) 100%);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
+}
+
+.highlight-marker:hover::before {
+  height: 85%;
+  bottom: 5%;
+}
+
+/* 3. Eyebrow Badge Pill */
+.eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-family: var(--font-meta);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(165, 243, 252, 0.85);
+  color: #0891b2;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.1);
+  transition: all 0.25s ease;
+}
+
+.dark .eyebrow-pill {
+  background: rgba(15, 23, 42, 0.85);
+  border-color: rgba(30, 58, 138, 0.7);
+  color: #7dd3fc;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #06b6d4;
+  box-shadow: 0 0 8px #06b6d4;
+  animation: pulseDotAnim 2s infinite ease-in-out;
+}
+
+.dark .pulse-dot {
+  background-color: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+.pulse-dot-green {
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+@keyframes pulseDotAnim {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.6; }
+}
+
+/* 4. Kkost-style Segmented Search & Category Filter */
+.search-filter-container {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(165, 243, 252, 0.85);
+  border-radius: 9999px;
+  box-shadow: 0 10px 30px -8px rgba(6, 182, 212, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.3s ease;
+}
+
+.dark .search-filter-container {
+  background: rgba(11, 17, 32, 0.92);
+  border-color: rgba(30, 58, 138, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px -4px rgba(56, 189, 248, 0.15);
+}
+
+.filter-tab-pill {
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dark .filter-tab-pill {
+  color: #94a3b8;
+}
+
+.filter-tab-pill:hover {
+  color: #0891b2;
+  background: rgba(236, 254, 255, 0.8);
+}
+
+.dark .filter-tab-pill:hover {
+  color: #38bdf8;
+  background: rgba(30, 58, 138, 0.4);
+}
+
+.filter-tab-pill.active {
+  background: linear-gradient(135deg, #0891b2, #06b6d4);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.35);
+}
+
+.dark .filter-tab-pill.active {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+/* 5. Kkost 6-Pillar Bento Cards (Direct '#cara-kerja' Mapping) */
+.pillar-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(165, 243, 252, 0.8);
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  box-shadow: 0 8px 24px -6px rgba(6, 182, 212, 0.1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.dark .pillar-card {
+  background: #0b1120;
+  border-color: rgba(30, 58, 138, 0.45);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+}
+
+.pillar-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(236, 72, 153, 0.6);
+  box-shadow: 0 18px 36px -8px rgba(236, 72, 153, 0.22);
+}
+
+.dark .pillar-card:hover {
+  border-color: rgba(96, 165, 250, 0.7);
+  box-shadow: 0 18px 40px -10px rgba(29, 78, 216, 0.5), 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+.pillar-num {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  background: linear-gradient(135deg, #0891b2, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .pillar-num {
+  background: linear-gradient(135deg, #38bdf8, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pillar-icon-badge {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 182, 212, 0.12);
+  color: #0891b2;
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  font-size: 1.25rem;
+}
+
+.dark .pillar-icon-badge {
+  background: rgba(30, 58, 138, 0.4);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+}
+
+.pillar-trust-banner {
+  background: linear-gradient(135deg, rgba(236, 254, 255, 0.9), rgba(253, 242, 248, 0.9));
+  border: 1px solid rgba(165, 243, 252, 0.9);
+  border-radius: 1.5rem;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 24px -6px rgba(6, 182, 212, 0.1);
+}
+
+.dark .pillar-trust-banner {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 58, 138, 0.4));
+  border-color: rgba(30, 58, 138, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+/* 6. Agus Darmawan OS / Desktop Window Frame */
+.window-frame {
+  position: relative;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(165, 243, 252, 0.85);
+  border-radius: 1.5rem;
+  box-shadow: 0 12px 32px -8px rgba(6, 182, 212, 0.14);
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .window-frame {
+  background: #0b1120;
+  border-color: rgba(30, 58, 138, 0.5);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.85), 0 0 20px -5px rgba(56, 189, 248, 0.15);
+}
+
+.window-frame:hover {
+  transform: translateY(-3px);
+  border-color: rgba(6, 182, 212, 0.6);
+  box-shadow: 0 18px 40px -10px rgba(6, 182, 212, 0.22);
+}
+
+.dark .window-frame:hover {
+  border-color: rgba(96, 165, 250, 0.7);
+  box-shadow: 0 18px 45px -10px rgba(29, 78, 216, 0.5), 0 0 25px rgba(56, 189, 248, 0.25);
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(165, 243, 252, 0.6);
+  background: rgba(248, 250, 252, 0.75);
+}
+
+.dark .window-header {
+  border-bottom: 1px solid rgba(30, 58, 138, 0.5);
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.window-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.window-dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red {
+  background-color: #ff5f56;
+  border: 1px solid #e0443e;
+}
+
+.dot-yellow {
+  background-color: #ffbd2e;
+  border: 1px solid #dea123;
+}
+
+.dot-green {
+  background-color: #27c93f;
+  border: 1px solid #1aab29;
+}
+
+.window-title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: #64748b;
+  letter-spacing: 0.02em;
+}
+
+.dark .window-title {
+  color: #94a3b8;
+}
+
+.window-tag {
+  font-family: var(--font-meta);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #0891b2;
+}
+
+.dark .window-tag {
+  background: rgba(30, 58, 138, 0.35);
+  border-color: rgba(96, 165, 250, 0.35);
   color: #93c5fd;
 }
 
